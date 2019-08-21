@@ -43,7 +43,7 @@ public class StudentController {
     public IResult findAll(String page, String limit,String sname){
         return new PageResultBean<Collection<Student>>(studentServiceImpl.findAll(page,limit,sname),studentServiceImpl.countGetAll());
     }
-    /**111111111111111111111111
+    /**
      * 删除学生
      */
     @RequestMapping("/delete")
