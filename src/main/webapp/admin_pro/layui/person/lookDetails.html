@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>人员设置</title>
+</head>
+<body class="childrenBody">
+        <div class="layui-page-header">
+            <div class="pagewrap">
+                <span class="layui-breadcrumb">
+                  <a href="">首页</a>
+                  <a href="">用户</a>
+                  <a><cite>用户组</cite></a>
+                </span>
+                <h2 class="title">查看明细</h2>
+            </div>
+        </div>
+       <form class="layui-form" style="width:80%;" name="editRoleForm">
+
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">加工单单号：</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input"  name="id" readonly="readonly" >
+               </div>
+           </div>
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">加工单ID</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" name="process_id" readonly="readonly" >
+               </div>
+           </div>
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">负责人</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" name="process_user_id" readonly="readonly" >
+               </div>
+           </div>
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">开始时间</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" name="begin_date" readonly="readonly" >
+               </div>
+           </div>
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">结束时间</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" name="end_date" readonly="readonly" >
+               </div>
+           </div>
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">加工作业类型</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" name="process_type" readonly="readonly" >
+               </div>
+           </div>
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">商品名称</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input"  name="product_id" readonly="readonly" >
+               </div>
+           </div>
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">数量</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" name="number" readonly="readonly" >
+               </div>
+           </div>
+           <div class="layui-form-item">
+               <div class="layui-input-block">
+                   <button class="layui-btn" lay-submit="" lay-filter="editStudent">立即提交</button>
+                   <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+               </div>
+           </div>
+               </div>
+       </form>
+
+        <script src="../assets/layui.js"></script>
+        <script src="../assets/lay/modules/config.js"></script>
+        <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
+        <script type="text/javascript" src="lookDetails.js"></script>
+        <script type="text/javascript">
+            layui.use('form', function () {
+                var form = layui.form;
+                form.on('submit(sureUpdate)', function (data) {
+                    layer.msg(JSON.stringify(data.field));
+                    return false;
+                });
+                //校验手机号码
+                form.verify({
+                    telephone: [
+                        /^1[3|4|5|7|8]\d{9}$/,
+                        '请输入正确的手机格式'
+                    ]
+                });
+
+
+                //校验年龄
+                form.verify({
+                    manNum: [
+                        /^[0-9]*[1-9][0-9]*$/
+                        , '请输入正整数'
+                    ]
+                });
+            });
+        </script>
+</body>
+</html>
