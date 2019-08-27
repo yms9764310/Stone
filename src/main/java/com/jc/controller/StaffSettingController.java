@@ -40,7 +40,8 @@ public class StaffSettingController {
     @ResponseBody
     public IResult getMenu(int id){
         //返回json至前端的均返回ResultBean或者PageResultBean
-        return new ResultBean<SysUsers>(staffSettingServiceImpl.loadByUserId(id));
+        SysUsers sysUsers = staffSettingServiceImpl.loadByUserId(id);
+        return new ResultBean<SysUsers>(sysUsers);
     }
 
     /**

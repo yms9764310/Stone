@@ -17,10 +17,10 @@ import java.util.Date;
 @Data
 public class SysUsers {
     private Integer id;
-    private Integer creator;
+    private String creator;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date create_date;
-    private Integer modifier;
+    private String modifier;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date modify_date;
     private String state;
@@ -28,15 +28,16 @@ public class SysUsers {
     private String sex;
     private Integer age;
     private String phone;
-    private Integer job_id;
+    private String job_id;
     private String depart_id;
     private String depart_role_id;
     private Double max_threshold;
     private SysRole sysRole;
     private SysUserRole sysUserRole;
 
-    public SysUsers(Integer id, Date modify_date, String name, String sex, Integer age, String phone, Integer job_id, String depart_id, String depart_role_id) {
+    public SysUsers(Integer id,String creator, Date modify_date, String name, String sex, Integer age, String phone, String job_id, String depart_id, String depart_role_id) {
         this.id = id;
+        this.creator = creator;
         this.modify_date = modify_date;
         this.name = name;
         this.sex = sex;
@@ -50,7 +51,8 @@ public class SysUsers {
     public SysUsers() {
     }
 
-    public SysUsers(Date modify_date,Double max_threshold) {
+    public SysUsers(String creator ,Date modify_date,Double max_threshold) {
+        this.creator = creator;
         this.modify_date = modify_date;
         this.max_threshold = max_threshold;
     }

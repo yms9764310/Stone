@@ -39,18 +39,21 @@ public class StaffSettingServiceImpl implements StaffSettingService {
         if(sysUsersBeans.getName().equals("主管")&&sysUsersBeans.getRole_id().equals("1")){
             //判断是否是销售部
             if(sysUsersBeans.getDepart_id().equals("销售部")){
+                // 修改的时候获取当前时间
                 Date date = new Date();
-                SysUsers sysUsers1 = new SysUsers(sysUsers.getId(),date,sysUsers.getName(),
+                // 修改的时候获取当前账号
+                SysUsers sysUsers1 = new SysUsers(sysUsers.getId(),"1",date,sysUsers.getName(),
                         sysUsers.getSex(),sysUsers.getAge(),sysUsers.getPhone(),sysUsers.getJob_id(),
                         sysUsers.getDepart_id(),sysUsers.getDepart_role_id());
-                SysUsers sysUsers2 = new SysUsers(sysUsers.getModify_date(),sysUsers.getMax_threshold());
+                SysUsers sysUsers2 = new SysUsers("1",sysUsers.getModify_date(),sysUsers.getMax_threshold());
                 staffSettingMapper.updateMessage(sysUsers1);
                 staffSettingMapper.updateThreshold(sysUsers2);
                 int code = 300;
                 return code;
             }else {
                 Date date = new Date();
-                SysUsers sysUsers1 = new SysUsers(sysUsers.getId(),date,sysUsers.getName(),
+               // 修改的时候获取当前账号
+                SysUsers sysUsers1 = new SysUsers(sysUsers.getId(),"1",date,sysUsers.getName(),
                         sysUsers.getSex(),sysUsers.getAge(),sysUsers.getPhone(),sysUsers.getJob_id(),
                         sysUsers.getDepart_id(),sysUsers.getDepart_role_id());
                 staffSettingMapper.updateMessage(sysUsers1);

@@ -32,6 +32,7 @@
         sex,
         age,
         phone,
+        job.name as job_id,
         role.name as depart_role_id,
         depar.name as depart_id,
         max_threshold
@@ -46,6 +47,8 @@
         LEFT JOIN
         t_sys_department as depar
         ON role.department_id = depar.id
+        LEFT JOIN t_sys_job as job
+        ON users.job_id = job.id
         where users.depart_id = #{department_id}
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
@@ -65,6 +68,7 @@
         sex,
         age,
         phone,
+        job.name as job_id,
         role.name as depart_role_id,
         depar.name as depart_id,
         max_threshold
@@ -79,6 +83,8 @@
         LEFT JOIN
         t_sys_department as depar
         ON role.department_id = depar.id
+        LEFT JOIN t_sys_job as job
+        ON users.job_id = job.id
         where users.depart_id = #{department_id}
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
@@ -98,6 +104,7 @@
         sex,
         age,
         phone,
+        job.name as job_id,
         role.name as depart_role_id,
         depar.name as depart_id
         FROM
@@ -111,6 +118,8 @@
         LEFT JOIN
         t_sys_department as depar
         ON role.department_id = depar.id
+        LEFT JOIN t_sys_job as job
+        ON users.job_id = job.id
         where users.depart_id = #{department_id}
         <if test="name !=null and name !=''">
             and users.name = #{uname,jdbcType=VARCHAR}
@@ -123,16 +132,38 @@
     </select>
 
     <update id="updateMessage" parameterType="SysUsers">
-        UPDATE t_sys_users SET modify_date=#{modify_date},`name`=#{name},sex=#{sex},age=#{age},phone=#{phone}
+        UPDATE t_sys_users SET creator=#{creator},modify_date=#{modify_date},`name`=#{name},sex=#{sex},age=#{age},phone=#{phone}
         WHERE  id=#{id}
     </update>
 
     <select id="loadByUserId" parameterType="java.lang.Integer" resultType="SysUsers">
-        SELECT id,creator,create_date,modifier,modify_date,state,`name`,sex,age,phone,job_id,depart_id,depart_role_id,max_threshold FROM  t_sys_users WHERE id=#{0}
+SELECT
+	users.id,
+	users.creator,
+	users.create_date,
+	users.modifier,
+	users.modify_date,
+	users.state,
+	users. NAME,
+	sex,
+	age,
+	phone,
+	job.name as job_id,
+	role. NAME AS depart_role_id,
+	depar. NAME AS depart_id,
+ max_threshold
+FROM
+	t_sys_users AS users
+LEFT JOIN t_sys_user_role AS user_role ON users.id = user_role.user_id
+LEFT JOIN t_sys_role AS role ON user_role.role_id = role.id
+LEFT JOIN t_sys_department AS depar ON role.department_id = depar.id
+LEFT JOIN t_sys_job as job ON users.job_id = job.id
+WHERE
+	users.id=#{0}
     </select>
 
     <update id="updateThreshold" parameterType="SysUsers">
-        UPDATE t_sys_users SET  modify_date=#{modify_date},max_threshold=#{max_threshold}
+        UPDATE t_sys_users SET  creator=#{creator},modify_date=#{modify_date},max_threshold=#{max_threshold}
         WHERE  id=#{id}
     </update>
 

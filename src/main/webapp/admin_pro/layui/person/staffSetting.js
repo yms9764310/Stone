@@ -61,14 +61,15 @@ layui.config({
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
-                , {field: 'id', title: '员工ID', width: '10%'}
-                , {field: 'name', title: '姓名', width: '10%'}
-                , {field: 'sex', title: '性别', width: '8%', templet: '#upc'}
-                , {field: 'age', title: '年龄', width: '8%', templet: '#upc'}
-                , {field: 'phone', title: '电话', width: '10%', templet: '#upc'}
-                , {field: 'depart_id', title: '部门', width: '8%', templet: '#upc'}
-                , {field: 'depart_role_id', title: '部门角色', width: '8%', templet: '#upc'}
-                , {field: 'max_threshold', title: '最大阈值', width: '10%', templet: '#upc'}
+                , {field: 'id', title: '员工ID', width: '6%', align: 'center'}
+                , {field: 'name', title: '姓名', width: '10%', align: 'center'}
+                , {field: 'sex', title: '性别', width: '8%', templet: '#upc', align: 'center'}
+                , {field: 'age', title: '年龄', width: '8%', templet: '#upc', align: 'center'}
+                , {field: 'phone', title: '电话', width: '12%', templet: '#upc', align: 'center'}
+                , {field: 'depart_id', title: '部门', width: '10%', templet: '#upc', align: 'center'}
+                , {field: 'job_id', title: '岗位', width: '10%', templet: '#upc', align: 'center'}
+                , {field: 'depart_role_id', title: '部门角色', width: '10%', templet: '#upc', align: 'center'}
+                , {field: 'max_threshold', title: '最大阈值', width: '10%', templet: '#upc', align: 'center'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
         });
