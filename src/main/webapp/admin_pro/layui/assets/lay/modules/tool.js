@@ -1,6 +1,5 @@
 /**
  * 工具模块
- * Created by gameloft9 on 2017/12/6.
  */
 layui.define(['jquery', 'layer'], function (exports) {
     //拿到模块变量

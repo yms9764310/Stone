@@ -31,7 +31,7 @@ layui.config({
         var queryArgs = $tool.getQueryParam();//获取查询参数
         var sid = queryArgs['sid'];
 
-        var url = $tool.getContext()+'Student/get.do';
+        var url = $tool.getContext()+'Student/find.do';
         var req = {
             sid:sid
         };
