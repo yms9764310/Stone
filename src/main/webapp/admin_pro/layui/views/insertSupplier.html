@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>编辑学生</title>
+</head>
+<body class="childrenBody">
+        <div class="layui-page-header">
+            <div class="pagewrap">
+                <h2 class="title">添加供应商</h2>
+            </div>
+        </div>
+       <form class="layui-form" style="width:80%;" name="editRoleForm" id="addForm" enctype="multipart/form-data" method="post">
+
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">供应商:</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" lay-verify="required" name="creator" placeholder="请输入创建人">
+               </div>
+           </div>
+
+
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">公司名:</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" lay-verify="required" name="company_name" placeholder="请输入公司名">
+               </div>
+           </div>
+
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">联系人:</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" lay-verify="required" name="contact_name" placeholder="请输入联系人">
+               </div>
+           </div>
+
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">联系电话:</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" lay-verify="required" name="contact_phone" placeholder="请输入联系电话">
+               </div>
+           </div>
+
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">公司地址:</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" lay-verify="required" name="address" placeholder="请输入公司地址">
+               </div>
+           </div>
+
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">商品名称:</label>
+               <div class="layui-input-block ">
+                   <a class="layui-btn layui-btn-primary layer-demolist" href="javascript:;" id="parentIframe">添加商品</a>
+                    <div class="shop">
+
+                    </div>
+                   <!--                   <input type="text" class="layui-input-inline layui-input" lay-verify="required" id="pname" name="name" placeholder="请添加商品">-->
+<!--                   <input type="text" lay-verify="required" id="pid" name="id" placeholder="请添加商" hidden="hidden">-->
+               </div>
+           </div>
+
+           <div class="layui-form-item">
+               <div class="layui-input-block">
+                   <button class="layui-btn" lay-submit="" lay-filter="insertSupplier">立即提交</button>
+                   <button class="layui-btn" lay-submit="" lay-filter="TSSupplier">暂存</button>
+                   <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+               </div>
+           </div>
+       </form>
+
+    <script src="../assets/layui.js"></script>
+    <script src="../assets/lay/modules/config.js"></script>
+    <script type="text/javascript" src="insertSupplier.js"></script>
+
+</body>
+</html>

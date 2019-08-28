@@ -12,6 +12,7 @@
     <spring-version>4.2.3.RELEASE</spring-version>
     <logback-version>1.0.13</logback-version>
     <jackson.version>2.5.4</jackson.version>
+<!--    <poi.version>3.14</poi.version>-->
   </properties>
 
 
@@ -233,6 +234,49 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+<!--    支持poi导入Excel数据表格的依赖包-->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.poi</groupId>-->
+<!--      <artifactId>poi</artifactId>-->
+<!--      <version>${poi.version}</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.poi</groupId>-->
+<!--      <artifactId>poi-ooxml</artifactId>-->
+<!--      <version>${poi.version}</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.poi</groupId>-->
+<!--      <artifactId>poi-ooxml-schemas</artifactId>-->
+<!--      <version>${poi.version}</version>-->
+<!--    </dependency>-->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>3.14-beta1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml-schemas</artifactId>
+      <version>3.14-beta1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.14-beta1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.2</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.3.3</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>manager</finalName>
