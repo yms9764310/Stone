@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.TysProduceBomMapper">
+<!--    <resultMap id="TysProduceBom" type="com.jc.model.TysProduceBom">-->
+<!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
+<!--        <result column="name" property="name" jdbcType="VARCHAR"/>-->
+<!--        <result column="kind" property="kind" jdbcType="VARCHAR"/>-->
+<!--        <result column="model_type" property="model_type" jdbcType="VARCHAR"/>-->
+<!--        <result column="standard" property="standard" jdbcType="VARCHAR"/>-->
+<!--        <result column="state" property="state" jdbcType="VARCHAR"/>-->
+<!--        <result column="description" property="description" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+<!--    &lt;!&ndash;查询全部&ndash;&gt;-->
+<!--    <select id="listT_Product_sys_purchase_product" resultType="TProductsyspurchaseproduct">-->
+<!--        SELECT id,name,kind,model_type,standard,description,state FROM t_sys_purchase_product-->
+<!--        <where>-->
+<!--            <if test="name !=null and name !=''">-->
+<!--                and name = #{name,jdbcType=VARCHAR}-->
+<!--            </if>-->
+<!--            <if test="kind !=null and kind !=''">-->
+<!--                and kind = #{kind,jdbcType=VARCHAR}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}-->
+<!--    </select>-->
+
+<!--    <select id="countT_Product_sys_purchase_product" parameterType="map" resultType="Integer">-->
+<!--         select count(1) from t_sys_purchase_product-->
+<!--        <where>-->
+<!--            <if test="name !=null and name !=''">-->
+<!--                and name = #{name,jdbcType=VARCHAR}-->
+<!--            </if>-->
+<!--            <if test="kind !=null and kind !=''">-->
+<!--                and kind = #{kind,jdbcType=VARCHAR}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--sql语句删除-->
+    <delete id="removeTysProductBom" parameterType="int">
+        delete from t_produce_bom where id=#{id}
+    </delete>
+<!--添加一条记录-->
+    <insert id="saveTysProductBom" parameterType="com.jc.model.TysProduceBom">
+        insert into t_produce_bom (creator,create_date,modifier,modify_date,state,product_id,number)
+         values (#{creator},#{create_date},#{modifier},#{modify_date},#{state},#{product_id,jdbcType=INTEGER},
+        #{number,jdbcType=INTEGER})
+    </insert>
+<!--查询一条记录    -->
+    <select id="loadTysProductBom" parameterType="INTEGER" resultType="com.jc.model.TysProduceBom">
+        select creator,create_date,modifier,modify_date,state,product_id,number from t_produce_bom
+        where id=#{id}
+    </select>
+<!--修改一条记录    -->
+    <update id="updateTysProductBom" parameterType="com.jc.model.TysProduceBom">
+        update t_produce_bom set product_id=#{product_id,jdbcType=INTEGER},number=#{number,jdbcType=INTEGER},
+       modifier=#{modifier},modify_date=#{modify_date} where
+       id=#{id,jdbcType=INTEGER}
+    </update>
+<!--    <insert id="addBatchMembers"  parameterType="java.util.List">-->
+
+<!--        INSERT INTO t_sys_purchase_product (-->
+<!--        <trim suffix="" suffixOverrides=",">-->
+<!--            creator,create_date,modifier,modify_date,state,name,kind,model_type,standard,description-->
+<!--        </trim>-->
+<!--        ) VALUES-->
+<!--        <foreach collection="list" item="item" index="index" separator=",">-->
+<!--            (-->
+<!--            #{item.creator} ,-->
+<!--            #{item.create_date} ,-->
+<!--            #{item.modifier} ,-->
+<!--            #{item.modify_date} ,-->
+<!--            #{item.state},-->
+<!--            #{item.name},-->
+<!--            #{item.kind},-->
+<!--            #{item.model_type},-->
+<!--            #{item.standard},-->
+<!--            #{item.description},-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+</mapper>

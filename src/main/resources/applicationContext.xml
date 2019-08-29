@@ -69,4 +69,4 @@
     <!--注解配置-->
     <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
     <!--搭配@Transactional使用，在类上或者方法上使用该注解表示开启事务-->
-</beans>
+        </beans>

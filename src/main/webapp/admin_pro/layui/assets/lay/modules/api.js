@@ -62,17 +62,30 @@ layui.define(['$tool','jquery'], function (exports) {
 
     // API列表,工程庞大臃肿后可以将API拆分到单独的模块中
     var API = {
+
         AddStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'Student/add.do',req,config,successCallback,errorCallback);
+        },
+        Insert_ys_Product:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'T_Produce/InsertProduct.do',req,config,successCallback,errorCallback);
         },
         DeleteStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
         },
+        Delete_ys_Product:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_Produce/deleteProduct.do',req,config,successCallback,errorCallback);
+        },
         GetStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/find.do',req,config,successCallback,errorCallback);
         },
+        load_ys_Product:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_Produce/loadProduct.do',req,config,successCallback,errorCallback);
+        },
         UpdateStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'Student/update.do',req,config,successCallback,errorCallback);
+        },
+        Update_ys_Product:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'T_Produce/UpdateProduct.do',req,config,successCallback,errorCallback);
         },
     };
 
