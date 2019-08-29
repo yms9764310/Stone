@@ -51,7 +51,7 @@ layui.config({
             password:password
         };
         $api.AddStudent(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
-            layer.msg("添加成功！",{time:1000},function () {
+            layer.msg("添加成功！",{time:1000,icon:6},function () {
                 layer.closeAll("iframe");
                 //刷新父页面
                 parent.location.reload();

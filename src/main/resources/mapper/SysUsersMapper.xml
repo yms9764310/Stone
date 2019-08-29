@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.SysUsersMapper">
+    <resultMap id="SysUsers" type="com.jc.model.SysUsers">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="creator" property="creator" jdbcType="INTEGER"/>
+        <result column="create_date" property="create_date" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="INTEGER"/>
+        <result column="modify_date" property="modify_date" jdbcType="TIMESTAMP"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="job_id" property="job_id" jdbcType="INTEGER"/>
+        <result column="depart_id" property="depart_id" jdbcType="INTEGER"/>
+        <result column="depart_role_id" property="depart_role_id" jdbcType="INTEGER"/>
+        <result column="max_threshold" property="max_threshold" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <update id="updateMessage" parameterType="SysUsers">
+        UPDATE t_sys_users SET `name`=#{name},sex=#{sex},age=#{age},phone=#{phone}
+        WHERE  id=#{id}
+    </update>
+
+    <select id="loadById" parameterType="java.lang.Integer" resultType="SysUsers">
+        SELECT id,creator,create_date,modifier,modify_date,state,`name`,sex,age,phone,job_id,depart_id,depart_role_id,max_threshold FROM  t_sys_users WHERE id=#{0}
+    </select>
+
+</mapper>

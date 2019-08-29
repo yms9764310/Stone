@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>人员设置</title>
+</head>
+<body class="childrenBody">
+        <div class="layui-page-header">
+            <div class="pagewrap">
+                <span class="layui-breadcrumb">
+                  <a href="">首页</a>
+                  <a href="">用户</a>
+                  <a><cite>用户组</cite></a>
+                </span>
+                <h2 class="title">人员信息设置</h2>
+            </div>
+        </div>
+       <form class="layui-form" style="width:80%;" name="editRoleForm">
+
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">人员ID</label>
+               <div class="layui-input-block">
+                   <input type="text" class="layui-input" lay-verify="required" name="id" readonly="readonly" placeholder="请输入">
+               </div>
+           </div>
+
+           <div class="form-box">
+               <div class="layui-form-item parent-menu">
+                   <label class="layui-form-label">姓名</label>
+                   <div class="layui-input-block">
+                       <input type="text" class="layui-input" lay-verify="required" name="name" placeholder="请输入姓名">
+                   </div>
+               </div>
+
+               <div class="layui-form-item">
+                   <label class="layui-form-label">性别</label>
+                   <div class="layui-input-block" id="sex">
+                       <input name="sex1" type="radio" value="男" title="男"/>
+                       <input name="sex1" type="radio" value="女" title="女"/>
+                   </div>
+               </div>
+
+               <div class="layui-form-item">
+                   <label class="layui-form-label">年龄</label>
+                   <div class="layui-input-block">
+                       <input type="text" id="num" class="layui-input" lay-verify="required|manNum" name="age"
+                              placeholder="请输入">
+                   </div>
+               </div>
+
+               <div class="layui-form-item">
+                   <label class="layui-form-label">手机号码</label>
+                   <div class="layui-input-block">
+                       <input type="text" class="layui-input" lay-verify="required|telephone" name="phone"
+                              placeholder="请输入">
+                   </div>
+               </div>
+
+               <div class="layui-form-item parent-menu">
+                   <label class="layui-form-label">岗位</label>
+                   <div class="layui-input-block">
+                       <input type="text" class="layui-input" lay-verify="required" name="job_id" readonly="readonly" placeholder="请输入">
+                   </div>
+               </div>
+
+               <div class="layui-form-item parent-menu">
+                   <label class="layui-form-label">部门</label>
+                   <div class="layui-input-block">
+                       <input type="text" class="layui-input" lay-verify="required" name="depart_id" readonly="readonly" placeholder="请输入">
+                   </div>
+               </div>
+
+               <div class="layui-form-item parent-menu">
+                   <label class="layui-form-label">部门角色</label>
+                   <div class="layui-input-block">
+                       <input type="text" class="layui-input" lay-verify="required" name="depart_role_id" readonly="readonly" placeholder="请输入">
+                   </div>
+               </div>
+
+           <div class="layui-form-item">
+               <div class="layui-input-block">
+                   <button class="layui-btn" lay-submit="" lay-filter="editStudent">立即提交</button>
+                   <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+               </div>
+           </div>
+               </div>
+       </form>
+
+        <script src="../assets/layui.js"></script>
+        <script src="../assets/lay/modules/config.js"></script>
+        <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
+        <script type="text/javascript" src="editStaffSetting.js"></script>
+        <script type="text/javascript">
+            layui.use('form', function () {
+                var form = layui.form;
+                form.on('submit(sureUpdate)', function (data) {
+                    layer.msg(JSON.stringify(data.field));
+                    return false;
+                });
+                //校验手机号码
+                form.verify({
+                    telephone: [
+                        /^1[3|4|5|7|8]\d{9}$/,
+                        '请输入正确的手机格式'
+                    ]
+                });
+
+
+                //校验年龄
+                form.verify({
+                    manNum: [
+                        /^[0-9]*[1-9][0-9]*$/
+                        , '请输入正整数'
+                    ]
+                });
+            });
+        </script>
+</body>
+</html>

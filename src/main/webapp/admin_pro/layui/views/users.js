@@ -76,6 +76,7 @@ layui.config({
         });
         return false;
     });
+
     //添加学生
     $(".add_btn").click(function () {
         var index = layui.layer.open({
@@ -107,7 +108,7 @@ layui.config({
                 sid: sid
             };
             $api.DeleteStudent(req, function (data) {
-                layer.msg("删除成功", {time: 1000}, function () {
+                layer.msg("删除成功", {time: 1000,icon:6}, function () {
                     //obj.del(); //删除对应行（tr）的DOM结构
                     //重新加载表格
                     tableIns.reload();

@@ -1,0 +1,165 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>管理后台</title>
+</head>
+    <style>
+        body{padding:10px; font-size:14px; background:#fff; width:95%; margin:0 auto; font-size:14px; line-height:20px; overflow:auto;}
+        p{margin-bottom:10px;}
+        input{border:1px solid #999; padding:5px 10px; margin:0 10px 10px 0;}
+
+        .layui-form-item {
+            margin-top: 15px;
+        }
+        .layui-input-block{
+            float: left;
+            margin-left: 0;
+            margin-right: 2%;
+        }
+        td.on{
+            border-bottom: 1px solid #D60711;
+            color: #D60711;
+        }
+        td.active{
+            background: #D60711;
+            color: #fff;
+        }
+        .search_div{
+            width: 95%;
+            position: fixed;
+            z-index: 2;
+            background-color: #fff;
+            border: 1px solid #e6e6e6;
+        }
+        .layui-table {
+            width: 100%;
+            background-color: #fff;
+            color: #666;
+        }
+    </style>
+
+<body class="layui-form">
+<div class="search_div">
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品:</label>
+        <div class="layui-input-block">
+            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品" class="layui-input" id="searchInput" >
+        </div>
+        <div class="layui-input-block">
+            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputId" hidden>
+        </div>
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" id="addProduct" data-type="getCheckData"><i class="layui-icon"></i>添加商品</button>
+        </div>
+<!--        <div class="layui-input-block">-->
+<!--            <button class="layui-btn layui-btn-normal" id="certain" layer-fiter="cent">确定</button>-->
+<!--        </div>-->
+    </div>
+
+</div>
+<p style="height: 70px;"></p>
+
+<table class="layui-table" id="demo" lay-filter="test">
+</table>
+
+
+</body>
+<script src="../assets/layui.js"></script>
+<script src="../assets/lay/modules/config.js"></script>
+<script type="text/javascript" src="../assets/jquery-2.2.4/jquery.js"></script>
+<!--<script type="text/javascript" src="addUname.js"></script>-->
+<script type="text/javascript">//注意：parent 是 JS 自带的全局对象，可用于操作父页面
+
+var id_arr=[];
+layui.use(['layer','form','table','jquery'] ,function(){
+    var layer = layui.layer,
+        form = layui.form,
+        $ = layui.jquery,
+     table = layui.table;
+
+    $("#addProduct").click(function(){
+        var checkStatus=table.checkStatus('demo');//获取复选框的行值
+        data=checkStatus.data;
+        //layer.alert(JSON.stringify(checkStatus));//测试取没取到复选框选中的行的值
+        //checkStatus.data 这个是一个集合
+        //如果有多个，是需要遍历
+        //checkStatus.data[0].uname  获取第一个
+        var arr=[];
+        data.forEach(function (item) {
+            arr.push(item.name)
+        });
+        data.forEach(function (item) {
+            id_arr.push(item.id);
+        });
+        //layer.alert(JSON.stringify(id_arr))//测试手否获取到uid值
+        //layer.alert(JSON.stringify(arr));//测试是否获取到uname值
+        // var checked_User = [{uid:1},{uid:2}]
+        var productValue=$("#searchInput").val(arr);
+        var searchInputId=$("#searchInputId").val(id_arr);
+       //将值赋给文本框
+        console.log(arr,id_arr);
+    });
+    // var index=parent.layer.getFrameIndex(window.name);
+    // $("#certain").click(function(){
+    //     var product = $("#pname",window.parent.document);
+    //     var pid=$("#pid",window.parent.document);
+    //     //alert(s);
+    //     product.attr("value",$("#searchInput").val());
+    //     pid.attr("value",id_arr);
+    //     parent.layer.close(index);
+    // });
+    table.on('checkbox(test)',function (obj) {
+        // var checkStatus=table.checkStatus('demo');
+        // console.log(checkStatus.data);
+        //alert(JSON.stringify(checkStatus));
+    });
+});
+layui.config({
+    base: $config.resUrl+'admin_pro/layui/assets/lay/modules/'//定义基目录
+}).extend({
+    ajaxExtention: 'ajaxExtention',//加载自定义扩展，每个业务js都需要加载这个ajax扩展
+    $tool: 'tool',
+    $api:'api'
+}).use(['form', 'layer', 'jquery', 'table', 'laypage', 'ajaxExtention', '$tool','$api'], function () {
+    var form = layui.form,
+        layer = parent.layer === undefined ? layui.layer : parent.layer,
+        $ = layui.jquery,
+        laypage = layui.laypage,
+        $tool = layui.$tool,
+        table = layui.table,
+        $api = layui.$api;
+    /**
+     * 定义表格
+     * 2.初始化表格
+     * */
+    var tableIns;//表格实例
+    function defineTable() {
+
+        tableIns = table.render({
+            elem: '#demo'
+            , height: 312
+            , url: $tool.getContext() + 'purchaseSupplier/listPurchaseProduct.do' //数据接口 3.找到路径
+            , method: 'post'
+            , cols: [[ //表头
+                {type:'checkbox'},
+                {field:'id',title:'ID',width:200},
+                {field: 'name', title: '商品', width: 200}
+            ]]
+            , done: function (res, curr) {//请求完毕后的回调
+                //如果是异步请求数据方式，res即为你接口返回的信息.curr：当前页码
+            }
+        });
+
+    }
+    defineTable();
+});
+
+</script>
+</html>
