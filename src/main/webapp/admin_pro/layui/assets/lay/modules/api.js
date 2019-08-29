@@ -65,14 +65,24 @@ layui.define(['$tool','jquery'], function (exports) {
         AddStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'Student/add.do',req,config,successCallback,errorCallback);
         },
-        DeleteStudent:function(req,config,successCallback,errorCallback){
-            doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
-        },
+
         GetStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/find.do',req,config,successCallback,errorCallback);
         },
         UpdateStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'Student/update.do',req,config,successCallback,errorCallback);
+        },
+        InsertCustomer:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'Customer/insert.do',req,config,successCallback,errorCallback);
+        },
+        DeleteCustomer:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/delete.do',req,config,successCallback,errorCallback);
+        },
+        GetCustomer:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/loadById.do',req,config,successCallback,errorCallback);
+        },
+        UpdateCustomer:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'Customer/updateCustomer.do',req,config,successCallback,errorCallback);
         },
     };
 
