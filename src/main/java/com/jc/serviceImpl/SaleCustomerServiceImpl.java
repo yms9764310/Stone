@@ -2,9 +2,9 @@ package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
 import com.jc.mapper.sale.SaleCustomerMapper;
-import com.jc.mapper.system.SysLoginUserMapper;
+import com.jc.mapper.SysLoginUserMapper;
 import com.jc.model.sale.SaleCustomer;
-import com.jc.model.system.SysLoginUser;
+import com.jc.model.SysLoginUser;
 import com.jc.service.sale.SaleCustomerService;
 import com.jc.model.sale.ExcelUtil;
 import org.springframework.stereotype.Service;

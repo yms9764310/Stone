@@ -2,14 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--命名空：namespace的名称必须指向刚刚接口类 -->
-<<<<<<< HEAD
-<mapper namespace="com.jc.mapper.system.SysLoginUserMapper">
 
-    <resultMap id="SysLoginUser" type="com.jc.model.system.SysLoginUser">
-=======
 <mapper namespace="com.jc.mapper.SysLoginUserMapper">
     <resultMap id="SysLoginUser" type="com.jc.model.SysLoginUser">
->>>>>>> origin/master
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="creator" property="creator" jdbcType="INTEGER"/>
         <result column="create_date" property="create_date" jdbcType="TIMESTAMP"/>
@@ -27,9 +22,8 @@
     </update>
 
     <select id="loadById" parameterType="java.lang.Integer" resultType="SysLoginUser">
-        SELECT id,psd FROM  t_sys_login_user WHERE id=#{0}
-    <select id="loadById" parameterType="java.lang.Integer" resultType="SysLoginUser">
-        SELECT creator,modifier,account_name FROM t_sys_login_user WHERE id=#{id,jdbcType=INTEGER}
+        SELECT id,psd,creator,modifier,account_name FROM  t_sys_login_user WHERE id=#{0}
     </select>
+
 
 </mapper>

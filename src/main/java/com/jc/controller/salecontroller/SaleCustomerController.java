@@ -1,13 +1,13 @@
 package com.jc.controller.salecontroller;
 
-import com.jc.beans.constant.OperType;
+
 import com.jc.beans.response.IResult;
 import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
 import com.jc.model.sale.SaleCustomer;
-import com.jc.model.system.SysLoginUser;
+import com.jc.model.SysLoginUser;
 import com.jc.service.sale.SaleCustomerService;
-import com.jc.service.system.SysLoginUserService;
+import com.jc.service.SysLoginUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
