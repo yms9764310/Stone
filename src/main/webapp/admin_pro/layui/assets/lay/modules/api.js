@@ -65,9 +65,29 @@ layui.define(['$tool','jquery'], function (exports) {
         AddStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'Student/add.do',req,config,successCallback,errorCallback);
         },
-
+        DeleteStudent:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
+        },
+        ReviewSuccess:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'ToDoList/delete.do',req,config,successCallback,errorCallback);
+        },
         GetStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/find.do',req,config,successCallback,errorCallback);
+        },
+        GetSysUsers:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SysUser/find.do',req,config,successCallback,errorCallback);
+        },
+        GetDepartUsers:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StaffSetting/get.do',req,config,successCallback,errorCallback);
+        },
+        GetDetails:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'ToDoList/get.do',req,config,successCallback,errorCallback);
+        },
+        GetWorkFlow:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'ToDoList/getWorkFlow.do',req,config,successCallback,errorCallback);
+        },
+        GetWorkSpeed:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'ToDoList/getWorkSpeed.do',req,config,successCallback,errorCallback);
         },
         UpdateStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'Student/update.do',req,config,successCallback,errorCallback);
@@ -83,6 +103,38 @@ layui.define(['$tool','jquery'], function (exports) {
         },
         UpdateCustomer:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'Customer/updateCustomer.do',req,config,successCallback,errorCallback);
+        },
+        //添加供应商信息
+        InsertSupplier:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'purchaseSupplier/insertSupplier.do',req,config,successCallback,errorCallback);
+        },
+        //删除供应商信息以及相关数据
+        DeletePurchase:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'purchaseSupplier/deleteSupplier.do',req,successCallback,errorCallback);
+        },
+        //根据id获取指定供应商信息
+        GetSupplier:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'purchaseSupplier/loadSupplier.do',req,successCallback,errorCallback);
+        },
+        //修改供应商信息
+        editSupplier:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'purchaseSupplier/updateSupplier.do',req,config,successCallback,errorCallback);
+        },
+        //查看商品信息
+        LookProduct:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'purchaseSupplier/loadProduct.do',req,successCallback,errorCallback);
+        },
+        UpdatePassword:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'SysLoginUser/changePassword.do',req,config,successCallback,errorCallback);
+        },
+        UpdateMessgae:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'SysUser/changeMessage.do',req,config,successCallback,errorCallback);
+        },
+        UpdateStaffSetting:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StaffSetting/changeMessage.do',req,config,successCallback,errorCallback);
+        },
+        UpdateThreshold:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StaffSetting/changeThreshold.do',req,config,successCallback,errorCallback);
         },
     };
 

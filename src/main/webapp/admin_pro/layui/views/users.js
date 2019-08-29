@@ -42,7 +42,7 @@ layui.config({
                 , {field: 'sid', title: '学号', width: '15%'}
                 , {field: 'sname', title: '姓名', width: '15%'}
                 , {field: 'sex', title: '性别', width: '15%', templet: '#upc'}
-                , {field: 'clazz', title: '班级', width: '30%', templet: '#upc'}
+                , {field: 'clazz', title: '班级', width: '15%', templet: '#upc'}
                 , {field: 'password', title: '密码', width: '20%', templet: '#upc'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
@@ -76,6 +76,7 @@ layui.config({
         });
         return false;
     });
+
     //添加学生
     $(".add_btn").click(function () {
         var index = layui.layer.open({
@@ -107,7 +108,7 @@ layui.config({
                 sid: sid
             };
             $api.DeleteStudent(req, function (data) {
-                layer.msg("删除成功", {time: 1000}, function () {
+                layer.msg("删除成功", {time: 1000,icon:6}, function () {
                     //obj.del(); //删除对应行（tr）的DOM结构
                     //重新加载表格
                     tableIns.reload();
