@@ -29,8 +29,15 @@ layui.config({
                 var searchInput=body.find("#searchInput").val();
                 //alert(searchInput[0]);
                 var inputName=searchInput.split(",");
+                //产品id
                 var searchInputId=body.find("#searchInputId").val();
                 var inputId=searchInputId.split(",");
+                //最大数量
+                var searchInputMax=body.find("#searchInputMax").val();
+                var inputMax=searchInputMax.split(",");
+                //价格
+                var searchInputPrice=body.find("#searchInputPrice").val();
+                var inputPrice=searchInputPrice.split(",");
                 if (searchInput==null||searchInput==""){
                     layer.msg("请选择商品",{time:1000,icon:5});
                     return false;
@@ -45,6 +52,12 @@ layui.config({
                 });
                 $(inputId).each(function (index,item) {
                     show+="<input type='text' name='productId' value='"+item+"' hidden>"
+                });
+                $(inputMax).each(function (index,item) {
+                    show+="<input type='text' name='maxNumber' value='"+item+"' hidden>"
+                });
+                $(inputPrice).each(function (index,item) {
+                    show+="<input type='text' name='price' value='"+item+"' hidden>"
                 });
                 $(".shop").append(show);
                 layer.close(index);
@@ -69,8 +82,10 @@ layui.config({
         console.info(arrName);
         var supplierProductList=new Array();
         var txtId=$(".shop").find($("input[name='productId']"));//获取所有的文本框
+        var txtMax=$(".shop").find($("input[name='maxNumber']"));//获取所有的文本框
+        var txtPrice=$(".shop").find($("input[name='price']"));//获取所有的文本框
         for (var i=0;i<txtId.length;i++){
-            supplierProductList.push({"productId":txtId.eq(i).val()});
+            supplierProductList.push({"productId":txtId.eq(i).val(),"maxNumber":txtMax.eq(i).val(),"price":txtPrice.eq(i).val()});
         }
         console.info(supplierProductList);
         var companyName = $("input[name='company_name']").val();

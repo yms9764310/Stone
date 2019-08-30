@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 李文教
@@ -59,6 +61,8 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
         for (SupplierProduct pid : purchaseSupplier.getSupplierProductList()) {
                 supplierProduct.setProductId(pid.getProductId());
                 supplierProduct.setPurchaseSupplierId(purchaseSupplier.getId());
+                supplierProduct.setMaxNumber(pid.getMaxNumber());
+                supplierProduct.setPrice(pid.getPrice());
                 purchaseSupplierMapper.insertProduct(supplierProduct);
         }
         return true;
@@ -82,6 +86,10 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
     //删除
     @Override
     public boolean deleteSupplier(Integer id) {
+        List<SupplierProduct> list=purchaseSupplierMapper.listProductSupplier(id);
+        for (SupplierProduct supplierProduct : list) {
+            purchaseSupplierMapper.deletePruchase(supplierProduct.getPurchaseSupplierId());
+        }
         purchaseSupplierMapper.deleteSupplier(id);
         return true;
     }
@@ -95,14 +103,42 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
     //修改指定供应商信息
     @Override
     public boolean updateSupplier(PurchaseSupplier purchaseSupplier) {
+        SupplierProduct supplierProduct=new SupplierProduct();
+        //数据库数据
+        List<Map<String,Object>> list=purchaseSupplierMapper.listPruchaseSupplierProduct(purchaseSupplier.getId());
+        Map<Integer,Integer> mapResult=new HashMap<>();//存放主键和商品id
+        //遍历数据库数据
+        for (Map<String, Object> stringObjectMap : list) {
+            mapResult.put((int)stringObjectMap.get("product_id"),(int)stringObjectMap.get("id"));
+        }
+        //页面传过来的数据
+        List<SupplierProduct> productList=purchaseSupplier.getSupplierProductList();
+        //对页面数据遍历
+        for (SupplierProduct supplierList : productList) {
+            if (mapResult.containsKey(supplierList.getProductId())){
+                //包含执行update
+                int supplierProductIdmapResult=mapResult.get(supplierList.getProductId());
+                supplierProduct.setId(supplierProductIdmapResult);
+                supplierProduct.setPurchaseSupplierId(purchaseSupplier.getId());
+                supplierProduct.setProductId(supplierList.getProductId());
+                supplierProduct.setMaxNumber(supplierList.getMaxNumber());
+                supplierProduct.setPrice(supplierList.getPrice());
+                purchaseSupplierMapper.updateProduct(supplierProduct);
+                mapResult.remove(supplierList.getProductId());
+            }else{
+                supplierProduct.setProductId(supplierList.getProductId());
+                supplierProduct.setPurchaseSupplierId(purchaseSupplier.getId());
+                supplierProduct.setPrice(supplierList.getPrice());
+                supplierProduct.setMaxNumber(supplierList.getMaxNumber());
+                purchaseSupplierMapper.insertProduct(supplierProduct);
+            }
+        }
+        for (Integer productId : mapResult.keySet()) {
+            int pruchaseId=mapResult.get(productId);
+            purchaseSupplierMapper.deletePrudchaseSupplierProduct(pruchaseId);
+        }
         Date date=new Date();
         //给创建时间获取当前系统时间
-        SupplierProduct supplierProduct=new SupplierProduct();
-        for (SupplierProduct productId : purchaseSupplier.getSupplierProductList()) {
-            supplierProduct.setPurchaseSupplierId(purchaseSupplier.getId());
-            supplierProduct.setProductId(productId.getProductId());
-            purchaseSupplierMapper.updateProduct(supplierProduct);
-        }
         purchaseSupplier.setModifyDate(date);
         purchaseSupplier.setModifier("1");
         purchaseSupplierMapper.updateSupplier(purchaseSupplier);
@@ -151,8 +187,20 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
             purchaseSupplier.setModifyDate(new Date());
             //状态
             purchaseSupplier.setState(String.valueOf(lo.get(4)));
-            //商品
-            sysPurchaseProduct.setName(String.valueOf(lo.get(5)));
+            List<SysPurchaseProduct> list=purchaseSupplierMapper.listSysPurchaseProduct();
+            //判断采购商品表里是否已有添加的商品
+            for (SysPurchaseProduct purchaseProduct : list) {
+                if (String.valueOf(lo.get(5))!=purchaseProduct.getName()){
+                    //商品
+                    sysPurchaseProduct.setName(String.valueOf(lo.get(5)));
+                }
+            }
+            //获取采购商品的创建时间
+            sysPurchaseProduct.setCreateDate(new Date());
+            //获取采购商品的修改时间
+            sysPurchaseProduct.setModifyDate(new Date());
+            //设置采购商品的创建人
+            sysPurchaseProduct.setCreator(1+"");
             //添加采购商品
             purchaseSupplierMapper.insertSysProduct(sysPurchaseProduct);
             //公司名
@@ -168,6 +216,8 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
             //添加商品表
             supplierProduct.setProductId(sysPurchaseProduct.getId());
             supplierProduct.setPurchaseSupplierId(purchaseSupplier.getId());
+            supplierProduct.setMaxNumber((BigDecimal) lo.get(10));
+            supplierProduct.setPrice((BigDecimal) lo.get(11));
             purchaseSupplierMapper.insertProduct(supplierProduct);
         }
         System.out.println("文件导入成功！");

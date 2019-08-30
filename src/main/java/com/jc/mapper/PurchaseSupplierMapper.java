@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 李文教
@@ -33,13 +34,19 @@ public interface PurchaseSupplierMapper {
     List<PurchaseSupplier> loadProductSupplier(@Param("id")int id);
     //删除
     int deleteSupplier(@Param("id")int id);
+    //查询全部供应商商品表信息
+    List<SupplierProduct> listProductSupplier(@Param("id")int id);
     //删除供应商产品表
-    int deletePruchase(@Param("purchaseSupplierId")int purchaseSupplierId);
+    int deletePruchase(int purchaseSupplierId);
     //根据id获取指定供应商信息
     List<PurchaseSupplier> loadPurchaseSupplier(@Param("id") int id);
     //修改指定供应商信息
     int updateSupplier(PurchaseSupplier purchaseSupplier);
     //修改供应商产品表
     int updateProduct(SupplierProduct supplierProduct);
+    //
+    List<Map<String,Object>> listPruchaseSupplierProduct(Integer id);
+
+    int deletePrudchaseSupplierProduct(int id);
 
 }

@@ -46,6 +46,8 @@ layui.config({
 
     }
     defineTable();
+
+
     var index=parent.layer.getFrameIndex(window.name);
     $("#transmit").click(function(){
         var checkStatus=table.checkStatus('productDemo');//获取复选框的行值

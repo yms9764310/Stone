@@ -25,7 +25,4 @@ public class SupplierProduct implements Serializable {
     private BigDecimal price;
 
     private  String productName;
-
-
-
 }

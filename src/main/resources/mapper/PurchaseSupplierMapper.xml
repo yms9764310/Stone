@@ -95,8 +95,13 @@
 <!--    删除供应商产品表-->
     <delete id="deletePruchase" parameterType="Integer">
         delete from t_pruchase_supplier_product
-        where t_pruchase_supplier_product.purchase_supplier_id=#{purchaseSupplierId}
+        where t_pruchase_supplier_product.purchase_supplier_id=#{0}
     </delete>
+    <delete id="deletePrudchaseSupplierProduct" parameterType="Integer">
+        delete from t_pruchase_supplier_product
+        where t_pruchase_supplier_product.id=#{0}
+    </delete>
+
 
     <resultMap id="PurchaseResultMap" type="com.jc.model.PurchaseSupplier">
         <id column="id" property="id" jdbcType="INTEGER"></id>
@@ -110,14 +115,18 @@
             <result column="productId" property="productId" jdbcType="INTEGER"></result>
             <result column="purchaseSupplierId" property="purchaseSupplierId" jdbcType="INTEGER"></result>
             <result column="productName" property="productName" jdbcType="VARCHAR"></result>
+            <result column="max_number" property="maxNumber"></result>
+            <result column="price" property="price"></result>
         </collection>
     </resultMap>
 <!--    根据id获取指定供应商信息-->
     <select id="loadPurchaseSupplier" parameterType="Integer" resultMap="PurchaseResultMap">
 
- select
-        sup.id,sup.creator,sup.company_name,sup.contact_name,sup.contact_phone,sup.address,pru.id pid,
-        syspro.id productId,sup.id purchaseSupplierId,syspro.name productName
+        select
+        sup.id,sup.creator,sup.company_name,sup.contact_name,sup.contact_phone,sup.address,
+        pru.id pid,
+        syspro.id productId,sup.id purchaseSupplierId,syspro.name productName,
+        pru.max_number,pru.price
         FROM
         t_purchase_supplier as sup
         LEFT JOIN
@@ -142,8 +151,8 @@
 <!--    修改供应商产品表-->
     <update id="updateProduct" parameterType="com.jc.model.SupplierProduct">
         update t_pruchase_supplier_product
-        set product_id=#{productId}
-        where purchase_supplier_id=#{purchaseSupplierId}
+        set purchase_supplier_id=#{purchaseSupplierId},product_id=#{productId},max_number=#{maxNumber},price=#{price}
+        where t_pruchase_supplier_product.id=#{id}
     </update>
 
     <resultMap id="ProductResultMap" type="com.jc.model.SupplierProduct">
@@ -166,6 +175,39 @@
         ON
         syspro.id=product.product_id
         where su.id=#{id}
+    </select>
+<!--    查询供应商商品表-->
+    <resultMap id="SupplierProductResultMap" type="com.jc.model.SupplierProduct">
+        <id column="pid" property="id"></id>
+        <result column="purchase_supplier_id" property="purchaseSupplierId"></result>
+        <result column="product_id" property="productId"></result>
+        <result column="max_number" property="maxNumber"></result>
+        <result column="price" property="price"></result>
+    </resultMap>
+    <select id="listProductSupplier" parameterType="Integer" resultMap="SupplierProductResultMap">
+        SELECT
+        product.id pid,product.purchase_supplier_id,product.product_id,product.max_number,product.price
+        FROM
+        t_purchase_supplier AS su
+        LEFT JOIN
+        t_pruchase_supplier_product AS product
+        ON
+        su.id=product.purchase_supplier_id
+        where su.id=#{id}
+    </select>
+
+<!--    查询供应商商品表信息,修改操作调用-->
+    <select id="listPruchaseSupplierProduct" parameterType="int" resultType="java.util.Map">
+        select
+        product.id,pro.id purchase_supplier_id,product.product_id,product.max_number,product.price
+        from
+        t_pruchase_supplier_product as product
+        LEFT JOIN
+        t_purchase_supplier as pro
+        ON
+        product.purchase_supplier_id=pro.id
+        where
+        pro.id=#{id}
     </select>
 
 </mapper>
