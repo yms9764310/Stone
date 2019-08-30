@@ -1,7 +1,5 @@
 package com.jc.beans.response;
 
-import com.jc.model.Student;
-
 import java.util.List;
 
 /**

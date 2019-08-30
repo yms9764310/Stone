@@ -1,6 +1,5 @@
 package com.jc.service;
 
-import com.jc.model.Student;
 import com.jc.model.SysLoginUser;
 
 import java.util.List;

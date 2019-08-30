@@ -68,6 +68,43 @@ layui.define(['$tool','jquery'], function (exports) {
         DeleteStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
         },
+        DeleteDemp:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'demp/deletedemp.do',req,config,successCallback,errorCallback);
+        },
+        DeleteProu:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'prou/deleteprou.do',req,config,successCallback,errorCallback);
+        },
+        ListDempByName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'demp/listdempname.do',req,config,successCallback,errorCallback);
+        },
+        ListDempById:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'demp/listdempbyid.do',req,config,successCallback,errorCallback);
+        },
+        LoadDempId:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'demp/loaddemp.do',req,successCallback,errorCallback);
+        },
+        LoadProuId:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'prou/loadprou.do',req,successCallback,errorCallback);
+        },
+        UpdateDemp:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'demp/updatedemp.do',req,config,successCallback,errorCallback);
+        },
+        UpdateProu:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'prou/updateprou.do',req,config,successCallback,errorCallback);
+        },
+        Getrouce:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'prou/listresou.do',req,config,successCallback,errorCallback);
+        },
+
+        AddDemp:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'demp/savedemp.do',req,config,successCallback,errorCallback);
+        },
+        GetallOrg:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'demp/All.do',req,successCallback,errorCallback);
+        },
+        AddProu:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'prou/saveprou.do',req,config,successCallback,errorCallback);
+        },
         ReviewSuccess:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'ToDoList/delete.do',req,config,successCallback,errorCallback);
         },
@@ -91,6 +128,18 @@ layui.define(['$tool','jquery'], function (exports) {
         },
         UpdateStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'Student/update.do',req,config,successCallback,errorCallback);
+        },
+        InsertCustomer:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'Customer/insert.do',req,config,successCallback,errorCallback);
+        },
+        DeleteCustomer:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/delete.do',req,config,successCallback,errorCallback);
+        },
+        GetCustomer:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/loadById.do',req,config,successCallback,errorCallback);
+        },
+        UpdateCustomer:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'Customer/updateCustomer.do',req,config,successCallback,errorCallback);
         },
         //添加供应商信息
         InsertSupplier:function(req,config,successCallback,errorCallback){

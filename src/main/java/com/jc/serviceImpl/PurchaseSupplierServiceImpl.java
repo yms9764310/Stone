@@ -133,6 +133,7 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
                 purchaseSupplierMapper.insertProduct(supplierProduct);
             }
         }
+        //不包含的执行删除
         for (Integer productId : mapResult.keySet()) {
             int pruchaseId=mapResult.get(productId);
             purchaseSupplierMapper.deletePrudchaseSupplierProduct(pruchaseId);
