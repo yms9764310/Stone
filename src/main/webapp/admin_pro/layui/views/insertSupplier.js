@@ -42,6 +42,14 @@ layui.config({
                     layer.msg("请选择商品",{time:1000,icon:5});
                     return false;
                 }
+                if (searchInputMax==null||""==searchInputMax){
+                    layer.msg("请填写数量",{time:1000,icon:5});
+                    return false;
+                }
+                if (searchInputPrice==null||""==searchInputPrice){
+                    layer.msg("请填写价格",{time:1000,icon:5});
+                    return false;
+                }
                 // document.getElementById("pname").value=searchInput;
                 // document.getElementById("pid").value=searchInputId;
                 var g=0;
@@ -54,7 +62,7 @@ layui.config({
                     show+="<input type='text' name='productId' value='"+item+"' hidden>"
                 });
                 $(inputMax).each(function (index,item) {
-                    show+="<input type='text' name='maxNumber' value='"+item+"' hidden>"
+                    show+="<input type='text' name='maxNumber' value='"+item+"'>"
                 });
                 $(inputPrice).each(function (index,item) {
                     show+="<input type='text' name='price' value='"+item+"' hidden>"
@@ -83,7 +91,15 @@ layui.config({
         var supplierProductList=new Array();
         var txtId=$(".shop").find($("input[name='productId']"));//获取所有的文本框
         var txtMax=$(".shop").find($("input[name='maxNumber']"));//获取所有的文本框
+        if (txtMax==null||""==txtMax){
+            layer.msg("数量未填写",{time:1500,icon:5});
+            return false;
+        }
         var txtPrice=$(".shop").find($("input[name='price']"));//获取所有的文本框
+        if (txtPrice==null||""==txtPrice){
+            layer.msg("价格未填写",{time:1500,icon:5});
+            return false;
+        }
         for (var i=0;i<txtId.length;i++){
             supplierProductList.push({"productId":txtId.eq(i).val(),"maxNumber":txtMax.eq(i).val(),"price":txtPrice.eq(i).val()});
         }
@@ -96,7 +112,6 @@ layui.config({
         var req = {
             creator:creator,
             supplierProductList:supplierProductList,
-            state:1,
             companyName:companyName,
             contactName:contactName,
             contactPhone:contactPhone,
@@ -105,10 +120,13 @@ layui.config({
         // alert(JSON.stringify(req));
         console.log(JSON.stringify(req));
         $api.InsertSupplier(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {
-            layer.msg("添加成功！",{time:1000,icon:6},function () {
-                layer.closeAll("iframe");
-                //刷新父页面
-                parent.location.reload();
+            layer.confirm("确定添加吗?",function (confirmIndex) {
+                layer.close(confirmIndex);//关闭confirm
+                layer.msg("添加成功！",{time:1000,icon:6},function () {
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                });
             });
         });
         return false;

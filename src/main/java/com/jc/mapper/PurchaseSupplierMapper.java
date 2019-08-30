@@ -44,9 +44,12 @@ public interface PurchaseSupplierMapper {
     int updateSupplier(PurchaseSupplier purchaseSupplier);
     //修改供应商产品表
     int updateProduct(SupplierProduct supplierProduct);
-    //
+    //查询供应商产品表，修改操作调用
     List<Map<String,Object>> listPruchaseSupplierProduct(Integer id);
-
+    //删除供应商产品表，修改调用
     int deletePrudchaseSupplierProduct(int id);
-
+    //查询全部采购商品表，Excel导入调用
+    List<Map<String,Object>> listSysProduct();
+    //修改采购商品表,Excel导入调用
+    int updateSysProduct(SysPurchaseProduct sysPurchaseProduct);
 }

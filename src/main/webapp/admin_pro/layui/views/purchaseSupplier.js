@@ -35,8 +35,8 @@ layui.config({
             , url: $tool.getContext() + 'purchaseSupplier/listSupplier.do' //数据接口
             , method: 'post'
             , page: true //开启分页
-            , limit: 5
-            , limits: [5,10,15,20,25,30]
+            , limit: 10
+            , limits: [20,30,40,50]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
                 , {field: 'creator', title: '创建人', width: '10%',align:'center'}
@@ -75,6 +75,15 @@ layui.config({
     form.on("submit(findLike)", function (data) {
         var creator = data.field.creator;
         var name = data.field.name;
+        // if(creator==null||""==creator){
+        //     layer.msg("请输入要查询的供应商名称!",{time:1500,icon:8});
+        //     return false;
+        // }
+        // if (name==null||""==name){
+        //     layer.msg("请输入要查询的商品!",{time:1500,icon:8});
+        //     return false;
+        // }
+
         //alert(JSON.stringify(name));
         //alert(creator);
         //表格重新加载
@@ -160,7 +169,26 @@ layui.config({
     }
 
 
-//Excel
+
+    //     判断Excel文件
+    // $(document).ready(function () {
+    //     $("#upfile").click(function () {
+    //         var file = $("#FileUpload1").val();
+    //         if (file == "") {
+    //             layer.msg("请选择要上传的文件",{time:1500,icon:8});
+    //             return false
+    //         } else {
+    //             //检验文件类型是否正确
+    //             var exec = (/[.]/.exec(file)) ? /[^.]+$/.exec(file.toLowerCase()) : '';
+    //             if (exec != "xlsx") {
+    //                 layer.msg("文件格式不对，请上传Excel文件!",{time:1500,icon:8});
+    //                 return false;
+    //             }
+    //         }
+    //         return true;
+    //     });
+    // });
+// Excel导入
     layui.use('upload', function () {
         var $ = layui.jquery
             , upload = layui.upload;

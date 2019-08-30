@@ -12,21 +12,27 @@
         <result column="create_date" property="createDate" jdbcType="TIMESTAMP"></result>
         <result column="modifier" property="modifier" jdbcType="INTEGER"></result>
         <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP"></result>
-        <result column="state" property="state" jdbcType="VARCHAR"></result>
+        <result column="state" property="state" jdbcType="TIMESTAMP"></result>
         <result column="company_name" property="companyName" jdbcType="VARCHAR"></result>
         <result column="contact_name" property="contactName" jdbcType="VARCHAR"></result>
         <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"></result>
         <result column="address" property="address" jdbcType="VARCHAR"></result>
+        <association property="sysResource" javaType="com.jc.model.SysResource">
+            <id column="sid" property="id"></id>
+            <result column="displayName" property="displayName"></result>
+        </association>
         <collection property="sysPurchaseProductList" ofType="com.jc.model.SysPurchaseProduct">
-            <id column="id" property="id" jdbcType="INTEGER"></id>
+            <id column="pid" property="id" jdbcType="INTEGER"></id>
             <result column="name" property="name" jdbcType="VARCHAR"></result>
         </collection>
     </resultMap>
 <!--    查询全部-->
     <select id="listSupplier" resultMap="SupplierResultMap">
         SELECT
-        purchase.id,purchase.creator,purchase.create_date,purchase.modifier,purchase.modify_date,syspro.name,
-        purchase.state,purchase.company_name,purchase.contact_name,purchase.contact_phone,
+        purchase.id,purchase.creator,purchase.create_date,
+        purchase.modifier,purchase.modify_date,syspro.id pid,syspro.name,
+        res.id sid, res.display_name state,purchase.company_name,
+        purchase.contact_name,purchase.contact_phone,
         purchase.address
         FROM
         t_purchase_supplier AS purchase
@@ -38,13 +44,18 @@
         t_sys_purchase_product AS syspro
         ON
         syspro.id=product.product_id
-        where 1=1
+        LEFT JOIN
+        t_sys_resource as res
+        ON
+        purchase.state=res.id
+        <where>
         <if test="creator!=null and creator!=''">
-        and purchase.creator=#{creator,jdbcType=INTEGER}
+        and purchase.creator like concat('%',#{creator},'%')
         </if>
         <if test="name!=null and name!=''">
-            and syspro.name=#{name}
+            or purchase.name like concat('%',#{name},'%')
         </if>
+        </where>
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 <!--    获取菜单大小-->
@@ -209,5 +220,18 @@
         where
         pro.id=#{id}
     </select>
+<!--查询全部采购商品表，Excel导入调用-->
+    <select id="listSysProduct" parameterType="int" resultType="java.util.Map">
+        select
+        product.id,product.name
+        from t_sys_purchase_product as product
+    </select>
+<!--    修改采购商品表，Excel导入调用-->
+    <update id="updateSysProduct" parameterType="com.jc.model.SysPurchaseProduct">
+        update t_sys_purchase_product
+        set
+        name=#{name}
+        where t_sys_purchase_product.id=#{id}
+    </update>
 
 </mapper>

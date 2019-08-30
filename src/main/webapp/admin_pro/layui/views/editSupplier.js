@@ -159,7 +159,6 @@ layui.config({
             arrName:arrName,
             supplierProductList:supplierProductList,
             creator:creator,
-            state:1,
             companyName:companyName,
             contactName:contactName,
             contactPhone:contactPhone,
@@ -167,13 +166,16 @@ layui.config({
         }
         //alert(JSON.stringify(req))
         $api.editSupplier(JSON.stringify(req), {contentType: 'application/json;charset=utf-8'}, function () {
+            layer.confirm("确定修改信息吗?",function (confirmIndex) {
+                layer.close(confirmIndex);//关闭confirm
+                layer.msg("修改成功！", {time: 1000,icon:1}, function () {
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                });
+            });
             //top.layer.close(index);(关闭遮罩已经放在了ajaxExtention里面了)
             //正确:修改成功
-            layer.msg("修改成功！", {time: 1000,icon:1}, function () {
-                layer.closeAll("iframe");
-                //刷新父页面
-                parent.location.reload();
-            });
         });
         return false;
     });
