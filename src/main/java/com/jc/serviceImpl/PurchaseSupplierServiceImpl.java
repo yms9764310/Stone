@@ -37,9 +37,9 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
 
     //查询全部供应商以及搜索的功能
     @Override
-    public List<PurchaseSupplier> listSupplier(String page, String limit, String creator,String name) {
+    public List<PurchaseSupplier> listSupplier(String page, String limit, String SysProductName,String name) {
         PageRange pageRange=new PageRange(page,limit);
-        return purchaseSupplierMapper.listSupplier(pageRange.getStart(),pageRange.getEnd(),creator,name);
+        return purchaseSupplierMapper.listSupplier(pageRange.getStart(),pageRange.getEnd(),SysProductName,name);
     }
     //获取菜单大小
     @Override
@@ -52,6 +52,7 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
     @Override
     public boolean insertSupplier(PurchaseSupplier purchaseSupplier) {
         Date date=new Date();
+        purchaseSupplier.setCreator(1+"");
         purchaseSupplier.setCreateDate(date);
         purchaseSupplier.setModifyDate(date);
         purchaseSupplier.setModifier("1");
@@ -193,42 +194,63 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
             SysPurchaseProduct sysPurchaseProduct=new SysPurchaseProduct();
             SupplierProduct supplierProduct=new SupplierProduct();
 
-            //数据库数据
+            //数据库数据,采购商品表
             List<Map<String,Object>> list=purchaseSupplierMapper.listSysProduct();
             //判断采购商品表里是否已有添加的商品
             Map<String,Integer> mapRes=new HashMap<>();//存放主键,商品名
             for (Map<String, Object> stringObjectMap : list) {
                 mapRes.put((String) stringObjectMap.get("name"),(int) stringObjectMap.get("id"));
             }
+            //数据库数据,供应商表
+            List<Map<String,Object>> listExcel=purchaseSupplierMapper.listExcelProduct();
+            Map<String,Integer> mapCompany=new HashMap<>();//存放公司名和主键
+            Map<String,Integer> mapContact=new HashMap<>();//存放联系人和主键
+            for (Map<String, Object> map : listExcel) {
+                mapCompany.put((String)map.get("company_name"),(int)map.get("id"));
+                mapContact.put((String)map.get("contact_name"),(int)map.get("id"));
+            }
             //判断是否包含了商品名称
-            if (mapRes.containsKey(lo.get(5))){
+            if (mapRes.containsKey(lo.get(1))){
                 //是
-                int mapId=mapRes.get(lo.get(5));
-                //创建人
-                purchaseSupplier.setCreator(lo.get(0)+"");
-                //创建时间
-                purchaseSupplier.setCreateDate(new Date());
-                //修改人
-                purchaseSupplier.setModifier(lo.get(2)+"");
-                //修改时间
-                purchaseSupplier.setModifyDate(new Date());
-                //状态
-                purchaseSupplier.setState(String.valueOf(lo.get(4)));
-                //公司名
-                purchaseSupplier.setCompanyName(String.valueOf(lo.get(6)));
-                //联系人
-                purchaseSupplier.setContactName(String.valueOf(lo.get(7)));
-                //联系电话
-                purchaseSupplier.setContactPhone(String.valueOf(lo.get(8)));
-                //公司地址
-                purchaseSupplier.setAddress(String.valueOf(lo.get(9)));
-                //添加供应商
-                purchaseSupplierMapper.insertSupplier(purchaseSupplier);
+                int mapId=mapRes.get(lo.get(1));
+
+                if (mapCompany.containsKey(lo.get(2))&&mapContact.containsKey(lo.get(3))){
+                    //包含
+                    int companyId=mapCompany.get(lo.get(2));
+                    supplierProduct.setPurchaseSupplierId(companyId);
+                }else{//不包含
+                    //供应商
+                    purchaseSupplier.setName(String.valueOf(lo.get(0)));
+                    //创建人
+                    purchaseSupplier.setCreator(1+"");
+                    //创建时间
+                    purchaseSupplier.setCreateDate(new Date());
+                    //修改人
+                    purchaseSupplier.setModifier(1+"");
+                    //修改时间
+                    purchaseSupplier.setModifyDate(new Date());
+                    //状态
+                    if(purchaseSupplier.getCreator().equals(1+"")){
+                        purchaseSupplier.setState(1+"");
+                    }else if (purchaseSupplier.getCreator().equals(2+"")){
+                        purchaseSupplier.setState(2+"");
+                    }
+                    //公司名
+                    purchaseSupplier.setCompanyName(String.valueOf(lo.get(2)));
+                    //联系人
+                    purchaseSupplier.setContactName(String.valueOf(lo.get(3)));
+                    //联系电话
+                    purchaseSupplier.setContactPhone(String.valueOf(lo.get(4)));
+                    //公司地址
+                    purchaseSupplier.setAddress(String.valueOf(lo.get(5)));
+                    //添加供应商
+                    purchaseSupplierMapper.insertSupplier(purchaseSupplier);
+                    supplierProduct.setPurchaseSupplierId(purchaseSupplier.getId());
+                }
                 //添加商品表
                 supplierProduct.setProductId(mapId);
-                supplierProduct.setPurchaseSupplierId(purchaseSupplier.getId());
-                supplierProduct.setMaxNumber(String.valueOf(lo.get(10)));
-                supplierProduct.setPrice(String.valueOf(lo.get(11)));
+                supplierProduct.setMaxNumber(String.valueOf(lo.get(6)));
+                supplierProduct.setPrice(String.valueOf(lo.get(7)));
                 purchaseSupplierMapper.insertProduct(supplierProduct);
             }
         }

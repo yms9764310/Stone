@@ -13,6 +13,8 @@
         <result column="modifier" property="modifier" jdbcType="INTEGER"></result>
         <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP"></result>
         <result column="state" property="state" jdbcType="TIMESTAMP"></result>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="SysProductName" property="SysProductName" jdbcType="VARCHAR"></result>
         <result column="company_name" property="companyName" jdbcType="VARCHAR"></result>
         <result column="contact_name" property="contactName" jdbcType="VARCHAR"></result>
         <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"></result>
@@ -23,14 +25,14 @@
         </association>
         <collection property="sysPurchaseProductList" ofType="com.jc.model.SysPurchaseProduct">
             <id column="pid" property="id" jdbcType="INTEGER"></id>
-            <result column="name" property="name" jdbcType="VARCHAR"></result>
+            <result column="SysProductName" property="name" jdbcType="VARCHAR"></result>
         </collection>
     </resultMap>
 <!--    查询全部-->
     <select id="listSupplier" resultMap="SupplierResultMap">
         SELECT
-        purchase.id,purchase.creator,purchase.create_date,
-        purchase.modifier,purchase.modify_date,syspro.id pid,syspro.name,
+        purchase.id, purchase.creator, purchase.create_date, purchase.name name,
+        purchase.modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
         res.id sid, res.display_name state,purchase.company_name,
         purchase.contact_name,purchase.contact_phone,
         purchase.address
@@ -49,11 +51,11 @@
         ON
         purchase.state=res.id
         <where>
-        <if test="creator!=null and creator!=''">
-        and purchase.creator like concat('%',#{creator},'%')
-        </if>
         <if test="name!=null and name!=''">
-            or purchase.name like concat('%',#{name},'%')
+        and purchase.name like concat('%',#{name},'%')
+        </if>
+        <if test="SysProductName!=null and SysProductName!=''">
+            and syspro.name like concat('%',#{SysProductName},'%')
         </if>
         </where>
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
@@ -66,9 +68,9 @@
 <!--    添加供应商-->
     <insert id="insertSupplier" parameterType="com.jc.model.PurchaseSupplier">
         insert into t_purchase_supplier
-        (creator,create_date,modifier,modify_date,state,company_name,contact_name,contact_phone,address)
+        (creator,create_date,modifier,modify_date,state,name,company_name,contact_name,contact_phone,address)
         values
-        (#{creator},#{createDate},#{modifier},#{modifyDate},#{state},#{companyName},#{contactName},#{contactPhone},#{address})
+        (#{creator},#{createDate},#{modifier},#{modifyDate},#{state},#{name},#{companyName},#{contactName},#{contactPhone},#{address})
 
         <selectKey keyProperty="id" resultType="int">
             select LAST_INSERT_ID()
@@ -233,5 +235,12 @@
         name=#{name}
         where t_sys_purchase_product.id=#{id}
     </update>
+
+    <!--查询全部供应商表，Excel导入调用-->
+    <select id="listExcelProduct" parameterType="int" resultType="java.util.Map">
+        select
+        supplier.id,supplier.company_name,supplier.contact_name
+        from t_purchase_supplier as supplier
+    </select>
 
 </mapper>

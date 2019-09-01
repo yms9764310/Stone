@@ -18,8 +18,8 @@ public interface PurchaseSupplierMapper {
     //查询全部供应商
     List<PurchaseSupplier> listSupplier(@Param("start")int start,
                                         @Param("end")int end,
-                                        @Param("creator") String creator,
-                                        @Param(("name"))String name);
+                                        @Param("name") String name,
+                                        @Param(("SysProductName"))String SysProductName);
     //获取菜单大小
     int countGetAll();
     //添加供应商
@@ -50,6 +50,9 @@ public interface PurchaseSupplierMapper {
     int deletePrudchaseSupplierProduct(int id);
     //查询全部采购商品表，Excel导入调用
     List<Map<String,Object>> listSysProduct();
+    //查询全部供应商表，Excel导入调用
+    List<Map<String,Object>> listExcelProduct();
     //修改采购商品表,Excel导入调用
     int updateSysProduct(SysPurchaseProduct sysPurchaseProduct);
+
 }

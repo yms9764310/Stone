@@ -102,7 +102,7 @@ layui.config({
                 $("input[name='address']").val(item.address);
                 $(item.supplierProductList).each(function (index,list) {
                     //alert(list.productName);
-                    var sys="<input type='text' class=\"layui-input-inline layui-input\" name='name' value='"+list.productName+"' readonly>";
+                    var sys="<input type='text' class=\"layui-input-inline layui-input\" name='productName' value='"+list.productName+"' readonly>";
                     $(".shop").append(sys);
                 });
                 $(item.supplierProductList).each(function (index,item) {
@@ -132,7 +132,7 @@ layui.config({
 
         var id=$("input[name='id']").val();
         var arrName=new Array();
-        var txt=$(".shop").find($("input[name='name']"));//获取所有的文本框
+        var txt=$(".shop").find($("input[name='productName']"));//获取所有的文本框
         for (var i=0;i<txt.length;i++){
             arrName.push(txt.eq(i).val())//将文本框的值添加到数组中
         }
@@ -145,7 +145,7 @@ layui.config({
             supplierProductList.push({"productId":txtId.eq(i).val(),"maxNumber":txtMax.eq(i).val(),"price":txtPrice.eq(i).val()})//将文本框的值添加到数组中
         }
         console.info(supplierProductList);
-        var creator=$("input[name='creator']").val();
+        var name=$("input[name='name']").val();
         var companyName=$("input[name='company_name']").val();
         var contactName=$("input[name='contact_name']").val();
         var contactPhone=$("input[name='contact_phone']").val();
@@ -158,7 +158,7 @@ layui.config({
             id:id,
             arrName:arrName,
             supplierProductList:supplierProductList,
-            creator:creator,
+            name:name,
             companyName:companyName,
             contactName:contactName,
             contactPhone:contactPhone,

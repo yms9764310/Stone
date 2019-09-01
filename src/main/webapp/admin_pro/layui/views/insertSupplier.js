@@ -38,37 +38,63 @@ layui.config({
                 //价格
                 var searchInputPrice=body.find("#searchInputPrice").val();
                 var inputPrice=searchInputPrice.split(",");
+                var flag = false;
                 if (searchInput==null||searchInput==""){
                     layer.msg("请选择商品",{time:1000,icon:5});
-                    return false;
+                    flag = false;
+                    return flag;
                 }
-                if (searchInputMax==null||""==searchInputMax){
-                    layer.msg("请填写数量",{time:1000,icon:5});
-                    return false;
-                }
-                if (searchInputPrice==null||""==searchInputPrice){
-                    layer.msg("请填写价格",{time:1000,icon:5});
-                    return false;
-                }
+                var i=0;
+                $(inputMax).each(function (index,max) {
+                    if (max==null||""==max){
+                        layer.msg("请填写数量",{time:1000,icon:5});
+                        flag = false;
+                        return flag;
+                    }else{
+                        i++;
+                    }
+                    if(i==inputMax.length){
+                        flag = true;
+                        return flag;
+                    }
+                });
+                var j=0;
+                $(inputPrice).each(function (index,price) {
+                    if (price==null||""==price){
+                        layer.msg("请填写价格",{time:1000,icon:5});
+                        flag = false;
+                        return flag;
+                    }else{
+                        j++;
+                    }
+                    if(j==inputPrice.length){
+                        flag = true;
+                        return flag;
+                    }
+                });
+
                 // document.getElementById("pname").value=searchInput;
                 // document.getElementById("pid").value=searchInputId;
                 var g=0;
                 $(".shop").empty();
                 var show="";
                 $(inputName).each(function (index,item) {
-                    show+="<input type='text' class=\"layui-input-inline layui-input\" name='name' value='"+item+"' readonly>"
+                    show+="<input type='text' class=\"layui-input-inline layui-input\" name='productName' value='"+item+"' readonly>"
                 });
                 $(inputId).each(function (index,item) {
-                    show+="<input type='text' name='productId' value='"+item+"' hidden>"
+                    show+="<input type='text' name='productId' id='productId' value='"+item+"' hidden>"
                 });
                 $(inputMax).each(function (index,item) {
-                    show+="<input type='text' name='maxNumber' value='"+item+"'>"
+                    show+="<input type='text' name='maxNumber' value='"+item+"' hidden>"
                 });
                 $(inputPrice).each(function (index,item) {
                     show+="<input type='text' name='price' value='"+item+"' hidden>"
                 });
                 $(".shop").append(show);
-                layer.close(index);
+                if(flag){
+                    layer.close(index);
+                }
+
             },
             cancel:function () {
             }
@@ -81,9 +107,9 @@ layui.config({
      *  */
     //添加
     form.on("submit(insertSupplier)", function (data) {
-        var creator = $("input[name='creator']").val();
+        var name = $("input[name='name']").val();
         var arrName=[];
-        var txt=$(".shop").find($("input[name='name']"));//获取所有的文本框
+        var txt=$(".shop").find($("input[name='productName']"));//获取所有的文本框
         for (var i=0;i<txt.length;i++){
             arrName.push(txt.eq(i).val())//将文本框的值添加到数组中
         }
@@ -110,7 +136,7 @@ layui.config({
         var address = $("input[name='address']").val();
         //请求
         var req = {
-            creator:creator,
+            name:name,
             supplierProductList:supplierProductList,
             companyName:companyName,
             contactName:contactName,

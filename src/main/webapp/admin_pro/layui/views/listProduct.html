@@ -53,13 +53,13 @@
             <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品" class="layui-input" id="searchInput" readonly>
         </div>
         <div class="layui-input-block">
-            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputId">
+            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputId" hidden>
         </div>
         <div class="layui-input-block">
-            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputMax">
+            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputMax" hidden>
         </div>
         <div class="layui-input-block">
-            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputPrice">
+            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputPrice" hidden>
         </div>
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" id="addProduct" data-type="getCheckData"><i class="layui-icon"></i>添加商品</button>
@@ -174,15 +174,15 @@ layui.config({
             ]]
             , done: function (res, curr) {//请求完毕后的回调
                 //如果是异步请求数据方式，res即为你接口返回的信息.curr：当前页码
+
+
             }
+
         });
 
     }
     defineTable();
 });
-
-</script>
-<script type="text/html" id="InputMax">
 
 </script>
 </html>
