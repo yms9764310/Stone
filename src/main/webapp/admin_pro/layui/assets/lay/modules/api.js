@@ -77,8 +77,20 @@ layui.define(['$tool','jquery'], function (exports) {
         GetSysUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'SysUser/find.do',req,config,successCallback,errorCallback);
         },
+        GetUsersName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StoreManagement/findUsersName.do',req,config,successCallback,errorCallback);
+        },
         GetDepartUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'StaffSetting/get.do',req,config,successCallback,errorCallback);
+        },
+        GetPutIn:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StorePutIn/getPutIn.do',req,config,successCallback,errorCallback);
+        },
+        GetCheckOut:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StorePutIn/getCheckOut.do',req,config,successCallback,errorCallback);
+        },
+        GetCheckOutWarn:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StoreManagement/getCheckOut.do',req,config,successCallback,errorCallback);
         },
         GetDetails:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'ToDoList/get.do',req,config,successCallback,errorCallback);
@@ -103,6 +115,21 @@ layui.define(['$tool','jquery'], function (exports) {
         },
         UpdateThreshold:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'StaffSetting/changeThreshold.do',req,config,successCallback,errorCallback);
+        },
+        updatePutInSuccess:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StorePutIn/updatePutInSuccess.do',req,config,successCallback,errorCallback);
+        },
+        updateCheckOutSuccess:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StorePutIn/updateCheckOutSuccess.do',req,config,successCallback,errorCallback);
+        },
+        updateCheckOutWarn:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StoreManagement/updateCheckOutWarn.do',req,config,successCallback,errorCallback);
+        },
+        updatePutInReject:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StorePutIn/updatePutInReject.do',req,config,successCallback,errorCallback);
+         },
+        updateCheckOutReject:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StorePutIn/updateCheckOutReject.do',req,config,successCallback,errorCallback);
         },
     };
 

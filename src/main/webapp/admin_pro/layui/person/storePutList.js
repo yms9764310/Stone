@@ -34,20 +34,19 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'ToDoList/viewWorkProgress.do' //数据接口
+            , url: $tool.getContext() + 'StorePutIn/StorePut.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
-                , {field: 'id', title: '加工单ID', width: '10%', align: 'center'}
-                , {field: 'bom_id', title: '物料名称', width: '10%', align: 'center'}
-                , {field: 'process_user_id', title: '负责人', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'begin_date', title: '开始时间', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'end_date', title: '结束时间', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'process_type', title: '加工作业类型', width: '10%', templet: '#upc', align: 'center'}
-                , {fixed: 'right', title: '操作', width: 150, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+                , {field: 'user_id', title: '申请人', width: '13%', align: 'center'}
+                , {field: 'source_type', title: '来源表', width: '13%', align: 'center'}
+                , {field: 'product_name', title: '商品名称', width: '13%', align: 'center'}
+                , {field: 'date', title: '出/入库时间', width: '20%', templet: '#upc', align: 'center'}
+                , {field: 'typename', title: '类型名字', width: '17%', templet: '#upc', align: 'center'}
+                , {fixed: 'right', title: '操作', width: 105, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
         });
 
@@ -58,52 +57,61 @@ layui.config({
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             //区分事件
-            if (layEvent === 'look') { //查看详情
-                lookDetails(row.id);
-            } else if (layEvent === 'editThreshold') {//设置阈值
-                editThreshold(row.id);
+            if (layEvent === 'reviewIn') { //入库审核
+                ReviewIn(row.id);
+            }else  if (layEvent === 'reviewOut') { //出库审核
+                ReviewOut(row.id);
             }
         });
     }
-
     defineTable();
     //查询
     form.on("submit(queryUser)", function (data) {
-        var name = data.field.creator;
+        var name = data.field.name;
+        var startTime = data.field.start_time;
+        var endTime = data.field.end_time;
+        var typename = data.field.typename;
         //表格重新加载
         tableIns.reload({
             where: {
                 name: name,
+                startTime: startTime,
+                endTime: endTime,
+                typename:typename
             }
 
         });
         return false;
     });
 
-    //查看详情
-    function editThreshold(id) {
-        layer.confirm('确定审核吗？', function (confirmIndex) {
-            layer.close(confirmIndex);//关闭confirm
-            //向服务端发送删除指令
-            var req = {
-                id: id
-            };
-            $api.DeleteStudent(req, function (data) {
-                layer.msg("删除成功", {time: 1000}, function () {
-                    //obj.del(); //删除对应行（tr）的DOM结构
-                    //重新加载表格
-                    tableIns.reload();
-                });
-            });
+    //入库审核
+    function ReviewIn(id) {
+        var index = layui.layer.open({
+            title: "入库审核",
+            type: 2,
+            content: "reviewIn.html?id=" + id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            }
         });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
     }
 
-    //查看加工单详情
-    function lookDetails(id) {
+    //出库审核
+    function ReviewOut(id) {
         var index = layui.layer.open({
-            title: "查看详情",
+            title: "出库审核",
             type: 2,
-            content: "lookWorkSpeed.html?id=" + id,
+            content: "reviewOut.html?id=" + id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {

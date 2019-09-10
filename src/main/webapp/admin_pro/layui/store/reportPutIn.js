@@ -34,19 +34,18 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'ToDoList/viewWorkProgress.do' //数据接口
+            , url: $tool.getContext() + 'StoreManagement/findPutIn.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
-                , {field: 'id', title: '加工单ID', width: '10%', align: 'center'}
-                , {field: 'bom_id', title: '物料名称', width: '10%', align: 'center'}
-                , {field: 'process_user_id', title: '负责人', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'begin_date', title: '开始时间', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'end_date', title: '结束时间', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'process_type', title: '加工作业类型', width: '10%', templet: '#upc', align: 'center'}
+                , {field: 'product_name', title: '商品名称', width: '12%', align: 'center'}
+                , {field: 'put_in_number', title: '入库数量', width: '20%', templet: '#upc', align: 'center'}
+                , {field: 'put_id_date', title: '入库时间', width: '12%', templet: '#upc', align: 'center'}
+                , {field: 'put_in_user_name', title: '负责人名字', width: '20%', templet: '#upc', align: 'center'}
+                , {field: 'state', title: '状态', width: '15%', templet: '#upc', align: 'center'}
                 , {fixed: 'right', title: '操作', width: 150, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
         });
@@ -58,8 +57,8 @@ layui.config({
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             //区分事件
-            if (layEvent === 'look') { //查看详情
-                lookDetails(row.id);
+            if (layEvent === 'review') { //编辑
+                reviewUser(row.id);
             } else if (layEvent === 'editThreshold') {//设置阈值
                 editThreshold(row.id);
             }
@@ -69,19 +68,23 @@ layui.config({
     defineTable();
     //查询
     form.on("submit(queryUser)", function (data) {
-        var name = data.field.creator;
+        var name = data.field.name;
+        var startTime = data.field.start_time;
+        var endTime = data.field.end_time;
         //表格重新加载
         tableIns.reload({
             where: {
                 name: name,
+                startTime: startTime,
+                endTime: endTime
             }
 
         });
         return false;
     });
 
-    //查看详情
-    function editThreshold(id) {
+    //编辑
+    function reviewUser(id) {
         layer.confirm('确定审核吗？', function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
             //向服务端发送删除指令
@@ -98,12 +101,12 @@ layui.config({
         });
     }
 
-    //查看加工单详情
-    function lookDetails(id) {
+    //设置阈值
+    function editThreshold(id) {
         var index = layui.layer.open({
-            title: "查看详情",
+            title: "设置阈值",
             type: 2,
-            content: "lookWorkSpeed.html?id=" + id,
+            content: "editThreshold.html?id=" + id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {

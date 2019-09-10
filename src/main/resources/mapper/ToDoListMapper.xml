@@ -45,7 +45,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -64,7 +64,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -84,7 +84,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -104,7 +104,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -124,7 +124,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -144,7 +144,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -164,7 +164,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -184,7 +184,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -204,7 +204,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -224,7 +224,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -244,7 +244,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -264,7 +264,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -284,7 +284,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -304,7 +304,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -324,7 +324,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -344,7 +344,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -367,7 +367,7 @@
         ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -387,7 +387,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -407,7 +407,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -427,7 +427,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -447,7 +447,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -467,7 +467,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -487,7 +487,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -507,7 +507,7 @@
         LEFT JOIN t_sys_users AS users ON t.creator = users.id
         LEFT JOIN t_sys_users AS us on t.modifier = us.id
         WHERE
-        t.state = 1
+        t.state = 3
         <if test="name !=null and name !=''">
             and users.name = #{name,jdbcType=VARCHAR}
         </if>
@@ -617,6 +617,27 @@
         on t_produce_process.state = res.id
         WHERE
         t_produce_task.id =#{0}
+    </select>
+
+    <!--工作进度-->
+    <select id="listWorkSpeed" parameterType="java.lang.Object" resultType="ProduceTask">
+        SELECT
+        t_produce_task.end_date,
+        us.name AS process_user_id,
+         res.display_name as state,
+        t_produce_process.process_type as process_type
+        FROM
+        t_produce_task
+        LEFT JOIN
+        t_produce_process
+        ON
+        t_produce_task.id = t_produce_process.produce_id
+        LEFT JOIN t_sys_users AS us
+        on t_produce_process.process_user_id = us.id
+        LEFT JOIN t_sys_resource AS res
+        on t_produce_process.state = res.id
+        WHERE
+        t_produce_process.id =#{0}
     </select>
 
     <select id="listWorkAll" parameterType="java.lang.Object" resultType="ProduceTask">

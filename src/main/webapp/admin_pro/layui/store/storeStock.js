@@ -34,76 +34,73 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'ToDoList/viewWorkProgress.do' //数据接口
+            , url: $tool.getContext() + 'StoreManagement/StoreInventory.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
-                , {field: 'id', title: '加工单ID', width: '10%', align: 'center'}
-                , {field: 'bom_id', title: '物料名称', width: '10%', align: 'center'}
-                , {field: 'process_user_id', title: '负责人', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'begin_date', title: '开始时间', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'end_date', title: '结束时间', width: '15%', templet: '#upc', align: 'center'}
-                , {field: 'process_type', title: '加工作业类型', width: '10%', templet: '#upc', align: 'center'}
+                , {field: 'product_name', title: '商品名称', width: '44%', align: 'center'}
+                , {field: 'number', title: '数量', width: '44%', align: 'center',templet: '#upc'}
                 , {fixed: 'right', title: '操作', width: 150, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
         });
-
         //为toolbar添加事件响应
         table.on('tool(userFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var row = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
-
             //区分事件
-            if (layEvent === 'look') { //查看详情
-                lookDetails(row.id);
-            } else if (layEvent === 'editThreshold') {//设置阈值
-                editThreshold(row.id);
+            if (layEvent === 'staffWarn') { //设置预警
+                StaffWarn(row.product_id);
+            }else  if (layEvent === 'Acquisition') { //创建采办事项
+                Acquisition(row.product_id);
             }
         });
     }
-
     defineTable();
     //查询
     form.on("submit(queryUser)", function (data) {
-        var name = data.field.creator;
+        var name = data.field.name;
         //表格重新加载
         tableIns.reload({
             where: {
-                name: name,
+                name: name
             }
 
         });
         return false;
     });
 
-    //查看详情
-    function editThreshold(id) {
-        layer.confirm('确定审核吗？', function (confirmIndex) {
-            layer.close(confirmIndex);//关闭confirm
-            //向服务端发送删除指令
-            var req = {
-                id: id
-            };
-            $api.DeleteStudent(req, function (data) {
-                layer.msg("删除成功", {time: 1000}, function () {
-                    //obj.del(); //删除对应行（tr）的DOM结构
-                    //重新加载表格
-                    tableIns.reload();
-                });
-            });
+    //入库审核
+    function StaffWarn(product_id) {
+        var index = layui.layer.open({
+            title: "设置预警",
+            type: 2,
+            content: "storeWarn.html?product_id=" + product_id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            }
         });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
     }
 
-    //查看加工单详情
-    function lookDetails(id) {
+    //出库审核
+    function ReviewOut(id) {
         var index = layui.layer.open({
-            title: "查看详情",
+            title: "出库审核",
             type: 2,
-            content: "lookWorkSpeed.html?id=" + id,
+            content: "reviewOut.html?id=" + id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
