@@ -29,7 +29,7 @@ layui.config({
      * 加载角色列表
      * */
     function loadRoleList() {
-        var url = $tool.getContext()+'Student/StudentList.do';
+        var url = $tool.getContext()+'Customer/get.do';
         var req =  {
             page:1,
             limit:999
@@ -38,19 +38,20 @@ layui.config({
     /**
      * 表单提交
      * */
-    form.on("submit(addStudent)", function (data) {
-        var sname = data.field.sname;
-        var sex = data.field.sex;
-        var clazz = data.field.clazz;
-        var password = data.field.password;
+    form.on("submit(insertCustomer)", function (data) {
+        var name = data.field.name;
+        var address = data.field.address;
+        var phone = data.field.phone;
+        var company = data.field.company;
         //请求
         var req = {
-            sname:sname,
-            sex:sex,
-            clazz:clazz,
-            password:password
+            name:name,
+            address:address,
+            phone:phone,
+            company:company,
         };
-        $api.AddStudent(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
+        //alert(creator);
+        $api.InsertCustomer(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
             layer.msg("添加成功！",{time:1000},function () {
                 layer.closeAll("iframe");
                 //刷新父页面

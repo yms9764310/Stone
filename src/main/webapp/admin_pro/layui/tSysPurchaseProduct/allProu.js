@@ -32,18 +32,23 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'Student/get.do' //数据接口
+            , url: $tool.getContext() + 'prou/listprou.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
-                , {field: 'sid', title: '学号', width: '15%'}
-                , {field: 'sname', title: '姓名', width: '15%'}
-                , {field: 'sex', title: '性别', width: '15%', templet: '#upc'}
-                , {field: 'clazz', title: '班级', width: '15%', templet: '#upc'}
-                , {field: 'password', title: '密码', width: '20%', templet: '#upc'}
+                , {field: 'creator_name', title: '创建人', width: '8%'}
+                , {field: 'create_date', title: '创建时间', width: '8%'}
+                , {field: 'modefier_name', title: '修改人', width: '8%', templet: '#upc'}
+                , {field: 'modify_date', title: '修改时间', width: '8%', templet: '#upc'}
+                , {field: 'state', title: '状态', width: '8%', templet: '#upc'}
+                , {field: 'name', title: '商品名称', width: '8%', templet: '#upc'}
+                , {field: 'kind', title: '商品类型', width: '8%', templet: '#upc'}
+                , {field: 'model_type', title: '商品型号', width: '8%', templet: '#upc'}
+                , {field: 'standard', title: '规格', width: '8%', templet: '#upc'}
+                , {field: 'description', title: '描述', width: '8%', templet: '#upc'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
 
@@ -57,9 +62,9 @@ layui.config({
 
             //区分事件
             if (layEvent === 'del') { //删除
-                delStudent(row.sid);
+                deleteProu(row.id);
             } else if (layEvent === 'edit') { //编辑
-                editStudent(row.sid);
+                editProu(row.id,row.create_date,row.standard);
             }
         });
     }
@@ -76,13 +81,12 @@ layui.config({
         });
         return false;
     });
-
     //添加学生
     $(".add_btn").click(function () {
         var index = layui.layer.open({
-            title: "添加学生",
+            title: "添加商品",
             type: 2,
-            content: "addStudent.html",
+            content: "addProu.html",
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -100,15 +104,15 @@ layui.config({
 
 
     //删除
-    function delStudent(sid) {
+    function deleteProu(id) {
         layer.confirm('确认删除吗？', function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
             //向服务端发送删除指令
             var req = {
-                sid: sid
+                id: id
             };
-            $api.DeleteStudent(req, function (data) {
-                layer.msg("删除成功", {time: 1000,icon:6}, function () {
+            $api.DeleteProu(req, function (data) {
+                layer.msg("删除成功", {time: 1000}, function () {
                     //obj.del(); //删除对应行（tr）的DOM结构
                     //重新加载表格
                     tableIns.reload();
@@ -118,11 +122,12 @@ layui.config({
     }
 
     //修改
-    function editStudent(sid) {
+    function editProu(id,create_date,standard) {
+        var newstr=create_date.replace(" ","_");
         var index = layui.layer.open({
             title: "修改学生",
             type: 2,
-            content: "editStudent.html?sid=" + sid,
+            content: "editProu.html?id=" + id+"&newstr="+newstr+"&standard="+standard,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -138,5 +143,52 @@ layui.config({
         });
         layui.layer.full(index);
     }
+    //批量导入
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+        var uploadInst = upload.render({
+
+            elem: '#upfile'
+            , url: '/Stone/prou/fileUploadprou.do'
+            , auto: false
+            , accept: 'file'
+            //,multiple: true
+            , choose: function (obj) {
+                layer.confirm('确认导入吗？', function (confirmIndex) {
+                    obj.preview(function (index, file, result) {
+                        var formData = new FormData();
+                        //# 给formData对象添加<input>标签,注意与input标签的ID一致
+                        formData.append('upfile', file);
+                        $.ajax({
+                            url: '/Stone/prou/fileUploadprou.do',//这里写你的url
+                            type: 'POST',
+                            data: formData,
+                            contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
+                            processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
+                            //dataType: 'json',//这里是返回类型，一般是json,text等
+                            //clearForm: true,//提交后是否清空表单数据
+                            success: function (data) {
+                                //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                                    layer.msg("导入成功", {time: 1000}, function () {
+                                        //重新加载表格
+                                        location.reload()
+                                    });
+                            },
+                            error: function (data, status, e) {  //提交失败自动执行的处理函数。
+                                console.error(e);
+                            }
+                        });
+                    });
+
+
+                });
+            }
+            , done: function (res) {
+                console.log(res)
+            }
+        });
+    });
+
 
 });

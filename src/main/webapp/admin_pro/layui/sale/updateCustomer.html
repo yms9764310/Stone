@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>编辑学生</title>
+</head>
+<body class="childrenBody">
+<div class="layui-page-header">
+    <div class="pagewrap">
+                <span class="layui-breadcrumb">
+                  <a href="">首页</a>
+                  <a href="">用户</a>
+                  <a><cite>用户组</cite></a>
+                </span>
+        <h2 class="title">客户信息编辑</h2>
+    </div>
+</div>
+<form class="layui-form" style="width:80%;" name="editRoleForm">
+
+    <!--<div class="layui-form-item parent-menu">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" lay-verify="required" name="state" placeholder="draft可修改/effect不可修改" list="state">
+            <datalist id="state">
+                <option value="draft">draft</option>
+                <option value="effect">effect</option>
+            </datalist>
+        </div>
+    </div>-->
+
+    <div class="layui-form-item parent-menu">
+        <label class="layui-form-label">客户姓名</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" lay-verify="required" name="name" placeholder="请输入姓名">
+        </div>
+    </div>
+
+    <div class="layui-form-item parent-menu">
+        <label class="layui-form-label">客户地址</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" lay-verify="required" name="address" placeholder="请输入地址">
+        </div>
+    </div>
+
+    <div class="layui-form-item parent-menu">
+        <label class="layui-form-label">联系方式-电话</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" lay-verify="required" name="phone" placeholder="请输入联系方式">
+        </div>
+    </div>
+
+    <div class="layui-form-item parent-menu">
+        <label class="layui-form-label">所属机构</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" lay-verify="required" name="company" placeholder="请输入公司">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="editCustomer">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+
+<script src="../assets/layui.js"></script>
+<script src="../assets/lay/modules/config.js"></script>
+<script type="text/javascript" src="updateCustomer.js"></script>
+<script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
+</body>
+</html>

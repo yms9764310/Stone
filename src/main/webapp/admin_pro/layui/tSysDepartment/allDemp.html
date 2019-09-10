@@ -8,19 +8,24 @@
     <link rel="stylesheet" href="../assets/css/view.css"/>
     <link rel="icon" href="/favicon.ico">
     <title>管理后台</title>
+
 </head>
+
 <body class="childrenBody">
+
+
     <div class="layui-content">
         <div class="layui-page-header">
             <div class="pagewrap">
                 <span class="layui-breadcrumb">
                   <a href="">首页</a>
                   <a href="">用户</a>
-                  <a><cite>用户组</cite></a>
+                  <a><cite>系统模块</cite></a>
                 </span>
-                <h2 class="title">用户组</h2>
+                <h2 class="title">系统模块</h2>
             </div>
         </div>
+
         <div class="layui-row">
             <div class="layui-card">
                 <div class="layui-card-body">
@@ -29,27 +34,47 @@
                             <div class="layui-inline">
                                 <div class="layui-form-mid">部门名称:</div>
                                 <div class="layui-input-inline" style="width: 100px;">
-                                  <input type="text" autocomplete="off" name="sname" class="layui-input">
+                                  <input type="text" autocomplete="off" name="name" class="layui-input">
                                 </div>
                                 <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
-                                <button class="layui-btn layui-btn-primary">重置</button>
+
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                             </div>
                         </div>
+                        <div  style="float: left">
+                            <div class="dd" style="float: left">
                         <button class="layui-btn layui-btn-blue add_btn"><i class="layui-icon">&#xe654;</i>新增</button>
+                            </div>
+                        <div class="layui-upload" style="float: left">
+                            <button type="button" class="layui-btn layui-btn-normal" id="upfile" name="upfile" accept=".xls,.xlsx">
+                                批量导入
+                            </button>
+
+                        </div>
+                            <div style="float: left;position: relative;left: 500px;top: 10px">
+                            <span class=lay-separator="|" style="padding: 500px;">
+                                <a href="../tSysDepartment/allDemp.html" style="color: #40AFFE">操作表</a>
+                                |
+                              <a href="../tSysDepartment/treeDemp.html">树结构</a >
+
+                            </span>
+                            </div>
+                        </div>
                         <table id="demo" lay-filter="userFilter" class="layui-table"></table>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script type="text/html" id="barDemo">
         <a style="color: #007DDB;cursor: pointer" lay-event="del">删除</a>&nbsp;
         <a style="color: #007DDB;cursor: pointer" lay-event="edit">编辑</a>&nbsp;
     </script>
+    <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
     <script src="../assets/layui.js"></script>
     <script src="../assets/lay/modules/config.js"></script>
-    <script type="text/javascript" src="users.js"></script>
-    <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
+    <script type="text/javascript" src="allDemp.js"></script>
 </body>
 </html>

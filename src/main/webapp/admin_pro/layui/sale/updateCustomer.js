@@ -29,19 +29,22 @@ layui.config({
 
     function initMenuInfo() {
         var queryArgs = $tool.getQueryParam();//获取查询参数
-        var sid = queryArgs['sid'];
+        var id = queryArgs['id'];
 
-        var url = $tool.getContext()+'Student/find.do';
+        var url = $tool.getContext()+'Customer/get.do';
         var req = {
-            sid:sid
+            id:id
         };
-        $api.GetStudent(req,function (res) {
+        $api.GetCustomer(req,function (res) {
             var data = res.data;
-            $("[name='sid']").val(data.sid);
-            $("[name='sname']").val(data.sname);
-            $("input:radio[value='"+data.sex+"']").attr('checked','true');
-            $("[name='clazz']").val(data.clazz);
-            $("[name='password']").val(data.password);
+            $("[name='id']").val(data.id);
+           /* $("[name='creator']").val(data.creator);
+            $("[name='modifier']").val(data.modifier);
+            $("[name='state']").val(data.state);*/
+            $("[name='name']").val(data.name);
+            $("[name='address']").val(data.address);
+            $("[name='phone']").val(data.phone);
+            $("[name='company']").val(data.company);
             //加载角色列表
             loadRoleList();
             form.render();//重新绘制表单，让修改生效
@@ -51,7 +54,7 @@ layui.config({
      * 加载角色列表
      * */
     function loadRoleList() {
-        var url = $tool.getContext()+'Student/StudentList.do';
+        var url = $tool.getContext()+'Customer/get.do';
         var req =  {
             page:1,
             limit:999
@@ -60,24 +63,24 @@ layui.config({
     /**
      * 表单提交
      * */
-    form.on("submit(editStudent)", function (data) {
+    form.on("submit(editCustomer)", function (data) {
         // console.log(data)
         var queryArgs = $tool.getQueryParam();//获取查询参数
-        var sid = data.field.sid;
-        var sname = data.field.sname;
-        var sex = data.field.sex1;
-        var clazz = data.field.clazz;
-        var password = data.field.password;
+        var id = queryArgs['id'];
+        var name = data.field.name;
+        var address = data.field.address;
+        var phone = data.field.phone;
+        var company = data.field.company;
         //请求
-        var url = $tool.getContext()+'Student/update.do';
+        var url = $tool.getContext()+'Customer/updateCustomer.do';
         var req = {
-            sid:queryArgs['sid'],
-            sname:sname,
-            sex:sex,
-            clazz:clazz,
-            password:password
+            id:id,
+            name:name,
+            address:address,
+            phone:phone,
+            company:company,
         };
-        $api.UpdateStudent(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
+        $api.UpdateCustomer(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
             layer.msg("修改成功！",{time:1000},function () {
                 layer.closeAll("iframe");
                 //刷新父页面
