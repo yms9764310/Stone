@@ -32,8 +32,8 @@ public class PurchaseSupplierController {
     //查询全部供应商记录以及搜索的功能
     @RequestMapping(value = "/listSupplier",method = RequestMethod.POST)
     @ResponseBody
-    public IResult listPurchase(String page,String limit,String creator,String name){
-        List<PurchaseSupplier> list=purchaseSupplierService.listSupplier(page,limit,creator,name);
+    public IResult listPurchase(String page,String limit,String SysProductName,String name){
+        List<PurchaseSupplier> list=purchaseSupplierService.listSupplier(page,limit,SysProductName,name);
         return new PageResultBean<Collection<PurchaseSupplier>>(list,purchaseSupplierService.countGetAll());
     }
 

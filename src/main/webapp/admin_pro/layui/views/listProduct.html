@@ -50,10 +50,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label">商品:</label>
         <div class="layui-input-block">
-            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品" class="layui-input" id="searchInput" >
+            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品" class="layui-input" id="searchInput" readonly>
         </div>
         <div class="layui-input-block">
             <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputId" hidden>
+        </div>
+        <div class="layui-input-block">
+            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputMax" hidden>
+        </div>
+        <div class="layui-input-block">
+            <input type="text" name="uname" required  lay-verify="required" placeholder="请选择商品"  id="searchInputPrice" hidden>
         </div>
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-normal" id="addProduct" data-type="getCheckData"><i class="layui-icon"></i>添加商品</button>
@@ -73,11 +79,11 @@
 </body>
 <script src="../assets/layui.js"></script>
 <script src="../assets/lay/modules/config.js"></script>
-<script type="text/javascript" src="../assets/jquery-2.2.4/jquery.js"></script>
+<script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
 <!--<script type="text/javascript" src="addUname.js"></script>-->
 <script type="text/javascript">//注意：parent 是 JS 自带的全局对象，可用于操作父页面
 
-var id_arr=[];
+
 layui.use(['layer','form','table','jquery'] ,function(){
     var layer = layui.layer,
         form = layui.form,
@@ -87,6 +93,7 @@ layui.use(['layer','form','table','jquery'] ,function(){
     $("#addProduct").click(function(){
         var checkStatus=table.checkStatus('demo');//获取复选框的行值
         data=checkStatus.data;
+        //alert(JSON.stringify(data));
         //layer.alert(JSON.stringify(checkStatus));//测试取没取到复选框选中的行的值
         //checkStatus.data 这个是一个集合
         //如果有多个，是需要遍历
@@ -95,16 +102,27 @@ layui.use(['layer','form','table','jquery'] ,function(){
         data.forEach(function (item) {
             arr.push(item.name)
         });
+        var id_arr=[];
         data.forEach(function (item) {
             id_arr.push(item.id);
+        });
+        var max=new Array();
+        data.forEach(function (item) {
+            max.push(item.maxNumber)
+        });
+        var price=new Array();
+        data.forEach(function (item) {
+            price.push(item.price);
         });
         //layer.alert(JSON.stringify(id_arr))//测试手否获取到uid值
         //layer.alert(JSON.stringify(arr));//测试是否获取到uname值
         // var checked_User = [{uid:1},{uid:2}]
         var productValue=$("#searchInput").val(arr);
         var searchInputId=$("#searchInputId").val(id_arr);
+        var searchInputMax=$("#searchInputMax").val(max);
+        var searchInputPrice=$("#searchInputPrice").val(price);
        //将值赋给文本框
-        console.log(arr,id_arr);
+        console.log(arr,id_arr,max,price);
     });
     // var index=parent.layer.getFrameIndex(window.name);
     // $("#certain").click(function(){
@@ -149,12 +167,17 @@ layui.config({
             , method: 'post'
             , cols: [[ //表头
                 {type:'checkbox'},
-                {field:'id',title:'ID',width:200},
-                {field: 'name', title: '商品', width: 200}
+                {field:'id',title:'ID',width:200,align:'center'},
+                {field: 'name', title: '商品', width: 200,align:'center'},
+                {field: 'maxNumber', title: '最大数量', width: 200,templet:'InputMax',align:'center',edit:'text'},
+                {field: 'price', title: '价格', width: 200,templet:'InputPridce',align:'center',edit:'text'}
             ]]
             , done: function (res, curr) {//请求完毕后的回调
                 //如果是异步请求数据方式，res即为你接口返回的信息.curr：当前页码
+
+
             }
+
         });
 
     }

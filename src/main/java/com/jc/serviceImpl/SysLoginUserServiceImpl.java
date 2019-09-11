@@ -1,6 +1,5 @@
 package com.jc.serviceImpl;
 
-import com.jc.beans.response.PageRange;
 import com.jc.mapper.SysLoginUserMapper;
 import com.jc.model.SysLoginUser;
 import com.jc.service.SysLoginUserService;
