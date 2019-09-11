@@ -36,13 +36,17 @@
                </div>
            </div>
 
-           <div class="layui-form-item parent-menu">
+           <div class="layui-inline layui-form-item">
                <label class="layui-form-label">商品类型</label>
                <div class="layui-input-block">
-                   <input type="text" class="layui-input" lay-verify="required" name="model_type" placeholder="请输入商品类型">
+                   <select id="model_type" name="model_type">
+                       <option value="">--请选择--</option>
+                       <option value="成品">成品</option>
+                       <option value="半成品">半成品</option>
+                       <option value="原料">原料</option>
+                   </select>
                </div>
            </div>
-
            <div class="layui-form-item parent-menu">
                <label class="layui-form-label">规格</label>
                <div class="layui-input-block">
@@ -69,5 +73,7 @@
         <script src="../assets/layui.js"></script>
         <script src="../assets/lay/modules/config.js"></script>
         <script type="text/javascript" src="t_editProduct.js"></script>
+        <script type="text/javascript" src="../assets/jquery-2.2.4/jquery.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.TysProduceBomDetailMapper">
+
+<!--sql语句删除-->
+    <delete id="removeTysProduceBomDetail" parameterType="INTEGER">
+        delete from t_produce_bom_detail where product_bom_id=#{0}
+    </delete>
+    <delete id="removeProduceBomDetail" parameterType="INTEGER">
+        delete from t_produce_bom_detail where id=#{id,jdbcType=INTEGER}
+    </delete>
+<!--添加一条记录-->
+    <insert id="saveTysProduceBomDetail" parameterType="com.jc.model.TysProduceBomDetail">
+        insert into t_produce_bom_detail (product_id,number,product_bom_id)
+         values (#{product_id,jdbcType=INTEGER},#{number},#{product_bom_id,jdbcType=INTEGER})
+    </insert>
+    <select id="listTysProduceBomDetail" resultType="com.jc.model.TysProduceBomDetail" parameterType="INTEGER">
+        select  tpbd.id,tpbd.product_id,tpbd.product_bom_id,tpbd.number,tspp.name from t_produce_bom_detail as tpbd,t_sys_purchase_product as tspp where
+        tspp.id = tpbd.product_id and tpbd.product_bom_id=#{0}
+    </select>
+    <select id="listtysproduceDetail" parameterType="integer" resultType="com.jc.model.TysProduceBomDetail">
+        select  tpbd.id,tpbd.product_id,tpbd.product_bom_id,tpbd.number from t_produce_bom_detail as tpbd where
+        tpbd.product_bom_id=#{0}
+    </select>
+    <update id="UpdateTysProduceBomDetail" parameterType="com.jc.model.TysProduceBomDetail">
+        update t_produce_bom_detail set number=#{number,jdbcType=INTEGER} where id=#{id,jdbcType=INTEGER}
+    </update>
+<!--查询一条记录    -->
+<!--    <select id="loadTysProductBom" parameterType="INTEGER" resultType="com.jc.model.TysProduceBom">-->
+<!--        select creator,create_date,modifier,modify_date,state,product_id,number from t_produce_bom-->
+<!--        where id=#{id}-->
+<!--    </select>-->
+<!--&lt;!&ndash;修改一条记录    &ndash;&gt;-->
+<!--    <update id="updateTysProductBom" parameterType="com.jc.model.TysProduceBom">-->
+<!--        update t_produce_bom set product_id=#{product_id,jdbcType=INTEGER},number=#{number,jdbcType=INTEGER},-->
+<!--       modifier=#{modifier},modify_date=#{modify_date} where-->
+<!--       id=#{id,jdbcType=INTEGER}-->
+<!--    </update>-->
+<!--    <insert id="addBatchMembers"  parameterType="java.util.List">-->
+
+<!--        INSERT INTO t_sys_purchase_product (-->
+<!--        <trim suffix="" suffixOverrides=",">-->
+<!--            creator,create_date,modifier,modify_date,state,name,kind,model_type,standard,description-->
+<!--        </trim>-->
+<!--        ) VALUES-->
+<!--        <foreach collection="list" item="item" index="index" separator=",">-->
+<!--            (-->
+<!--            #{item.creator} ,-->
+<!--            #{item.create_date} ,-->
+<!--            #{item.modifier} ,-->
+<!--            #{item.modify_date} ,-->
+<!--            #{item.state},-->
+<!--            #{item.name},-->
+<!--            #{item.kind},-->
+<!--            #{item.model_type},-->
+<!--            #{item.standard},-->
+<!--            #{item.description},-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+</mapper>

@@ -18,29 +18,15 @@
                   <a href="">生产</a>
                   <a><cite>生产组</cite></a>
                 </span>
-                <h2 class="title">生产组</h2>
+                <h2 class="title">生产任务订单</h2>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-card">
                 <div class="layui-card-body">
                     <div class="form-box">
-                        <div class="layui-form layui-form-item">
-                            <div class="layui-inline">
-                                <div class="layui-form-mid">商品名称:</div>
-                                <div class="layui-input-inline" style="width: 100px;">
-                                    <input type="text" autocomplete="off" name="name" class="layui-input">
-                                </div>
-                                <div class="layui-form-mid">商品类别:</div>
-                                <div class="layui-input-inline" style="width: 100px;">
-                                    <input type="text" autocomplete="off" name="kind" class="layui-input">
-                                </div>
-                                <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
-                                <button class="layui-btn layui-btn-primary">重置</button>
-                            </div>
-                        </div>
                         <button class="layui-btn layui-btn-blue add_btn"><i class="layui-icon">&#xe654;</i>新增</button>
-                        <button type="button" class="layui-btn layui-btn-normal" id="upfile" name="upfile" accept=".xls,.xlsx"><i class="layui-icon">&#xe654;</i>批量导入</button>
+<!--                        <button type="button" class="layui-btn layui-btn-normal" id="upfile" name="upfile" accept=".xls,.xlsx"><i class="layui-icon">&#xe654;</i>批量导入</button>-->
 <!--                        <button class="layui-btn layui-btn-blue add_btn"><i class="layui-icon">&#xe654;</i>文件导入</button>-->
                         <table id="demo" lay-filter="userFilter" class="layui-table"></table>
                     </div>
@@ -50,12 +36,25 @@
     </div>
 
     <script type="text/html" id="barDemo">
+        {{#  if(d.state === "未审核"){ }}
         <a style="color: #007DDB;cursor: pointer" lay-event="del">删除</a>&nbsp;
         <a style="color: #007DDB;cursor: pointer" lay-event="edit">编辑</a>&nbsp;
+        <a style="color: #007DDB;cursor: pointer" lay-event="auditing">审核</a>&nbsp;
+        {{#  } else if(d.state === "已审核"){ }}
+        <a style="color: #007DDB;cursor: pointer" lay-event="edit">分配任务</a>&nbsp;
+        <a style="color: #007DDB;cursor: pointer" lay-event="del">查看</a>&nbsp;
+        {{#  } else if(d.state === "未完成"){ }}
+        <a style="color: #007DDB;cursor: pointer" lay-event="del">查看</a>&nbsp;
+        {{#  } else if(d.state === "驳回"){ }}
+        <a style="color: #007DDB;cursor: pointer" lay-event="edit">编辑</a>&nbsp;
+        {{#  } else if(d.state === "已完成"){ }}
+        <a style="color: #007DDB;cursor: pointer" lay-event="del">删除任务</a>&nbsp;
+        <a style="color: #007DDB;cursor: pointer" lay-event="del">查看</a>&nbsp;
+        {{#  } }}
     </script>
     <script src="../assets/lay/modules/config.js"></script>
     <script src="../assets/layui.js"></script>
-    <script type="text/javascript" src="t_listproduct.js"></script>
+    <script type="text/javascript" src="t_listProductTask.js"></script>
     <script type="text/javascript" src="../assets/jquery-2.2.4/jquery.js"></script>
 </body>
 </html>

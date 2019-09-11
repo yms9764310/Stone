@@ -2,7 +2,9 @@ package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
 import com.jc.mapper.TProductPurchaseMapper;
+import com.jc.mapper.TysProduceBomMapper;
 import com.jc.model.TProductsyspurchaseproduct;
+import com.jc.model.TysProduceBom;
 import com.jc.service.TProductPurchaseService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -26,6 +28,9 @@ import java.util.*;
 public class TProductPurchaseServiceImpl implements TProductPurchaseService {
     @Resource
     TProductPurchaseMapper tProductPurchaseDao;
+    @Resource
+    TysProduceBomMapper
+    tysProduceBomDao;
     @Override
     public int saveT_Product_sys_purchase_product(TProductsyspurchaseproduct tProductSysPurchaseProduct) {
         return tProductPurchaseDao.saveT_Product_sys_purchase_product( tProductSysPurchaseProduct );
@@ -144,6 +149,17 @@ public class TProductPurchaseServiceImpl implements TProductPurchaseService {
         }
 
         return rsultMap;
+    }
+//获取商品名称和id给配方表提供选择
+    @Override
+    public List<TProductsyspurchaseproduct> listTProductsyspurchaseproduct() {
+        List<TProductsyspurchaseproduct> tProductsyspurchaseproducts = tProductPurchaseDao.listTProductsyspurchaseproduct();
+        return tProductsyspurchaseproducts;
+    }
+
+    @Override
+    public List<TProductsyspurchaseproduct> listTProductsyspurchaseproductMaterialName() {
+        return tProductPurchaseDao.listTProductsyspurchaseproductMaterialName();
     }
 
     private String getCellValue(Cell cell) {

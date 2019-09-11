@@ -33,7 +33,7 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'T_Produce/listProduct.do' //数据接口
+            , url: $tool.getContext() + 'T_ProduceBom/listProductBom.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
@@ -45,8 +45,8 @@ layui.config({
                 , {field: 'kind', title: '商品类别', width: '15%', templet: '#upc'}
                 , {field: 'model_type', title: '商品型号', width: '15%'}
                 , {field: 'standard', title: '规格', width: '15%'}
-                , {field: 'description', title: '描述', width: '20%'}
-                , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+                , {field: 'description', title: '描述', width: '15%'}
+                , {fixed: 'right', title: '操作', width: 225, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
 
         });
@@ -59,33 +59,35 @@ layui.config({
             var state = row.state;
             //区分事件
             if (layEvent === 'del') { //删除
-                delProduct(row.id);
+                delProductBom(row.id);
             } else if (layEvent === 'edit') { //编辑
-                editProduct(row.id);
+                editProductBom(row.id);
+            } else if (layEvent === 'look') { //编辑
+                lookProductBom(row.id);
             }
         });
     }
     defineTable();
     //查询
-    form.on("submit(queryUser)", function (data) {
-        var name = data.field.name;
-        var kind = data.field.kind;
-        //表格重新加载
-        tableIns.reload({
-            where: {
-                name: name,
-                kind:kind
-            }
-
-        });
-        return false;
-    });
+    // form.on("submit(queryUser)", function (data) {
+    //     var name = data.field.name;
+    //     var kind = data.field.kind;
+    //     //表格重新加载
+    //     tableIns.reload({
+    //         where: {
+    //             name: name,
+    //             kind:kind
+    //         }
+    //
+    //     });
+    //     return false;
+    // });
     //添加学生
     $(".add_btn").click(function () {
         var index = layui.layer.open({
             title: "添加商品",
             type: 2,
-            content: "t_addProduct.html",
+            content: "t_addProductBom.html",
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -147,14 +149,14 @@ layui.config({
 
 
     //删除
-    function delProduct(id) {
+    function delProductBom(id) {
         layer.confirm('确认删除吗？', function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
             //向服务端发送删除指令
             var req = {
                 id: id
             };
-            $api.Delete_ys_Product(req, function (data) {
+            $api.Delete_ys_ProductBom(req, function (data) {
                 layer.msg("删除成功", {time: 1000}, function () {
                     //obj.del(); //删除对应行（tr）的DOM结构
                     //重新加载表格
@@ -165,12 +167,37 @@ layui.config({
     }
 
     //修改
-    function editProduct(id) {
+    function editProductBom(id) {
         alert(id);
         var index = layui.layer.open({
             title: "修改商品",
             type: 2,
-            content: "t_editProduct.html?id="+ id,
+            content: "t_editProductBom.html?id="+ id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            },
+            error:function () {
+
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+    //查看
+    function lookProductBom(id) {
+        alert(id);
+        var index = layui.layer.open({
+            title: "修改商品",
+            type: 2,
+            content: "t_editProductBom.html?id="+ id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {

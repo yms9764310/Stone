@@ -5,6 +5,7 @@ import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
 import com.jc.model.TProductsyspurchaseproduct;
 import com.jc.service.TProductPurchaseService;
+import com.jc.service.TysProductBomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class TProductPurchaseController {
     @Resource
     TProductPurchaseService
     tProductPurchaseServiceImpl;
+    @Resource
+    TysProductBomService
+    tysProductBomServiceImpl;
     @RequestMapping(value = "/listProduct.do",method = RequestMethod.POST)
     @ResponseBody
     public IResult listProduct(String page, String limit,String name,String kind){
@@ -84,5 +88,17 @@ public class TProductPurchaseController {
         }
         return map;
 
+    }
+    @RequestMapping(value = "/getProductName.do",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult getProductName(){
+        List<TProductsyspurchaseproduct> list = tProductPurchaseServiceImpl.listTProductsyspurchaseproduct();
+        return new ResultBean<Collection<TProductsyspurchaseproduct>>( list );
+    }
+    @RequestMapping(value = "/getProductMaterialName.do",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult getProductMaterialName(){
+        List<TProductsyspurchaseproduct> list = tProductPurchaseServiceImpl.listTProductsyspurchaseproductMaterialName();
+        return new ResultBean<Collection<TProductsyspurchaseproduct>>( list );
     }
 }

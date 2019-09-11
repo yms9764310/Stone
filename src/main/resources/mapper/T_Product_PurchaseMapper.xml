@@ -76,4 +76,12 @@
             )
         </foreach>
     </insert>
+    <select id="listTProductsyspurchaseproduct" resultType="com.jc.model.TProductsyspurchaseproduct">
+       SELECT p.id,p.name from t_sys_purchase_product as p where p.id not in (select b.product_id from t_produce_bom as b) AND
+        p.model_type != '原料'
+    </select>
+    <select id="listTProductsyspurchaseproductMaterialName" resultType="com.jc.model.TProductsyspurchaseproduct">
+       SELECT p.id,p.name from t_sys_purchase_product as p where
+        p.model_type != '成品'
+    </select>
 </mapper>

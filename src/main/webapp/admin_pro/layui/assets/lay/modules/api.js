@@ -68,17 +68,44 @@ layui.define(['$tool','jquery'], function (exports) {
         Insert_ys_Product:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'T_Produce/InsertProduct.do',req,config,successCallback,errorCallback);
         },
+        Insert_ys_ProductBom:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'T_ProduceBom/InsertProductBom.do',req,config,successCallback,errorCallback);
+        },
+        Insert_ys_ProductTask:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'T_ProduceTask/saveProductTask.do',req,config,successCallback,errorCallback);
+        },
+        GetProductName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_Produce/getProductName.do',req,config,successCallback,errorCallback);
+        },
+        GetProductMaterialName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_Produce/getProductMaterialName.do',req,config,successCallback,errorCallback);
+        },
+        GetProductBomName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_ProduceBom/getProductBomName.do',req,config,successCallback,errorCallback);
+        },
         DeleteStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
         },
-        ReviewSuccess:function(req,config,successCallback,errorCallback){
-            doPost($tool.getContext() + 'ToDoList/delete.do',req,config,successCallback,errorCallback);
+        Delete_ys_Product:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_Produce/deleteProduct.do',req,config,successCallback,errorCallback);
+        },
+        Delete_ys_ProductTask:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_ProduceTask/deleteProductTask.do',req,config,successCallback,errorCallback);
+        },
+        Delete_ys_ProductBom:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_ProduceBom/deleteProductBom.do',req,config,successCallback,errorCallback);
         },
         GetStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/find.do',req,config,successCallback,errorCallback);
         },
         load_ys_Product:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'T_Produce/loadProduct.do',req,config,successCallback,errorCallback);
+        },
+        load_ys_ProductBom:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_ProduceBom/loadProductBom.do',req,config,successCallback,errorCallback);
+        },
+        load_ys_ProductTask:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_ProduceTask/loadProductTask.do',req,config,successCallback,errorCallback);
         },
         GetSysUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'SysUser/find.do',req,config,successCallback,errorCallback);
@@ -101,37 +128,17 @@ layui.define(['$tool','jquery'], function (exports) {
         Update_ys_Product:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'T_Produce/UpdateProduct.do',req,config,successCallback,errorCallback);
         },
-        //添加供应商信息
-        InsertSupplier:function(req,config,successCallback,errorCallback){
-            doComplexPost($tool.getContext() + 'purchaseSupplier/insertSupplier.do',req,config,successCallback,errorCallback);
+        Update_ys_ProductBom:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'T_ProduceBom/UpdateProductBom.do',req,config,successCallback,errorCallback);
         },
-        //删除供应商信息以及相关数据
-        DeletePurchase:function(req,successCallback,errorCallback){
-            doPost($tool.getContext() + 'purchaseSupplier/deleteSupplier.do',req,successCallback,errorCallback);
+        Update_ys_ProductTask:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'T_ProduceTask/UpdateProductTask.do',req,config,successCallback,errorCallback);
         },
-        //根据id获取指定供应商信息
-        GetSupplier:function(req,successCallback,errorCallback){
-            doPost($tool.getContext() + 'purchaseSupplier/loadSupplier.do',req,successCallback,errorCallback);
+        Update_ys_ProductTaskAuditing:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'T_ProduceTask/UpdateProductTaskAuditing.do',req,config,successCallback,errorCallback);
         },
-        //修改供应商信息
-        editSupplier:function(req,config,successCallback,errorCallback){
-            doComplexPost($tool.getContext()+'purchaseSupplier/updateSupplier.do',req,config,successCallback,errorCallback);
-        },
-        //查看商品信息
-        LookProduct:function(req,successCallback,errorCallback){
-            doPost($tool.getContext() + 'purchaseSupplier/loadProduct.do',req,successCallback,errorCallback);
-        },
-        UpdatePassword:function(req,config,successCallback,errorCallback){
-            doComplexPost($tool.getContext()+'SysLoginUser/changePassword.do',req,config,successCallback,errorCallback);
-        },
-        UpdateMessgae:function(req,config,successCallback,errorCallback){
-            doComplexPost($tool.getContext()+'SysUser/changeMessage.do',req,config,successCallback,errorCallback);
-        },
-        UpdateStaffSetting:function(req,config,successCallback,errorCallback){
-            doComplexPost($tool.getContext()+'StaffSetting/changeMessage.do',req,config,successCallback,errorCallback);
-        },
-        UpdateThreshold:function(req,config,successCallback,errorCallback){
-            doComplexPost($tool.getContext()+'StaffSetting/changeThreshold.do',req,config,successCallback,errorCallback);
+        Update_ys_ProductTaskReject:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'T_ProduceTask/UpdateProductTaskReject.do',req,config,successCallback,errorCallback);
         },
     };
 

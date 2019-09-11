@@ -28,56 +28,49 @@
             <div class="pagewrap">
                 <span class="layui-breadcrumb">
                   <a href="">首页</a>
-                  <a href="">用户</a>
-                  <a><cite>用户组</cite></a>
+                  <a href="">生产</a>
+                  <a><cite>生产组</cite></a>
                 </span>
-                <h2 class="title">添加商品</h2>
+                <h2 class="title">添加商品配方</h2>
             </div>
         </div>
        <form class="layui-form" style="width:80%;" name="editRoleForm">
-
-           <div class="layui-form-item parent-menu">
+           <div class="layui-inline layui-form-item">
                <label class="layui-form-label">商品名称</label>
                <div class="layui-input-block">
-                   <input type="text" class="layui-input" lay-verify="required" name="name" placeholder="请输入商品名称">
-               </div>
-           </div>
-
-           <div class="layui-form-item">
-               <label class="layui-form-label">商品类别</label>
-               <div class="layui-input-block">
-                   <input type="text" class="layui-input" lay-verify="required" name="kind" placeholder="请输入商品类别">
-               </div>
-           </div>
-
-           <div class="layui-inline layui-form-item">
-               <label class="layui-form-label">商品类型</label>
-               <div class="layui-input-block">
-                   <select id="model_type" name="model_type">
+                   <select id="ProductName" name="name" type="">
                        <option value="">--请选择--</option>
-                       <option value="成品">成品</option>
-                       <option value="半成品">半成品</option>
-                       <option value="原料">原料</option>
                    </select>
                </div>
            </div>
-
-           <div class="layui-form-item parent-menu">
-               <label class="layui-form-label">规格</label>
+           <div class="layui-inline layui-form-item">
+               <label class="layui-form-label">商品数量</label>
                <div class="layui-input-block">
-                   <input type="text" class="layui-input" lay-verify="required" name="standard" placeholder="请输入商品规格">
+                   <input type="number" name="productnumber" id="productnumber" class="layui-input" min="1" >
                </div>
            </div>
-
-           <div class="layui-form-item parent-menu">
-           <label class="layui-form-label">商品描述</label>
-           <div class="layui-input-block">
-               <input type="text" class="layui-input" lay-verify="required" name="description" placeholder="请输入商品描述">
+           <div class="grandfather">
+           <div class="father">
+           <div class="layui-inline layui-form-item">
+               <label class="layui-form-label">商品组件1</label>
+               <div class="layui-input-block">
+                   <select id="ProductMaterialName" name="name" type="" class="ProductMaterialName1">
+                       <option value="">--请选择--</option>
+                   </select>
+               </div>
            </div>
-            </div>
+           <div class="layui-inline layui-form-item">
+               <label class="layui-form-label">组件数量</label>
+               <div class="layui-input-block">
+                   <input type="number" name="number" id="number1" class="layui-input" min="1" >
+               </div>
+           </div>
+           </div>
+           </div>
+           <button type="button" id="append" class="layui-btn layui-btn-primary" onclick="zAppend($(this));">添加子标准</button>
            <div class="layui-form-item">
                <div class="layui-input-block">
-                   <button class="layui-btn" lay-submit="" lay-filter="addProduct">立即提交</button>
+                   <button class="layui-btn" lay-submit="" lay-filter="addProductBom">立即提交</button>
                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                </div>
            </div>
@@ -85,8 +78,8 @@
        </form>
 
         <script src="../assets/layui.js"></script>
-    <script src="../assets/lay/modules/config.js"></script>
-    <script type="text/javascript" src="t_addProduct.js"></script>
+        <script src="../assets/lay/modules/config.js"></script>
+        <script type="text/javascript" src="t_addProductBom.js"></script>
         <script type="text/javascript" src="../assets/jquery-2.2.4/jquery.js"></script>
 
 

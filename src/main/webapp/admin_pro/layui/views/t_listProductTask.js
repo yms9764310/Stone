@@ -33,19 +33,18 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'T_Produce/listProduct.do' //数据接口
+            , url: $tool.getContext() + 'T_ProduceTask/listProductTask.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
-                , {field: 'id', title: '商品id', width: '10%'}
-                , {field: 'name', title: '商品名称', width: '10%'}
-                , {field: 'kind', title: '商品类别', width: '15%', templet: '#upc'}
-                , {field: 'model_type', title: '商品型号', width: '15%'}
-                , {field: 'standard', title: '规格', width: '15%'}
-                , {field: 'description', title: '描述', width: '20%'}
+                , {field: 'id', title: '任务id', width: '10%'}
+                , {field: 'begin_date', title: '开始时间', width: '10%'}
+                , {field: 'end_date', title: '截止时间', width: '15%'}
+                , {field: 'state', title: '状态', width: '15%',templet: '#tmp'}
+                , {field: 'description', title: '任务描述', width: '20%'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
 
@@ -56,36 +55,38 @@ layui.config({
             var row = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
-            var state = row.state;
+            // var state = row.state;
             //区分事件
             if (layEvent === 'del') { //删除
-                delProduct(row.id);
+                delProductTask(row.id);
             } else if (layEvent === 'edit') { //编辑
                 editProduct(row.id);
+            }else if (layEvent === 'auditing') { //编辑
+                auditingProduct(row.id);
             }
         });
     }
     defineTable();
     //查询
-    form.on("submit(queryUser)", function (data) {
-        var name = data.field.name;
-        var kind = data.field.kind;
-        //表格重新加载
-        tableIns.reload({
-            where: {
-                name: name,
-                kind:kind
-            }
-
-        });
-        return false;
-    });
-    //添加学生
+    // form.on("submit(queryUser)", function (data) {
+    //     var name = data.field.name;
+    //     var kind = data.field.kind;
+    //     //表格重新加载
+    //     tableIns.reload({
+    //         where: {
+    //             name: name,
+    //             kind:kind
+    //         }
+    //
+    //     });
+    //     return false;
+    // });
+    //添加任务
     $(".add_btn").click(function () {
         var index = layui.layer.open({
-            title: "添加商品",
+            title: "添加任务",
             type: 2,
-            content: "t_addProduct.html",
+            content: "t_addProductTask.html",
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -100,61 +101,17 @@ layui.config({
         });
         layui.layer.full(index);
     });
-    layui.use('upload', function () {
-        var $ = layui.jquery
-            , upload = layui.upload;
-        var uploadInst = upload.render({
-
-            elem: '#upfile'
-            , url: '/stone/T_Produce/upload.do'
-            , auto: false
-            , accept: 'file'
-            //,multiple: true
-            , choose: function (obj) {
-                layer.confirm('确认导入吗？', function (confirmIndex) {
-                    obj.preview(function (index, file, result) {
-                        var formData = new FormData();
-                        //# 给formData对象添加<input>标签,注意与input标签的ID一致
-                        formData.append('upfile', file);
-                        $.ajax({
-                            url: '/stone/T_Produce/upload.do',//这里写你的url
-                            type: 'POST',
-                            data: formData,
-                            contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
-                            processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
-                            //dataType: 'json',//这里是返回类型，一般是json,text等
-                            //clearForm: true,//提交后是否清空表单数据
-                            success: function () {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
-                                layer.msg("导入成功", {time: 100}, function () {
-                                    //重新加载表格
-                                    tableIns.reload();
-                                });
-                            },
-                            error: function (data, status, e) {  //提交失败自动执行的处理函数。
-                                console.error(e);
-                            }
-                        });
-                    });
-
-
-                });
-            }
-            , done: function (res) {
-                console.log(res)
-            }
-        });
-    });
-
 
     //删除
-    function delProduct(id) {
+    function delProductTask(id) {
         layer.confirm('确认删除吗？', function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
             //向服务端发送删除指令
             var req = {
                 id: id
             };
-            $api.Delete_ys_Product(req, function (data) {
+            alert(req);
+            $api.Delete_ys_ProductTask(req, function (data) {
                 layer.msg("删除成功", {time: 1000}, function () {
                     //obj.del(); //删除对应行（tr）的DOM结构
                     //重新加载表格
@@ -166,11 +123,11 @@ layui.config({
 
     //修改
     function editProduct(id) {
-        alert(id);
+        // alert(id);
         var index = layui.layer.open({
-            title: "修改商品",
+            title: "修改任务",
             type: 2,
-            content: "t_editProduct.html?id="+ id,
+            content: "t_editProductTask.html?id="+ id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -189,5 +146,30 @@ layui.config({
         });
         layui.layer.full(index);
     }
+    function auditingProduct(id) {
+        // alert(id);
+        var index = layui.layer.open({
+            title: "修改任务",
+            type: 2,
+            content: "t_auditingProductTask.html?id="+ id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            },
+            error:function () {
+
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
 
 });

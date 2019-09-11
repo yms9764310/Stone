@@ -15,5 +15,7 @@ public interface TProductPurchaseMapper {
     int  countT_Product_sys_purchase_product(@Param("name")String name,@Param("kind")String kind);
     TProductsyspurchaseproduct loadT_Product_sys_purchase_product(int id);
     int addBatchMembers( List<TProductsyspurchaseproduct> list);
+    List<TProductsyspurchaseproduct> listTProductsyspurchaseproduct();
+    List<TProductsyspurchaseproduct> listTProductsyspurchaseproductMaterialName();
 }
 

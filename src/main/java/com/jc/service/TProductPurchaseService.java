@@ -14,4 +14,7 @@ public interface TProductPurchaseService {
     int  countT_Product_sys_purchase_product(String name,String kind);
     TProductsyspurchaseproduct loadT_Product_sys_purchase_product(int id);
     public Map<String, Object> importExcel(MultipartFile file)throws Exception;
+    List<TProductsyspurchaseproduct> listTProductsyspurchaseproduct();
+    List<TProductsyspurchaseproduct> listTProductsyspurchaseproductMaterialName();
+
 }

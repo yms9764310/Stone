@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 public class TysProduceBom {
     private int id;
@@ -14,6 +16,12 @@ public class TysProduceBom {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modify_date;
     private String state;
-    private int prodcut_id;
+    private int product_id;
     private int number;
+    private String name;
+    private String kind;
+    private String model_type;
+    private String standard;
+    private String description ;
+    List<TysProduceBomDetail> listBomDetail;
 }

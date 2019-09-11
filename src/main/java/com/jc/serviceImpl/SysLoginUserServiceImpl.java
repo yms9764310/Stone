@@ -1,11 +1,8 @@
 package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
-import com.jc.mapper.StudentMapper;
 import com.jc.mapper.SysLoginUserMapper;
-import com.jc.model.Student;
 import com.jc.model.SysLoginUser;
-import com.jc.service.StudentService;
 import com.jc.service.SysLoginUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
