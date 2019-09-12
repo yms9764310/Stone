@@ -32,38 +32,55 @@
             </datalist>
         </div>
     </div>-->
-
-    <div class="layui-form-item parent-menu">
-        <label class="layui-form-label">客户姓名</label>
+<!--订单编号自动生成-->
+    <!--<div class="layui-form-item parent-menu">
+        <label class="layui-form-label">订单编号</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input" lay-verify="required" autocomplete="off" name="name" placeholder="请输入姓名">
+            <input type="text" class="layui-input" lay-verify="required" name="bill_no" placeholder="订单编号">
         </div>
-    </div>
+    </div>-->
 
     <div class="layui-form-item parent-menu">
-        <label class="layui-form-label">客户地址</label>
+        <label class="layui-form-label">收货地址</label>
         <div class="layui-input-block">
             <input type="text" class="layui-input" lay-verify="required" autocomplete="off" name="address" placeholder="请输入地址">
         </div>
     </div>
 
     <div class="layui-form-item parent-menu">
-        <label class="layui-form-label">联系方式-电话</label>
+        <label class="layui-form-label">订单总金额</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input" lay-verify="phone" autocomplete="off" name="phone" placeholder="请输入联系方式">
+            <input type="text" class="layui-input" name="sale_money" autocomplete="off" placeholder="请输入订单总金额">
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <label class="layui-form-label">交付日期</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" name="deliver_date" id="test5" type="text" autocomplete="off" placeholder="选择时间">
         </div>
     </div>
 
     <div class="layui-form-item parent-menu">
-        <label class="layui-form-label">所属机构</label>
+        <label class="layui-form-label">结算方式</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input" lay-verify="required" autocomplete="off" name="company" placeholder="请输入公司">
+            <input type="text" class="layui-input" lay-verify="required" name="settle_type" autocomplete="off" placeholder="请输入结算方式">
+        </div>
+    </div>
+
+    <div class="layui-form-item parent-menu">
+        <label class="layui-form-label">客户</label>
+        <div class="layui-input-block ">
+            <a class="layui-btn layui-btn-primary layer-demolist" href="javascript:;" id="parentIframe">添加客户</a>
+            <div class="shop">
+
+            </div>
         </div>
     </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="insertCustomer">立即提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="insertSaleBill">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -72,8 +89,18 @@
 
 <script src="../assets/layui.js"></script>
 <script src="../assets/lay/modules/config.js"></script>
-<script type="text/javascript" src="insertCustomer.js"></script>
+<script type="text/javascript" src="insertSaleBill.js"></script>
 <script type="text/javascript" src="../assets/jquery-2.2.4/jquery.js"></script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //日期时间选择器
+        laydate.render({
+            elem: '#test5'
+            ,type: 'datetime'
+        });
+    })
+</script>
 
 </body>
 </html>
