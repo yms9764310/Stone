@@ -32,4 +32,6 @@ public class StoreCheckOut {
     //申请人
     private Integer checkout_user_id;
     private String checkout_user_name;
+    private String source_kind;
+    private String source_id;
 }
