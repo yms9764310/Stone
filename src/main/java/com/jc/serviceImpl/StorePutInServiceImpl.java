@@ -40,7 +40,7 @@ public class StorePutInServiceImpl implements StorePutInService {
         int id = 3;
         List<ToDoList> resultData = new ArrayList<ToDoList>();
         SysUsersBeans sysUsersBeans = storePutInMapper.loadById(id);
-        if (sysUsersBeans.getName().equals("主管") && sysUsersBeans.getRole_id().equals("1")) {
+        if (sysUsersBeans.getName().equals("主管")) {
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                 if ("入库单".equals(typename)) {
                     List<ToDoList> listStorePutIn = storePutInMapper.listStorePutIn(pageRange.getStart(), pageRange.getEnd(), name, startTime, endTime, typename);

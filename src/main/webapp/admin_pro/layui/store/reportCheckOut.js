@@ -42,8 +42,9 @@ layui.config({
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
                 , {field: 'product_name', title: '商品名称', width: '12%', align: 'center'}
-                , {field: 'number', title: '出库数量', width: '20%', templet: '#upc', align: 'center'}
+                , {field: 'number', title: '出库数量', width: '12%', templet: '#upc', align: 'center'}
                 , {field: 'checkout_date', title: '出库时间', width: '12%', templet: '#upc', align: 'center'}
+                , {field: 'source_kind', title: '出库类型', width: '12%', templet: '#upc', align: 'center'}
                 , {field: 'checkout_user_name', title: '负责人名字', width: '20%', templet: '#upc', align: 'center'}
                 , {field: 'state', title: '状态', width: '15%', templet: '#upc', align: 'center'}
                 , {fixed: 'right', title: '操作', width: 150, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
@@ -71,12 +72,15 @@ layui.config({
         var name = data.field.name;
         var startTime = data.field.start_time;
         var endTime = data.field.end_time;
+        var source_kind = data.field.source_kind;
+
         //表格重新加载
         tableIns.reload({
             where: {
                 name: name,
                 startTime: startTime,
-                endTime: endTime
+                endTime: endTime,
+                source_kind: source_kind
             }
 
         });

@@ -55,16 +55,19 @@ layui.config({
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
             //区分事件
-            if (layEvent === 'staffWarn') { //设置预警
-                StaffWarn(row.product_id);
-            }else  if (layEvent === 'Acquisition') { //创建采办事项
-                Acquisition(row.product_id);
+            if (layEvent === 'edit') { //编辑
+                editCheck(row.id);
+            }else  if (layEvent === 'delete') { //删除
+                deleteCheck(row.id);
+            }else  if (layEvent === 'counting') { //盘点
+                viewCheck(row.id);
             }
         });
     }
     defineTable();
     //查询
     form.on("submit(queryUser)", function (data) {
+        alert(JSON.stringify(data));
         var startTime = data.field.start_time;
         var endTime = data.field.end_time;
         //表格重新加载
@@ -99,12 +102,31 @@ layui.config({
         layui.layer.full(index);
     });
 
-    //入库审核
-    function StaffWarn(product_id) {
+    //删除
+    function deleteCheck(id) {
+        layer.confirm('确认删除吗？', function (confirmIndex) {
+            layer.close(confirmIndex);//关闭confirm
+            //向服务端发送删除指令
+            var req = {
+                id: id
+            };
+
+            $api.DeleteCheckTask(req, function (data) {
+                layer.msg("删除成功", {time: 1000}, function () {
+                    //obj.del(); //删除对应行（tr）的DOM结构
+                    //重新加载表格
+                    tableIns.reload();
+                });
+            });
+        });
+    }
+
+    //编辑
+    function editCheck(id) {
         var index = layui.layer.open({
-            title: "设置预警",
+            title: "编辑盘点任务",
             type: 2,
-            content: "storeWarn.html?product_id=" + product_id,
+            content: "editCountingTask.html?id="+id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -121,12 +143,12 @@ layui.config({
         layui.layer.full(index);
     }
 
-    //出库审核
-    function ReviewOut(id) {
+    //盘点
+    function viewCheck(id) {
         var index = layui.layer.open({
-            title: "出库审核",
+            title: "确定盘点任务",
             type: 2,
-            content: "reviewOut.html?id=" + id,
+            content: "viewCountingTask.html?id="+id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
