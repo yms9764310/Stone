@@ -17,7 +17,7 @@
          values (#{product_id,jdbcType=INTEGER},#{number},#{product_bom_id,jdbcType=INTEGER})
     </insert>
     <select id="listTysProduceBomDetail" resultType="com.jc.model.TysProduceBomDetail" parameterType="INTEGER">
-        select  tpbd.id,tpbd.product_id,tpbd.product_bom_id,tpbd.number,tspp.name from t_produce_bom_detail as tpbd,t_sys_purchase_product as tspp where
+        select  tpbd.id,tpbd.product_id,tpbd.product_bom_id,tpbd.number,tspp.name,tspp.model_type from t_produce_bom_detail as tpbd,t_sys_purchase_product as tspp where
         tspp.id = tpbd.product_id and tpbd.product_bom_id=#{0}
     </select>
     <select id="listtysproduceDetail" parameterType="integer" resultType="com.jc.model.TysProduceBomDetail">

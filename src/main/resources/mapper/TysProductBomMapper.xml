@@ -44,6 +44,10 @@
         select tpb.id,tpb.product_id,tpb.number,tspp.name from t_produce_bom as tpb,t_sys_purchase_product as tspp
         where tpb.product_id=tspp.id and tpb.id=#{id}
     </select>
+    <select id="loadTysProductBomByProductId" parameterType="INTEGER" resultType="com.jc.model.TysProduceBom">
+        select tpb.id,tpb.product_id,tpb.number,tspp.name from t_produce_bom as tpb,t_sys_purchase_product as tspp
+        where tpb.product_id=tspp.id and tpb.product_id=#{product_id}
+    </select>
 <!--修改一条记录    -->
     <update id="updateTysProductBom" parameterType="com.jc.model.TysProduceBom">
         update t_produce_bom set number=#{number,jdbcType=INTEGER},

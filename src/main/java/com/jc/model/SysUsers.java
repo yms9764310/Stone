@@ -28,6 +28,7 @@ public class SysUsers {
     private String sex;
     private Integer age;
     private String phone;
+    private String departname;
     private String job_id;
     private String depart_id;
     private String depart_role_id;

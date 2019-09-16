@@ -5,6 +5,8 @@ import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
 import com.jc.model.ProduceTask;
 import com.jc.model.ProduceTaskDetail;
+import com.jc.model.SysUsers;
+import com.jc.service.SysUsersService;
 import com.jc.service.TysProductTaskDetailService;
 import com.jc.service.TysProductTaskService;
 import lombok.Value;
@@ -30,6 +32,8 @@ public class TysProductTaskController {
     TysProductTaskService tysProductTaskServiceImpl;
     @Autowired
     TysProductTaskDetailService tysProductTaskDetailServiceImpl;
+    @Autowired
+    SysUsersService sysUsersServiceImpl;
     @RequestMapping(value = "/listProductTask.do",method = RequestMethod.POST)
     @ResponseBody
     public IResult listProduceTask(String page,String limit){
@@ -138,5 +142,11 @@ public class TysProductTaskController {
     public IResult UpdateProductTaskReject(int id){
         tysProductTaskServiceImpl.updateProduceTaskReject( id );
         return new ResultBean<String>("success");
+    }
+    @RequestMapping(value = "/ListSysUsersName.do",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult ListSysUsersName(){
+        List<SysUsers> sysUsers = sysUsersServiceImpl.listSysUsers();
+        return new ResultBean<Collection<SysUsers>>(sysUsers);
     }
 }

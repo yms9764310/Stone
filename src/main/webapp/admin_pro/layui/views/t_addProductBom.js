@@ -118,28 +118,7 @@ function zAppend(a){
         '               </div>\n' +
         '               </div>\n' +
         '           </div>');
-
-    // "<div class=\"layui-inline layui-form-item\">\n" +
-    // "               <label class=\"layui-form-label\">商品组件"+id+"</label>\n" +
-    // "               <div class=\"layui-input-block\">\n" +
-    // "                   <select  name=\"name\" type=\"\" class=\"ProductMaterialName\">\n" +
-    // "                       <option value=\"\">--请选择--</option>\n" +
-    // "                   </select>\n" +
-    // "               </div>\n" +
-    // "           </div>\n" +
-    // "           <div class=\"layui-inline layui-form-item\">\n" +
-    // "               <label class=\"layui-form-label\">商品组件个数</label>\n" +
-    // "               <div class=\"layui-input-block\">\n" +
-    // "                   <input type=\"number\" name=\"number\" id=\"number1\" class=\"layui-input\" min=\"1\" >\n" +
-    // "               </div>\n" +
-    // "           </div>"
-    //     zbz += '<div class="zbz"></div>';
-    // var zbz = '';
-    // for(var i =0;i<item.length;i++){
-    // }
-    // var bz = '<div class="bz"><div class="zbzColl">'+zbz+'</div></div>';
     getList();
-    // /layui.form.render();
 }
 
 function getList() {

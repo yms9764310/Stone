@@ -74,6 +74,9 @@ layui.define(['$tool','jquery'], function (exports) {
         Insert_ys_ProductTask:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'T_ProduceTask/saveProductTask.do',req,config,successCallback,errorCallback);
         },
+        Get_ys_lisSysUsers:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'T_ProduceTask/ListSysUsersName.do',req,config,successCallback,errorCallback);
+        },
         GetProductName:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'T_Produce/getProductName.do',req,config,successCallback,errorCallback);
         },

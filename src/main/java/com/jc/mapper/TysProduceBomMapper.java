@@ -13,6 +13,7 @@ public interface TysProduceBomMapper {
    int removeTysProductBom(int id);
    int updateTysProductBom(TysProduceBom tysProduceBom);
    TysProduceBom loadTysProductBom(int id);
+   TysProduceBom loadTysProductBomByProductId(int product_id);
    int countTysProduceBom();
     List<TysProduceBom> listTysProductBomName();
 

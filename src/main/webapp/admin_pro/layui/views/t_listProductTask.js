@@ -63,6 +63,8 @@ layui.config({
                 editProduct(row.id);
             }else if (layEvent === 'auditing') { //编辑
                 auditingProduct(row.id);
+            }else if (layEvent === 'distribution') { //编辑
+                distributionTask(row.id);
             }
         });
     }
@@ -149,7 +151,7 @@ layui.config({
     function auditingProduct(id) {
         // alert(id);
         var index = layui.layer.open({
-            title: "修改任务",
+            title: "审核任务",
             type: 2,
             content: "t_auditingProductTask.html?id="+ id,
             success: function (layero, index) {
@@ -171,5 +173,29 @@ layui.config({
         layui.layer.full(index);
     }
 
+    function distributionTask(id) {
+        // alert(id);
+        var index = layui.layer.open({
+            title: "分配任务",
+            type: 2,
+            content: "t_distributionTask.html?id="+ id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            },
+            error:function () {
+
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
 
 });

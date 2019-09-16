@@ -36,40 +36,30 @@
         </div>
        <form class="layui-form" style="width:80%;" name="editRoleForm">
            <div class="layui-inline layui-form-item">
-               <label class="layui-form-label">商品名称</label>
-               <div class="layui-input-block">
-                   <input type="text" name="productname" id="productname" class="layui-input" readonly="true">
+               <label class="layui-form-label">开始时间</label>
+               <div class="layui-input-inline">
+                   <input type="text" class="layui-input" id="test5" name="begin_date" placeholder="yyyy-MM-dd HH:mm:ss">
                </div>
-
            </div>
            <div class="layui-inline layui-form-item">
-               <label class="layui-form-label">商品数量</label>
+               <label class="layui-form-label">截止时间</label>
+               <div class="layui-input-inline">
+                   <input type="text" class="layui-input" id="test6" name="end_date" placeholder="yyyy-MM-dd HH:mm:ss">
+               </div>
+           </div>
+           <div class="layui-form-item parent-menu">
+               <label class="layui-form-label">商品描述</label>
                <div class="layui-input-block">
-                   <input type="number" name="productnumber" id="productnumber" class="layui-input" min="1" >
+                   <input type="text" class="layui-input" lay-verify="required" name="description" placeholder="请输入商品描述">
                </div>
            </div>
            <div class="grandfather">
-<!--           <div class="father">-->
-<!--           <div class="layui-inline layui-form-item">-->
-<!--               <label class="layui-form-label">商品组件1</label>-->
-<!--               <div class="layui-input-block">-->
-<!--                   <select id="ProductMaterialName" name="name" type="" class="ProductMaterialName1">-->
-<!--                       <option value="">&#45;&#45;请选择&#45;&#45;</option>-->
-<!--                   </select>-->
-<!--               </div>-->
-<!--           </div>-->
-<!--           <div class="layui-inline layui-form-item">-->
-<!--               <label class="layui-form-label">组件数量</label>-->
-<!--               <div class="layui-input-block">-->
-<!--                   <input type="number" name="number" id="number1" class="layui-input" min="1" >-->
-<!--               </div>-->
-<!--           </div>-->
-<!--           </div>-->
+
            </div>
            <button type="button" id="append" class="layui-btn layui-btn-primary" onclick="zAppend($(this));">添加子标准</button>
            <div class="layui-form-item">
                <div class="layui-input-block">
-                   <button class="layui-btn" lay-submit="" lay-filter="addProductBom">立即提交</button>
+                   <button class="layui-btn" lay-submit="" lay-filter="editProductTask">立即提交</button>
                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                </div>
            </div>
@@ -78,7 +68,7 @@
 
         <script src="../assets/layui.js"></script>
         <script src="../assets/lay/modules/config.js"></script>
-        <script type="text/javascript" src="t_editProductBom.js"></script>
+        <script type="text/javascript" src="t_distributionTask.js"></script>
         <script type="text/javascript" src="../assets/jquery-2.2.4/jquery.js"></script>
 
 
