@@ -171,9 +171,9 @@ layui.config({
                             //clearForm: true,//提交后是否清空表单数据
                             success: function (data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
                                 layer.msg("导入成功", {time: 1000}, function () {
-
-                                    //重新加载表格
-                                    window.parent.location.reload(true);
+                                    layer.closeAll("iframe");
+                                    //刷新父页面
+                                    location.reload();
                                 });
                             },
                             error: function (data, status, e) {  //提交失败自动执行的处理函数。
