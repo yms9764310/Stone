@@ -25,6 +25,8 @@ layui.config({
         // initMenuInfo();
     }
 
+
+
     init();
 
     /**
@@ -42,10 +44,11 @@ layui.config({
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
                 , {field: 'product_name', title: '商品名称', width: '44%', align: 'center'}
-                , {field: 'number', title: '数量', width: '44%', align: 'center',templet: '#upc'}
+                , {field: 'number', title: '总库存量', width: '44%', align: 'center',templet: '#upc'}
                 , {fixed: 'right', title: '操作', width: 150, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
         });
+
         //为toolbar添加事件响应
         table.on('tool(userFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var row = obj.data; //获得当前行数据
@@ -62,6 +65,7 @@ layui.config({
     defineTable();
     //查询
     form.on("submit(queryUser)", function (data) {
+        console.log(JSON.stringify(data));
         var name = data.field.name;
         //表格重新加载
         tableIns.reload({

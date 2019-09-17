@@ -1,12 +1,11 @@
 package com.jc.controller;
 
-import com.jc.beans.constant.OperType;
+
 import com.jc.beans.response.IResult;
 import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
 import com.jc.model.*;
 import com.jc.service.StoreManagementService;
-import com.jc.service.StorePutInService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +21,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -51,10 +48,21 @@ public class StoreManagementController {
      */
     @RequestMapping("/StoreInventory")
     @ResponseBody
-    public IResult listAll(String page, String limit, String name) {
+    public IResult listStoreAll(String page, String limit, String name) {
         //返回json至前端的均返回ResultBean或者PageResultBean
-        List<Store> resultData = storeManagementServiceImpl.listAll(page, limit, name);
+        List<Store> resultData = storeManagementServiceImpl.listStoreAll(page, limit, name);
         return new PageResultBean<Collection<Store>>(resultData, storeManagementServiceImpl.countGetAll());
+    }
+
+    /**
+     * 查看活动量/锁定量
+     */
+    @RequestMapping("/StoreNumber")
+    @ResponseBody
+    public IResult loadStoreCheckOut(Integer product_id) {
+        //返回json至前端的均返回ResultBean或者PageResultBean
+        StoreCheckOut storeCheckOut = storeManagementServiceImpl.loadStoreCheckOut(product_id);
+        return new ResultBean<StoreCheckOut>(storeCheckOut);
     }
 
     /**

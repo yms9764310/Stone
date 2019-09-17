@@ -36,5 +36,8 @@ public interface StorePutInService {
     String updateCheckOutSuccess(StoreCheckOut storeCheckOut);
     //出库驳回
     String updateCheckOutReject(StoreCheckOut storeCheckOut);
+    //添加出库单
+    String insertCheckOut(StoreCheckOut storeCheckOut);
+
 
 }

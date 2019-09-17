@@ -105,4 +105,13 @@ public class StorePutInController {
         return new ResultBean<String>(storePutInServiceImpl.updateCheckOutReject(storeCheckOut));
     }
 
+    /**
+     * 添加出库单
+     */
+    @RequestMapping("/insertCheckOut")
+    @ResponseBody
+    public IResult insertCheckOut(@RequestBody StoreCheckOut storeCheckOut){
+        return new ResultBean<String>(storePutInServiceImpl.insertCheckOut(storeCheckOut));
+    }
+
 }
