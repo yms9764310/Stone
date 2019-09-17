@@ -151,11 +151,6 @@ public class StorePutInServiceImpl implements StorePutInService {
                         //调用存储过程
                         storePutInMapper.updateStoreCheck(storeCheckOut);
                         storePutInMapper.updateCheckOutSuccess(storeCheckOut);//修改状态
-//                            Store store1 = storePutInMapper.loadByProductId(Consants.PRODUCTID);
-//                            StoreWarn storeWarn = storeManagementMapper.loadByProduct_id(Consants.PRODUCTID);
-//                            if(store1.getNumber()<storeWarn.getWarn_number()||store1.getNumber()==storeWarn.getWarn_number()) {
-//                                return "Acquisition";
-//                            }
                         return "success";
                     } else {
                         return "break";
@@ -183,6 +178,12 @@ public class StorePutInServiceImpl implements StorePutInService {
             }
         }
         return "error";
+    }
+
+    @Override
+    public String insertCheckOut(StoreCheckOut storeCheckOut) {
+        storePutInMapper.insertCheckOut(storeCheckOut);
+        return "success";
     }
 
 

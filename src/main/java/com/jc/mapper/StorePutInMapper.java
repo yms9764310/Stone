@@ -71,7 +71,8 @@ public interface StorePutInMapper {
     void updateCheckOutSuccess(StoreCheckOut storeCheckOut);
     //出库驳回
     void updateCheckOutReject(StoreCheckOut storeCheckOut);
-
+    //添加出库单
+    void insertCheckOut(StoreCheckOut storeCheckOut);
 
 
 }

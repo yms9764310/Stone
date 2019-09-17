@@ -56,6 +56,10 @@
             AND put_id_date between #{startTime} and #{endTime}
         </if>
     </select>
+<!--添加出库单-->
+    <insert id="insertCheckOut" parameterType="StoreCheckOut" keyProperty="id" useGeneratedKeys="true">
+    insert into t_store_checkout (product_id,`number`,checkout_user_id) values (#{product_id},#{number},#{checkout_user_id})
+    </insert>
 
     <!--出库单-->
     <select id="listStoreCheckout" resultType="ToDoList">

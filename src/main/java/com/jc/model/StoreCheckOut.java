@@ -27,6 +27,16 @@ public class StoreCheckOut {
     private Integer product_id;
     private String product_name;
     private Double number;
+    //可用数量    //可用数量=总数量-锁定量-待发货量
+    private Double can_number;
+    //锁定量         //订单锁定过久后，锁定量变为活动量
+    private Double locking_number;
+    //活动量
+    private Double activity_number;
+    //待发货量
+    private Double delivered_number;
+    //总数量
+    private Double countnumber;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date checkout_date;
     //申请人
