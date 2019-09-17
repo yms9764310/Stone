@@ -23,7 +23,26 @@
 	<!-- 配置返回视图的路径，以及识别后缀是jsp文件 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-		<property name="prefix" value="/WEB-INF/jsp/"/>
-		<property name="suffix" value=".jsp"/>
+		<property name="prefix" value="/admin_pro/layui/"/>
+		<property name="suffix" value=".html"/>
 	</bean>
+
+    <!-- 启用 shiro 注解 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!-- 控制器异常处理 -->
+<!--    <bean id="defaultExceptionHandler" class="com.jc.exception.DefaultExceptionHandler"/>-->
+
+<!--      <bean id="exceptionHandlerExceptionResolver"-->
+<!--          class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">-->
+<!--    </bean>-->
+
+
+    <import resource="classpath:applicationContext.shiro.xml"/>
 </beans>

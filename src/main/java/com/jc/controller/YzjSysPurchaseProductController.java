@@ -10,6 +10,8 @@ import com.jc.model.YzjSysResource;
 import com.jc.service.YzjSysLoginUserTestService;
 import com.jc.service.YzjSysPurchaseProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/prou")
 
 public class YzjSysPurchaseProductController {
@@ -32,6 +34,8 @@ public class YzjSysPurchaseProductController {
     //分页查询
     @RequestMapping("/listprou")
     @ResponseBody
+    @RequiresPermissions("list:selec")
+//    @RequiresPermissions("list:listprou")
     public IResult getPurchaseProduct(String page, String limit){
         List<YzjSysPurchaseProduct> resultData = yzjSysPurchaseProductServiceImpl.listYzjSysPurchaseProduct(page,limit);
         return new PageResultBean<Collection<YzjSysPurchaseProduct>>(resultData,yzjSysPurchaseProductServiceImpl.countYzjSysPurchaseProduct());

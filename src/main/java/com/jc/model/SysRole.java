@@ -17,14 +17,25 @@ import java.util.Date;
 @Data
 public class SysRole {
     private Integer id;
-    private Integer creator;
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private Date create_date;
-    private Integer modifier;
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private Date modify_date;
-    private String state;
+    private Integer creator;//创建人
+    private  String creator_name;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date create_date;//创建时间
+    private Integer modifier;//修改人
+    private  String modefier_name;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date modify_date;//修改时间
+    private String state;//状态
     private Integer department_id;
-    private String name;
-    private String description;
+    private String  department;
+    private String name;//角色名
+    private String description;//描述
+
+    public Date getModify_date() {
+        return modify_date;
+    }
+
+    public void setModify_date(Date modify_date) {
+        this.modify_date = modify_date;
+    }
 }

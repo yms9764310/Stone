@@ -2,9 +2,7 @@ package com.jc.controller;
 
 import com.jc.beans.response.IResult;
 import com.jc.beans.response.ResultBean;
-import com.jc.model.SysLoginUser;
 import com.jc.model.SysUsers;
-import com.jc.service.SysLoginUserService;
 import com.jc.service.SysUsersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -26,7 +24,7 @@ import javax.annotation.Resource;
 @Slf4j
 @Controller
 @RequestMapping("/SysUser")
-public class SysUsersController {
+public class YzjSysUsersController {
     @Resource
     private SysUsersService sysUsersServiceImpl;
     /**

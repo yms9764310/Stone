@@ -18,6 +18,11 @@
         <result column="depart_id" property="depart_id" jdbcType="INTEGER"/>
         <result column="depart_role_id" property="depart_role_id" jdbcType="INTEGER"/>
         <result column="max_threshold" property="max_threshold" jdbcType="VARCHAR"/>
+        <result column="jobName" property="jobName" jdbcType="VARCHAR"/>
+        <result column="departName" property="departName" jdbcType="VARCHAR"/>
+        <result column="roleName" property="roleName" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="modefier_name" property="modefier_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <update id="updateMessage" parameterType="SysUsers">

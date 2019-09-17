@@ -1,6 +1,7 @@
 package com.jc.mapper;
 
 import com.jc.model.SysLoginUser;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +15,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SysLoginUserMapper {
-        SysLoginUser loadById(Integer id);
+        SysLoginUser loadById(@Param("id")Integer id);
         void updatePassword(SysLoginUser sysLoginUser);
 }

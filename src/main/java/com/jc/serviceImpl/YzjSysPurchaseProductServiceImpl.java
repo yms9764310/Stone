@@ -5,11 +5,13 @@ import com.jc.beans.response.PageRange;
 import com.jc.beans.response.ResultBean;
 import com.jc.mapper.YzjSysLoginUserTestMapper;
 import com.jc.mapper.YzjSysPurchaseProductMapper;
+import com.jc.model.SysLoginUser;
 import com.jc.model.YzjSysLoginUser;
 import com.jc.model.YzjSysPurchaseProduct;
 import com.jc.model.YzjSysResource;
 import com.jc.service.YzjSysPurchaseProductService;
 import com.jc.util.ExcelUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,11 +68,7 @@ public class YzjSysPurchaseProductServiceImpl implements YzjSysPurchaseProductSe
 //        String description = yzjSysPurchaseProduct.getDescription();
 //        YzjSysPurchaseProduct yzjSysPurchaseProduct1 = new YzjSysPurchaseProduct(pid,yzjSysLoginUser.getCreator(),create_date,yzjSysLoginUser.getModifier(),date,"很好",name,kind,model_type,standard,description);
         Date date = new Date();
-        int id = 1;
-        YzjSysLoginUser yzjSysLoginUser = yzjSysLoginUserTestMapper.loadLoginUserById(id);
-        yzjSysPurchaseProduct.setCreator(id);
-        yzjSysPurchaseProduct.setCreate_date(yzjSysPurchaseProduct.getCreate_date());
-        yzjSysPurchaseProduct.setModifier(id);
+
         yzjSysPurchaseProduct.setModify_date(date);
         yzjSysPurchaseProduct.setState("很奈斯");
         yzjSysPurchaseProductMapper.updateYzjSysPurchaseProduct(yzjSysPurchaseProduct);
@@ -97,7 +95,8 @@ public class YzjSysPurchaseProductServiceImpl implements YzjSysPurchaseProductSe
 //        YzjSysPurchaseProduct yzjSysPurchaseProduct1 = new YzjSysPurchaseProduct(yzjSysLoginUser.getCreator(),date,yzjSysLoginUser.getModifier(),date,"很好",name,kind,model_type,standard,description);
 //        yzjSysPurchaseProductMapper.saveYzjSysPurchaseProduct(yzjSysPurchaseProduct1);
         Date date = new Date();
-        int id = 1;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         YzjSysLoginUser yzjSysLoginUser = yzjSysLoginUserTestMapper.loadLoginUserById(id);
         yzjSysPurchaseProduct.setCreator(id);
         yzjSysPurchaseProduct.setCreate_date(date);

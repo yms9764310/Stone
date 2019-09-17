@@ -32,7 +32,7 @@ layui.define(['jquery','layer','$tool'],function(exports){
                 //拦截错误返回
                 error: function (xhr,textStatus,errorThrown) {
                     if(xhr.status === 401){
-                        window.location.href = $tool.getResUrl()+"layuicms/page/system/401.html";
+
                         return ;
                     }else if(xhr.status === 403){
                         //清空session
@@ -41,12 +41,10 @@ layui.define(['jquery','layer','$tool'],function(exports){
                         window.sessionStorage.removeItem("menu");
                         window.sessionStorage.removeItem("curmenu");
 
-                        //window.parent防止在iframe里面跳转到登录页面
-                        window.parent.parent.parent.parent.location.href = $tool.getResUrl()+"layuicms/login.html";
 
                         return ;
                     }else if(xhr.status === 404){
-                        window.location.href = $tool.getResUrl()+"layuicms/page/system/404.html";
+                        window.location.href = $tool.getResUrl()+"admin_pro/layui/unauthorized.html";
                         return ;
                     }
                     fn.error(xhr, textStatus, errorThrown);

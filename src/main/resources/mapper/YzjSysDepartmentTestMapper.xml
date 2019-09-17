@@ -93,13 +93,13 @@
     <select id="listDepartmentTestByNameAndId"  resultType="YzjSysDepartmentTest">
         SELECT * FROM  t_sys_department WHERE name= #{name,jdbcType=VARCHAR} and id!=#{id,jdbcType=INTEGER}
     </select>
-
+<!--是否有相同-->
     <select id="listDepartmentTestByNameAndParent_id"  resultType="YzjSysDepartmentTest">
         SELECT * FROM  t_sys_department WHERE name= #{name,jdbcType=VARCHAR} and parent_id=#{parent_id,jdbcType=INTEGER}
     </select>
 
 
-
+<!--更新下拉框-->
     <select id="listDepartmetById" parameterType="java.lang.Integer" resultType="YzjSysDepartmentTest">
         SELECT id,
         parent_id,
@@ -129,6 +129,7 @@
          FROM
         t_sys_department as d  LEFT JOIN t_sys_department as e on e.id=d.parent_id
     </select>
+
     <select id="childrenDepartmentName"  resultType="YzjSysDepartmentTest">
         SELECT name FROM  t_sys_department where parent_id
     </select>

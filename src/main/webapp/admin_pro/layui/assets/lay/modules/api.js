@@ -71,6 +71,7 @@ layui.define(['$tool','jquery'], function (exports) {
         DeleteDemp:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'demp/deletedemp.do',req,config,successCallback,errorCallback);
         },
+
         DeleteProu:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'prou/deleteprou.do',req,config,successCallback,errorCallback);
         },
@@ -83,11 +84,17 @@ layui.define(['$tool','jquery'], function (exports) {
         LoadDempId:function(req,successCallback,errorCallback){
             doPost($tool.getContext() + 'demp/loaddemp.do',req,successCallback,errorCallback);
         },
+        LoadRoleId:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'role/loadrole.do',req,successCallback,errorCallback);
+        },
         LoadProuId:function(req,successCallback,errorCallback){
             doPost($tool.getContext() + 'prou/loadprou.do',req,successCallback,errorCallback);
         },
         UpdateDemp:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'demp/updatedemp.do',req,config,successCallback,errorCallback);
+        },
+        UpdateRole:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'role/updaterole.do',req,config,successCallback,errorCallback);
         },
         UpdateProu:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'prou/updateprou.do',req,config,successCallback,errorCallback);
@@ -104,6 +111,12 @@ layui.define(['$tool','jquery'], function (exports) {
         },
         AddProu:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'prou/saveprou.do',req,config,successCallback,errorCallback);
+        },
+        AddRole:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'role/saverole.do',req,config,successCallback,errorCallback);
+        },
+        DeleteRole:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'role/deleterole.do',req,config,successCallback,errorCallback);
         },
         ReviewSuccess:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'ToDoList/delete.do',req,config,successCallback,errorCallback);
@@ -172,6 +185,12 @@ layui.define(['$tool','jquery'], function (exports) {
         },
         UpdateThreshold:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'StaffSetting/changeThreshold.do',req,config,successCallback,errorCallback);
+        },
+        Login:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'login.do',req,config,successCallback,errorCallback);
+        },
+        LogOut:function(req,successCallback,errorCallback){ // 登出
+            doPost($tool.getContext() + 'logout.do',req,successCallback,errorCallback);
         },
     };
 
