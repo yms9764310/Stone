@@ -57,7 +57,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
         }
         return null;
     }
-
+    //获取锁定量 待发货量  库存总数
     public StoreCheckOut loadStoreCheckOut(Integer product_id) {
         StoreCheckOut storeCheckOut = new StoreCheckOut();
         //获取库存总数

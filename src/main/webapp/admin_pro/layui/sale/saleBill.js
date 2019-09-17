@@ -32,23 +32,22 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'Customer/get.do' //数据接口
+            , url: $tool.getContext() + 'SaleBill/listSaleBill.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
-                , {field: 'id', title: 'ID', width: '5%'}
-                , {field: 'creator', title: '创建人', width: '7%'}
-                , {field: 'create_date', title: '创建时间', width:'10%'}
-                , {field: 'modifier', title: '修改人', width: '7%'}
-                , {field: 'modify_date', title: '修改时间', width: '10%'}
-                , {field: 'name', title: '客户名字', width: '10%'}
-                , {field: 'address', title: '客户地址', width: '10%'}
-                , {field: 'phone', title: '联系方式', width: '10%'}
-                , {field: 'company', title: '所属机构', width: '10%'}
+                , {field: 'bill_no', title: '订单编号', width: '12%'}
+                , {field: 'sale_id', title: '负责人', width: '7%'}
+                , {field: 'address', title: '收货地址', width: '10%'}
+                , {field: 'sale_money', title: '订单总金额', width: '10%'}
+                , {field: 'deliver_date', title: '交付时间', width: '15%'}
+                , {field: 'settle_type', title: '结算方式', width: '10%'}
+                , {field: 'customer_id', title: '客户', width: '10%'}
                 , {fixed: 'right', title: '操作', width: '20%', align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+               //这里的toolbar值是模板元素的选择器
             ]]
         });
         //为toolbar添加事件响应
@@ -58,12 +57,14 @@ layui.config({
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             //区分事件
-            if (layEvent === 'del') { //删除
-                deleteCustomer(row.id);
-            } else if (layEvent === 'edit') { //编辑
-                editCustomer(row.id);
-            } else if (layEvent === 'look') { //查看交易记录
-                checkCustomer(row.id);
+            if (layEvent === 'edit') { //编辑
+                editSaleBill(row.id);
+            } else if (layEvent === 'look') { //编辑
+                lookSaleBill(row.id);
+            } else if (layEvent === 'examine') { //编辑
+                examineSaleBill(row.id);
+            } else if (layEvent === 'defeat') { //编辑
+                defeatSaleBill(row.id);
             }
         });
     }
@@ -86,7 +87,7 @@ layui.config({
         var index = layui.layer.open({
             title: "添加客户信息",
             type: 2,
-            content: "insertCustomer.html",
+            content: "insertSaleBill.html",
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -104,29 +105,34 @@ layui.config({
 
 
     //删除
-    function deleteCustomer(id) {
-        layer.confirm('确认删除吗？', function (confirmIndex) {
-            layer.close(confirmIndex);//关闭confirm
-            //向服务端发送删除指令
-            var req = {
-                id: id
-            };
-            $api.DeleteCustomer(req, function (data) {
-                layer.msg("删除成功", {time: 1000}, function () {
-                    //obj.del(); //删除对应行（tr）的DOM结构
-                    //重新加载表格
-                    tableIns.reload();
-                });
-            });
-        });
-    }
 
     //修改
-    function editCustomer(id) {
+    function editSaleBill(id) {
         var index = layui.layer.open({
-            title: "修改学生",
+            title: "修改订单信息",
             type: 2,
-            content: "updateCustomer.html?id=" + id,
+            content: "updateSaleBill.html?id=" + id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
+    function lookSaleBill(id) {
+        var index = layui.layer.open({
+            title: "查看订单详情",
+            type: 2,
+            content: "lookSaleBill.html?id=" + id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -141,60 +147,12 @@ layui.config({
         });
         layui.layer.full(index);
     }
-
-
-    //批量导入
-    layui.use('upload', function () {
-        var $ = layui.jquery
-            , upload = layui.upload;
-        var uploadInst = upload.render({
-
-            elem: '#upfile'
-            , url: '/Stone/Customer/fileUpload.do'
-            , auto: false
-            , accept: 'file'
-            //,multiple: true
-            , choose: function (obj) {
-                layer.confirm('确认导入吗？', function (confirmIndex) {
-                    layer.closeAll('dialog');
-                    obj.preview(function (index, file, result) {
-                        var formData = new FormData();
-                        //# 给formData对象添加<input>标签,注意与input标签的ID一致
-                        formData.append('upfile', file);
-                        $.ajax({
-                            url: '/Stone/Customer/fileUpload.do',//这里写你的url
-                            type: 'POST',
-                            data: formData,
-                            contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
-                            processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
-                            //dataType: 'json',//这里是返回类型，一般是json,text等
-                            //clearForm: true,//提交后是否清空表单数据
-                            success: function (data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
-                                layer.msg("导入成功", {time: 1000}, function () {
-                                    layer.closeAll("iframe");
-                                    //刷新父页面
-                                    location.reload();
-                                });
-                            },
-                            error: function (data, status, e) {  //提交失败自动执行的处理函数。
-                                console.error(e);
-                            }
-                        });
-                    });
-                return false;
-                });
-            }
-            , done: function (res) {
-                console.log(res)
-            }
-        });
-    });
-    //查看交易记录
-    function checkCustomer(id) {
+    //审核订单
+    function examineSaleBill(id) {
         var index = layui.layer.open({
-            title: "该客户交易记录",
+            title: "审核订单",
             type: 2,
-            content: "checkCustomer.html?id=" + id,
+            content: "examineSaleBill.html?id=" + id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -209,5 +167,4 @@ layui.config({
         });
         layui.layer.full(index);
     }
-
 });
