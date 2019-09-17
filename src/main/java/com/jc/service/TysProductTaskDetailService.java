@@ -11,6 +11,6 @@ public interface TysProductTaskDetailService {
     List<ProduceTaskDetail> listProduceTaskDetail(int product_task_id);
     int updateProduceTaskDetail (ProduceTaskDetail produceTaskDetail);
     int removeTyProductTaskDetail (int product_id);
-    int is (int number,int product_id);
+    int auditing (int number,int product_id,int task_id);
 
 }

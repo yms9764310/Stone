@@ -17,14 +17,14 @@ layui.config({
     /**
      * 页面初始化
      * */
-    laydate.render({
-        elem: '#test5'
-        ,type: 'datetime'
-    });
-    laydate.render({
-        elem: '#test6'
-        ,type: 'datetime'
-    });
+    // laydate.render({
+    //     elem: '#test5'
+    //     ,type: 'datetime'
+    // });
+    // laydate.render({
+    //     elem: '#test6'
+    //     ,type: 'datetime'
+    // });
     var TaskData;
     function init() {
         //初始化下拉框
@@ -54,7 +54,18 @@ layui.config({
                    '                       <option value="'+list[i].product_id+'">'+list[i].name+'</option>\n' +
                    '                   </select>\n' +
                    '               </div>\n' +
+                   '           </div>\n' +'<div class="layui-form-item parent-menu">\n' +
+                   '               <label class="layui-form-label">加工描述</label>\n' +
+                   '               <div class="layui-input-block">\n' +
+                   '                   <input type="text" class="layui-input" lay-verify="required" name="description" placeholder="请输入加工描述">\n' +
+                   '               </div>\n' +
                    '           </div>\n' +
+                   '           <div class="layui-form-item parent-menu">\n' +
+                   '               <label class="layui-form-label">加工类型</label>\n' +
+                   '               <div class="layui-input-block">\n' +
+                   '                   <input type="text" class="layui-input" lay-verify="required" name="process_type" placeholder="请输入加工类型">\n' +
+                   '               </div>\n' +
+                   '           </div>'+
                    ' <div class="layui-inline layui-form-item">\n' +
                    '               <label class="layui-form-label">负责人</label>\n' +
                    '               <div class="layui-input-block">\n' +

@@ -133,13 +133,15 @@ public class TysProductTaskController {
     }
     @RequestMapping(value = "/UpdateProductTaskAuditing.do",method = RequestMethod.POST)
     @ResponseBody
-    public IResult UpdateProductTaskAuditing(int id){
+    public IResult UpdateProductTaskAuditing(int id){//这个id是任务id  审核通过添加数据（加工单，领料单）
+
         tysProductTaskServiceImpl.updateProduceTaskAuditing( id );
         return new ResultBean<String>("success");
     }
     @RequestMapping(value = "/UpdateProductTaskReject.do",method = RequestMethod.POST)
     @ResponseBody
-    public IResult UpdateProductTaskReject(int id){
+    public IResult UpdateProductTaskReject(int id){//
+
         tysProductTaskServiceImpl.updateProduceTaskReject( id );
         return new ResultBean<String>("success");
     }
