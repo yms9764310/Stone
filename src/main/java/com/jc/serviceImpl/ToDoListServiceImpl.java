@@ -57,10 +57,10 @@ public class ToDoListServiceImpl implements ToDoListService {
     public List<ToDoList> listAll(String page, String limit, String name) {
         PageRange pageRange = new PageRange(page, limit);
         //先获取当前账号的ID,判断是否是主管
-        int id = 1;
+        int id = 3;
         List<ToDoList> resultData = new ArrayList<ToDoList>();
         SysUsersBeans sysUsersBeans = toDoListMapper.loadById(id);
-        if (sysUsersBeans.getName().equals("主管") && sysUsersBeans.getRole_id().equals("1")) {
+        if (sysUsersBeans.getName().equals("主管")) {
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                 List<ToDoList> listStoreCheck = toDoListMapper.listStoreCheck(pageRange.getStart(), pageRange.getEnd(),name);
                 for (ToDoList toDoList : listStoreCheck) {
