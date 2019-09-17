@@ -28,7 +28,7 @@
             <input type="text" class="layui-input" lay-verify="required" name="state" placeholder="draft可修改/effect不可修改" list="choosestate">
             <datalist id="choosestate">
                 <option>draft</option>
-                <option>effect</option>
+                <option>effect</option>                                   1
             </datalist>
         </div>
     </div>-->
@@ -69,12 +69,9 @@
     </div>
 
     <div class="layui-form-item parent-menu">
-        <label class="layui-form-label">客户</label>
-        <div class="layui-input-block ">
-            <a class="layui-btn layui-btn-primary layer-demolist" href="javascript:;" id="parentIframe">添加客户</a>
-            <div class="shop">
-
-            </div>
+        <label class="layui-form-label">选择客户</label>
+        <div class="layui-input-block">
+            <select id="parentMenu" name="customer_id"></select>
         </div>
     </div>
 

@@ -11,55 +11,29 @@ layui.config({
         $ = layui.jquery,
         $tool = layui.$tool,
         $api = layui.$api;
-
-    $("#parentIframe").click(function () {
-        layer.open({
-            type:2,
-            title:'添加商品',
-            id:'link',
-            skin:'layui-layer-rim',
-            area:['75%','80%'],
-            fixed: false, //不固定
-            maxmin: true,
-            btn:['确定','取消'],
-            content:'listCustomer.html',
-            yes:function (index,layero) {
-                var body=layer.getChildFrame('body',index);
-                var searchInput=body.find("#searchInput").val();
-                //alert(searchInput[0]);
-                var inputName=searchInput.split(",");
-                var searchInputId=body.find("#searchInputId").val();
-                var inputId=searchInputId.split(",");
-                if (searchInput==null||searchInput==""){
-                    layer.msg("请选择客户",{time:1000,icon:5});
-                    return false;
-                }
-                // document.getElementById("pname").value=searchInput;
-                // document.getElementById("pid").value=searchInputId;
-                var g=0;
-                $(".shop").empty();
-                var show="";
-                $(inputName).each(function (index,item) {
-                    show+="<input type='text' class=\"layui-input-inline layui-input\" name='name' value='"+item+"' readonly>"
-                });
-                $(inputId).each(function (index,item) {
-                    show+="<input type='text' name='id' value='"+item+"' hidden>"
-                });
-                $(".shop").append(show);
-                layer.close(index);
-            },
-            cancel:function () {
-            }
-        });
-    });
     /**
      * 页面初始化
      * */
     function init() {
+        //初始化下拉框
+        initParentMenu();
     }
 
     init();
 
+    function initParentMenu() {
+        $api.GetFirstClassMenus(null,function (res) {
+            var data = res.data;
+            if (data.length > 0) {
+                var html = '<option value="">--请选择--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<option value="' + data[i].id + '">' + data[i].name + '</option>>';
+                }
+                $('#parentMenu').append($(html));
+                form.render();
+            }
+        });
+    }
     /**
      * 定义表格
      * */
@@ -82,7 +56,7 @@ layui.config({
         var sale_money = data.field.sale_money;
         var deliver_date = data.field.deliver_date;
         var settle_type = data.field.settle_type;
-        var customer_id = data.field.id;
+        var customer_id = data.field.customer_id;
         //请求
         var req = {
             address:address,

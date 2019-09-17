@@ -123,6 +123,9 @@ layui.define(['$tool','jquery'], function (exports) {
         GetBill:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'SaleBill/loadById.do',req,config,successCallback,errorCallback);
         },
+        GetFirstClassMenus:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/chooseCus.do',req,successCallback,errorCallback);
+        },
         //创建新的订单
         InsertSaleBill:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'SaleBill/insertSaleBill.do',req,config,successCallback,errorCallback);
