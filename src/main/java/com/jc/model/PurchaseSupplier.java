@@ -26,6 +26,9 @@ public class PurchaseSupplier implements Serializable {
     //修改时间
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifyDate;
+    //供应商
+    private String name;
+    private String SysProductName;
     //状态
     private String state;
     //公司名

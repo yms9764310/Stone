@@ -12,21 +12,29 @@
         <result column="create_date" property="createDate" jdbcType="TIMESTAMP"></result>
         <result column="modifier" property="modifier" jdbcType="INTEGER"></result>
         <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP"></result>
-        <result column="state" property="state" jdbcType="VARCHAR"></result>
+        <result column="state" property="state" jdbcType="TIMESTAMP"></result>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="SysProductName" property="SysProductName" jdbcType="VARCHAR"></result>
         <result column="company_name" property="companyName" jdbcType="VARCHAR"></result>
         <result column="contact_name" property="contactName" jdbcType="VARCHAR"></result>
         <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"></result>
         <result column="address" property="address" jdbcType="VARCHAR"></result>
+        <association property="sysResource" javaType="com.jc.model.SysResource">
+            <id column="sid" property="id"></id>
+            <result column="displayName" property="displayName"></result>
+        </association>
         <collection property="sysPurchaseProductList" ofType="com.jc.model.SysPurchaseProduct">
-            <id column="id" property="id" jdbcType="INTEGER"></id>
-            <result column="name" property="name" jdbcType="VARCHAR"></result>
+            <id column="pid" property="id" jdbcType="INTEGER"></id>
+            <result column="SysProductName" property="name" jdbcType="VARCHAR"></result>
         </collection>
     </resultMap>
 <!--    查询全部-->
     <select id="listSupplier" resultMap="SupplierResultMap">
         SELECT
-        purchase.id,purchase.creator,purchase.create_date,purchase.modifier,purchase.modify_date,syspro.name,
-        purchase.state,purchase.company_name,purchase.contact_name,purchase.contact_phone,
+        purchase.id, purchase.creator, purchase.create_date, purchase.name name,
+        purchase.modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
+        res.id sid, res.display_name state,purchase.company_name,
+        purchase.contact_name,purchase.contact_phone,
         purchase.address
         FROM
         t_purchase_supplier AS purchase
@@ -38,13 +46,18 @@
         t_sys_purchase_product AS syspro
         ON
         syspro.id=product.product_id
-        where 1=1
-        <if test="creator!=null and creator!=''">
-        and purchase.creator=#{creator,jdbcType=INTEGER}
-        </if>
+        LEFT JOIN
+        t_sys_resource as res
+        ON
+        purchase.state=res.id
+        <where>
         <if test="name!=null and name!=''">
-            and syspro.name=#{name}
+        and purchase.name like concat('%',#{name},'%')
         </if>
+        <if test="SysProductName!=null and SysProductName!=''">
+            and syspro.name like concat('%',#{SysProductName},'%')
+        </if>
+        </where>
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 <!--    获取菜单大小-->
@@ -55,9 +68,9 @@
 <!--    添加供应商-->
     <insert id="insertSupplier" parameterType="com.jc.model.PurchaseSupplier">
         insert into t_purchase_supplier
-        (creator,create_date,modifier,modify_date,state,company_name,contact_name,contact_phone,address)
+        (creator,create_date,modifier,modify_date,state,name,company_name,contact_name,contact_phone,address)
         values
-        (#{creator},#{createDate},#{modifier},#{modifyDate},#{state},#{companyName},#{contactName},#{contactPhone},#{address})
+        (#{creator},#{createDate},#{modifier},#{modifyDate},#{state},#{name},#{companyName},#{contactName},#{contactPhone},#{address})
 
         <selectKey keyProperty="id" resultType="int">
             select LAST_INSERT_ID()
@@ -84,7 +97,7 @@
     <!--    查询全部商品名-->
     <select id="listSysPurchaseProduct" parameterType="com.jc.model.SysPurchaseProduct" resultType="com.jc.model.SysPurchaseProduct">
         select
-        product.id,product.name
+        product.id,product.name,product.model_type as modelType
         from t_sys_purchase_product as product
     </select>
 <!--    删除-->
@@ -95,8 +108,13 @@
 <!--    删除供应商产品表-->
     <delete id="deletePruchase" parameterType="Integer">
         delete from t_pruchase_supplier_product
-        where t_pruchase_supplier_product.purchase_supplier_id=#{purchaseSupplierId}
+        where t_pruchase_supplier_product.purchase_supplier_id=#{0}
     </delete>
+    <delete id="deletePrudchaseSupplierProduct" parameterType="Integer">
+        delete from t_pruchase_supplier_product
+        where t_pruchase_supplier_product.id=#{0}
+    </delete>
+
 
     <resultMap id="PurchaseResultMap" type="com.jc.model.PurchaseSupplier">
         <id column="id" property="id" jdbcType="INTEGER"></id>
@@ -110,14 +128,18 @@
             <result column="productId" property="productId" jdbcType="INTEGER"></result>
             <result column="purchaseSupplierId" property="purchaseSupplierId" jdbcType="INTEGER"></result>
             <result column="productName" property="productName" jdbcType="VARCHAR"></result>
+            <result column="max_number" property="maxNumber"></result>
+            <result column="price" property="price"></result>
         </collection>
     </resultMap>
 <!--    根据id获取指定供应商信息-->
     <select id="loadPurchaseSupplier" parameterType="Integer" resultMap="PurchaseResultMap">
 
- select
-        sup.id,sup.creator,sup.company_name,sup.contact_name,sup.contact_phone,sup.address,pru.id pid,
-        syspro.id productId,sup.id purchaseSupplierId,syspro.name productName
+        select
+        sup.id,sup.creator,sup.company_name,sup.contact_name,sup.contact_phone,sup.address,
+        pru.id pid,
+        syspro.id productId,sup.id purchaseSupplierId,syspro.name productName,
+        pru.max_number,pru.price
         FROM
         t_purchase_supplier as sup
         LEFT JOIN
@@ -142,8 +164,8 @@
 <!--    修改供应商产品表-->
     <update id="updateProduct" parameterType="com.jc.model.SupplierProduct">
         update t_pruchase_supplier_product
-        set product_id=#{productId}
-        where purchase_supplier_id=#{purchaseSupplierId}
+        set purchase_supplier_id=#{purchaseSupplierId},product_id=#{productId},max_number=#{maxNumber},price=#{price}
+        where t_pruchase_supplier_product.id=#{id}
     </update>
 
     <resultMap id="ProductResultMap" type="com.jc.model.SupplierProduct">
@@ -166,6 +188,59 @@
         ON
         syspro.id=product.product_id
         where su.id=#{id}
+    </select>
+<!--    查询供应商商品表-->
+    <resultMap id="SupplierProductResultMap" type="com.jc.model.SupplierProduct">
+        <id column="pid" property="id"></id>
+        <result column="purchase_supplier_id" property="purchaseSupplierId"></result>
+        <result column="product_id" property="productId"></result>
+        <result column="max_number" property="maxNumber"></result>
+        <result column="price" property="price"></result>
+    </resultMap>
+    <select id="listProductSupplier" parameterType="Integer" resultMap="SupplierProductResultMap">
+        SELECT
+        product.id pid,product.purchase_supplier_id,product.product_id,product.max_number,product.price
+        FROM
+        t_purchase_supplier AS su
+        LEFT JOIN
+        t_pruchase_supplier_product AS product
+        ON
+        su.id=product.purchase_supplier_id
+        where su.id=#{id}
+    </select>
+
+<!--    查询供应商商品表信息,修改操作调用-->
+    <select id="listPruchaseSupplierProduct" parameterType="int" resultType="java.util.Map">
+        select
+        product.id,pro.id purchase_supplier_id,product.product_id,product.max_number,product.price
+        from
+        t_pruchase_supplier_product as product
+        LEFT JOIN
+        t_purchase_supplier as pro
+        ON
+        product.purchase_supplier_id=pro.id
+        where
+        pro.id=#{id}
+    </select>
+<!--查询全部采购商品表，Excel导入调用-->
+    <select id="listSysProduct" parameterType="int" resultType="java.util.Map">
+        select
+        product.id,product.name
+        from t_sys_purchase_product as product
+    </select>
+<!--    修改采购商品表，Excel导入调用-->
+    <update id="updateSysProduct" parameterType="com.jc.model.SysPurchaseProduct">
+        update t_sys_purchase_product
+        set
+        name=#{name}
+        where t_sys_purchase_product.id=#{id}
+    </update>
+
+    <!--查询全部供应商表，Excel导入调用-->
+    <select id="listExcelProduct" parameterType="int" resultType="java.util.Map">
+        select
+        supplier.id,supplier.company_name,supplier.contact_name
+        from t_purchase_supplier as supplier
     </select>
 
 </mapper>

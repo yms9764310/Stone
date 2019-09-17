@@ -71,7 +71,6 @@ layui.define(['$tool','jquery'], function (exports) {
         DeleteDemp:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'demp/deletedemp.do',req,config,successCallback,errorCallback);
         },
-
         DeleteProu:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'prou/deleteprou.do',req,config,successCallback,errorCallback);
         },
@@ -84,17 +83,11 @@ layui.define(['$tool','jquery'], function (exports) {
         LoadDempId:function(req,successCallback,errorCallback){
             doPost($tool.getContext() + 'demp/loaddemp.do',req,successCallback,errorCallback);
         },
-        LoadRoleId:function(req,successCallback,errorCallback){
-            doPost($tool.getContext() + 'role/loadrole.do',req,successCallback,errorCallback);
-        },
         LoadProuId:function(req,successCallback,errorCallback){
             doPost($tool.getContext() + 'prou/loadprou.do',req,successCallback,errorCallback);
         },
         UpdateDemp:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'demp/updatedemp.do',req,config,successCallback,errorCallback);
-        },
-        UpdateRole:function(req,config,successCallback,errorCallback){
-            doComplexPost($tool.getContext() + 'role/updaterole.do',req,config,successCallback,errorCallback);
         },
         UpdateProu:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'prou/updateprou.do',req,config,successCallback,errorCallback);
@@ -124,11 +117,32 @@ layui.define(['$tool','jquery'], function (exports) {
         GetStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/find.do',req,config,successCallback,errorCallback);
         },
+        load_ys_Product:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_Produce/loadProduct.do',req,config,successCallback,errorCallback);
+        },
+        load_ys_ProductBom:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_ProduceBom/loadProductBom.do',req,config,successCallback,errorCallback);
+        },
+        load_ys_ProductTask:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'T_ProduceTask/loadProductTask.do',req,config,successCallback,errorCallback);
+        },
+        DeleteCheckTask:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StoreManagement/deleteCheckTask.do',req,config,successCallback,errorCallback);
+        },
         GetSysUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'SysUser/find.do',req,config,successCallback,errorCallback);
         },
         GetDepartUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'StaffSetting/get.do',req,config,successCallback,errorCallback);
+        },
+        GetPutIn:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StorePutIn/getPutIn.do',req,config,successCallback,errorCallback);
+        },
+        GetCheckOut:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StorePutIn/getCheckOut.do',req,config,successCallback,errorCallback);
+        },
+        GetCheckOutWarn:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StoreManagement/getCheckOut.do',req,config,successCallback,errorCallback);
         },
         GetDetails:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'ToDoList/get.do',req,config,successCallback,errorCallback);
@@ -142,9 +156,11 @@ layui.define(['$tool','jquery'], function (exports) {
         UpdateStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'Student/update.do',req,config,successCallback,errorCallback);
         },
+        //添加客户信息
         InsertCustomer:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'Customer/insert.do',req,config,successCallback,errorCallback);
         },
+        //删除客户信息
         DeleteCustomer:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Customer/delete.do',req,config,successCallback,errorCallback);
         },
@@ -191,6 +207,21 @@ layui.define(['$tool','jquery'], function (exports) {
         },
         LogOut:function(req,successCallback,errorCallback){ // 登出
             doPost($tool.getContext() + 'logout.do',req,successCallback,errorCallback);
+        },
+        updatePutInSuccess:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StorePutIn/updatePutInSuccess.do',req,config,successCallback,errorCallback);
+        },
+        updateCheckOutSuccess:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StorePutIn/updateCheckOutSuccess.do',req,config,successCallback,errorCallback);
+        },
+        updateCheckOutWarn:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StoreManagement/updateCheckOutWarn.do',req,config,successCallback,errorCallback);
+        },
+        updatePutInReject:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StorePutIn/updatePutInReject.do',req,config,successCallback,errorCallback);
+         },
+        updateCheckOutReject:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StorePutIn/updateCheckOutReject.do',req,config,successCallback,errorCallback);
         },
     };
 

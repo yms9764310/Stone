@@ -18,6 +18,7 @@ import java.util.Date;
 public class ProduceTaskDetail {
     private int id;
     private String process_user_id;
+    private int  produce_task_id;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date begin_date;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
@@ -26,4 +27,5 @@ public class ProduceTaskDetail {
     private String product_id;
     private Double number;
     private String process_type;
+    private String name;
 }

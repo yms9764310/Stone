@@ -31,15 +31,16 @@ layui.config({
     function defineTable() {
         tableIns = table.render({
             elem: '#demo'
-            , height: 415
+            , height: 315
             , url: $tool.getContext() + 'purchaseSupplier/listSupplier.do' //数据接口
             , method: 'post'
             , page: true //开启分页
-            , limit: 5
-            , limits: [5,10,15,20,25,30]
+            , limit:10
+            , limits:[10,20,30,40,50,60,70,80,90]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
                 , {field: 'creator', title: '创建人', width: '10%',align:'center'}
+                , {field: 'name', title: '供应商', width: '10%',align:'center'}
                 , {field: 'createDate', title: '创建时间', width: '13%',align:'center'}
                 , {field: 'modifier', title: '修改人', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'modifyDate', title: '修改时间', width: '13%', templet: '#upc',align:'center'}
@@ -73,15 +74,24 @@ layui.config({
     defineTable();
     //查询
     form.on("submit(findLike)", function (data) {
-        var creator = data.field.creator;
         var name = data.field.name;
+        var SysProductName = data.field.SysProductName;
+        // if(name==null||""==name||name!=data.field.name){
+        //     layer.msg("请输入要查询的供应商名称或正确的供应商名称!",{time:1500,icon:8});
+        //     return false;
+        // }
+        // if (name==null||""==name){
+        //     layer.msg("请输入要查询的商品!",{time:1500,icon:8});
+        //     return false;
+        // }
+
         //alert(JSON.stringify(name));
         //alert(creator);
         //表格重新加载
         tableIns.reload({
             where: {
-                creator: creator,
-                name:name
+                name:name,
+                SysProductName: SysProductName
             }
         });
         return false;
@@ -160,7 +170,26 @@ layui.config({
     }
 
 
-//Excel
+
+    //     判断Excel文件
+    // $(document).ready(function () {
+    //     $("#upfile").click(function () {
+    //         var file = $("#FileUpload1").val();
+    //         if (file == "") {
+    //             layer.msg("请选择要上传的文件",{time:1500,icon:8});
+    //             return false
+    //         } else {
+    //             //检验文件类型是否正确
+    //             var exec = (/[.]/.exec(file)) ? /[^.]+$/.exec(file.toLowerCase()) : '';
+    //             if (exec != "xlsx") {
+    //                 layer.msg("文件格式不对，请上传Excel文件!",{time:1500,icon:8});
+    //                 return false;
+    //             }
+    //         }
+    //         return true;
+    //     });
+    // });
+// Excel导入
     layui.use('upload', function () {
         var $ = layui.jquery
             , upload = layui.upload;

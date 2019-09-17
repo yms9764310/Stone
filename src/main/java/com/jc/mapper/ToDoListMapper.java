@@ -56,6 +56,10 @@ public interface ToDoListMapper {
                                       @Param("name") String name);
         //查看工作流记录
         List<ProduceTask> listWorkflowHistory(Integer id);
+
+        //查看工作进度
+        List<ProduceTask> listWorkSpeed(Integer id);
+
         //查看工作流
         List<ProduceTask> listWorkflow(@Param("start") Integer start,
                                       @Param("end") Integer end,

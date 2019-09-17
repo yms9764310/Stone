@@ -1,8 +1,10 @@
 package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
+import com.jc.beans.response.ResultBean;
 import com.jc.mapper.sale.SaleCustomerMapper;
 import com.jc.mapper.SysLoginUserMapper;
+import com.jc.model.sale.SaleBill;
 import com.jc.model.sale.SaleCustomer;
 import com.jc.model.SysLoginUser;
 import com.jc.service.sale.SaleCustomerService;
@@ -54,6 +56,11 @@ public class SaleCustomerServiceImpl implements SaleCustomerService {
     @Override
     public SaleCustomer loadById(int id) {
         return saleCustomerMapper.loadById(id);
+    }
+
+    @Override
+    public List<SaleCustomer> loadById1(int id) {
+        return saleCustomerMapper.loadById1(id);
     }
 
     @Override
@@ -124,5 +131,15 @@ public class SaleCustomerServiceImpl implements SaleCustomerService {
         }
         System.out.println("文件导入成功！");
         return "success";
+    }
+
+    @Override
+    public SaleBill loadByCusId(Integer id) {
+        return saleCustomerMapper.loadByCusId(id);
+    }
+
+    @Override
+    public List<SaleCustomer> listChooseCustomer() {
+        return saleCustomerMapper.listChooseCustomer();
     }
 }

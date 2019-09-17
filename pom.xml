@@ -26,7 +26,21 @@
       <artifactId>jsp-api</artifactId>
       <version>2.2</version>
     </dependency>
-      <!--GSON包-->
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+      <version>5.1.2.RELEASE</version>
+    </dependency>
+    <!--websocket需要的jar包-->
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!--GSON包-->
     <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -129,6 +143,7 @@
       <artifactId>janino</artifactId>
       <version>2.6.1</version>
     </dependency>
+
     <!--lombok-->
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -266,6 +281,7 @@
   <build>
     <finalName>manager</finalName>
     <plugins>
+    <!--java编译插件-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

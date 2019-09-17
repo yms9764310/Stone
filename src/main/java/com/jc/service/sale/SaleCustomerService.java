@@ -1,5 +1,6 @@
 package com.jc.service.sale;
 
+import com.jc.model.sale.SaleBill;
 import com.jc.model.sale.SaleCustomer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +19,15 @@ public interface SaleCustomerService {
     int deleteCustomer(int id);
     //根据ID查询
     SaleCustomer loadById(int id);
+    List<SaleCustomer> loadById1(int id);
     //修改客户信息
     String updateCustomer(SaleCustomer saleCustomer);
     //插入信息
     public boolean insertCustomerExcel(SaleCustomer saleCustomer);
     //POI导入
     String ajaxUploadExcel(HttpServletRequest request,HttpServletResponse response) throws Exception;
+    //
+    SaleBill loadByCusId(Integer id);
+    //选择客户
+    List<SaleCustomer> listChooseCustomer();
 }

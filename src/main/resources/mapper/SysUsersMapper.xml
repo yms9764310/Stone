@@ -33,5 +33,7 @@
     <select id="loadById" parameterType="java.lang.Integer" resultType="SysUsers">
         SELECT id,creator,create_date,modifier,modify_date,state,`name`,sex,age,phone,job_id,depart_id,depart_role_id,max_threshold FROM  t_sys_users WHERE id=#{0}
     </select>
-
+<select id="listSysUsers" resultType="com.jc.model.SysUsers">
+    SELECT t.name as name,t.id as id,tt.name as departname,tt.id as depart_id FROM t_sys_users as t,t_sys_department as tt where t.depart_id=tt.id
+</select>
 </mapper>

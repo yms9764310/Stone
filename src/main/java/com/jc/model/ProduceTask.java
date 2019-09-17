@@ -33,8 +33,7 @@ public class ProduceTask {
     private String description;
     private String process_user_id;
     private String process_type;
-    private List<ProduceProcess> produceProcesses;
-    private ProduceTaskDetail produceTaskDetail;
+    private List<ProduceTaskDetail> listTaskDetail;
 
 
 }
