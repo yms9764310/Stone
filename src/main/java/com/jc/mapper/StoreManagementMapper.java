@@ -18,9 +18,12 @@ import java.util.List;
 @Repository
 public interface StoreManagementMapper {
     //分页加搜索
-    List<Store> listAll(@Param("start") Integer start,
-                           @Param("end") Integer end,
-                           @Param("name")String name);
+    StoreCheckOut listAll(Integer product_id);
+
+    //分页加搜索
+    List<Store> listStoreAll(@Param("start") Integer start,
+                        @Param("end") Integer end,
+                        @Param("name")String name);
 
     //分页加搜索
     List<StoreCheck> listCheckAll(@Param("start") Integer start,
@@ -37,6 +40,13 @@ public interface StoreManagementMapper {
 
     //查询全部人员
     List<SysUsers> listUsers(@Param("department_id") String department_id);
+
+    //查询锁定量
+    Double CheckOutLocking_number(Integer product_id);
+    //查询待发货量
+    Double CheckOutDelivered_number(Integer product_id);
+    //查询库存量
+    Double CheckOutCount_number(Integer product_id);
 
     //查询出库记录
     List<StoreCheckOut> listCheckOut(@Param("start") Integer start,

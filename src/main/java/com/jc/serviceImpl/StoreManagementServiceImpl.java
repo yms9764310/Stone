@@ -43,7 +43,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
     Lock l = new ReentrantLock();//创建锁对象
 
     @Override
-    public List<Store> listAll(String page, String limit, String name) {
+    public List<Store> listStoreAll(String page, String limit, String name) {
         PageRange pageRange = new PageRange(page, limit);
         //先获取当前账号的ID,判断是否是主管
         int id = 3;
@@ -51,12 +51,35 @@ public class StoreManagementServiceImpl implements StoreManagementService {
         if (sysUsersBeans.getName().equals("主管")) {
             //判断是否是仓库管理
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
-                List<Store> stores = storeManagementMapper.listAll(pageRange.getStart(), pageRange.getEnd(), name);
+                List<Store> stores = storeManagementMapper.listStoreAll(pageRange.getStart(), pageRange.getEnd(), name);
                 return stores;
             }
         }
         return null;
     }
+
+    public StoreCheckOut loadStoreCheckOut(Integer product_id) {
+        StoreCheckOut storeCheckOut = new StoreCheckOut();
+        //获取库存总数
+        Double countnumber = storeManagementMapper.CheckOutCount_number(product_id);
+        //获取锁定量
+        Double locking_number = storeManagementMapper.CheckOutLocking_number(product_id);
+        if(locking_number==null){
+            locking_number=0.0;
+        }
+        storeCheckOut.setLocking_number(locking_number);
+        //获取待发货量
+        Double delivered_number  = storeManagementMapper.CheckOutDelivered_number(product_id);
+        //计算可用数量
+        if(delivered_number==null){
+            delivered_number=0.0;
+        }
+        storeCheckOut.setDelivered_number(delivered_number);
+            Double can_number = (countnumber - locking_number - delivered_number);
+            storeCheckOut.setCan_number(can_number);
+        return storeCheckOut;
+    }
+
 
     @Override
     public List<StoreCheck> listCheckAll(String page, String limit, String startTime, String endTime) {
@@ -138,7 +161,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
         List<StoreCheckTaskDetail> storeCheckTaskDetails = storeManagementMapper.loadByCheckId(id);
         storeCheck.setStoreCheckTaskDetailList(storeCheckTaskDetails);
         for (StoreCheckTaskDetail storeCheckTaskDetail : storeCheckTaskDetails) {
-            int product_id =storeCheckTaskDetail.getProduct_id();
+            int product_id = storeCheckTaskDetail.getProduct_id();
             int number = storeManagementMapper.count(product_id);
             storeCheckTaskDetail.setNumber(number);
             storeCheck.setStoreCheckTaskDetailList(storeCheckTaskDetails);
@@ -232,7 +255,8 @@ public class StoreManagementServiceImpl implements StoreManagementService {
     @Override
     public List<StoreCheckOut> listCheckOut(String page, String limit, String startTime, String endTime, String name, String source_kind) {
         PageRange pageRange = new PageRange(page, limit);
-        return storeManagementMapper.listCheckOut(pageRange.getStart(), pageRange.getEnd(), startTime, endTime, name, source_kind);
+        List<StoreCheckOut> storeCheckOuts = storeManagementMapper.listCheckOut(pageRange.getStart(), pageRange.getEnd(), startTime, endTime, name, source_kind);
+        return storeCheckOuts;
     }
 
     @Override

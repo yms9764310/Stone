@@ -20,7 +20,9 @@ import java.util.List;
 
 public interface StoreManagementService {
 
-    List<Store> listAll(String page, String limit,String name);
+    List<Store> listStoreAll(String page, String limit,String name);
+
+    StoreCheckOut loadStoreCheckOut(Integer product_id);
 
     List<StoreCheck> listCheckAll(String page, String limit, String startTime, String endTime);
 
