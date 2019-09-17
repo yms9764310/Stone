@@ -248,6 +248,19 @@ public class ToDoListServiceImpl implements ToDoListService {
     }
 
     @Override
+    public List<ProduceTask> listWorkSpeed(Integer id) {
+        List<ProduceTask> produceTasks= new ArrayList<ProduceTask>();
+        List<ProduceTask> produceProcesses1 = toDoListMapper.listWorkSpeed(id);
+        for (ProduceTask produceTask : produceProcesses1) {
+            produceTask.getEnd_date();
+            produceTask.getProcess_type();
+            produceTask.getProcess_type();
+            produceTasks.add(produceTask);
+        }
+        return produceTasks;
+    }
+
+    @Override
     public List<ProduceTask> listWorkflow(String page, String limit, String name) {
         PageRange pageRange = new PageRange(page, limit);
         //先获取当前账号的ID,判断是否是生产部

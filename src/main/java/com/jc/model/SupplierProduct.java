@@ -20,12 +20,9 @@ public class SupplierProduct implements Serializable {
     //商品id
     private int productId;
     //可供应最大数量
-    private BigDecimal maxNumber;
+    private String maxNumber;
     //成本价
-    private BigDecimal price;
+    private String price;
 
     private  String productName;
-
-
-
 }

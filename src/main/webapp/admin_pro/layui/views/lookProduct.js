@@ -32,7 +32,7 @@ layui.config({
             //alert(JSON.stringify(data.productName));
             $(data).each(function (index,item) {
                 //alert(item.name);
-                var sysProduct="<input type='text' class=\"layui-input-inline layui-input\" name='productName' value='"+item.productName+"' readonly>";
+                var sysProduct="<input type='text' class=\"layui-input-inline layui-input\" name='SysProductName' value='"+item.productName+"' readonly>";
                 $(".shop").append(sysProduct);
             });
             form.render();

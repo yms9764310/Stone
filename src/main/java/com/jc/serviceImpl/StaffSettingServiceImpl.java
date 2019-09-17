@@ -46,6 +46,7 @@ public class StaffSettingServiceImpl implements StaffSettingService {
                         sysUsers.getSex(),sysUsers.getAge(),sysUsers.getPhone(),sysUsers.getJob_id(),
                         sysUsers.getDepart_id(),sysUsers.getDepart_role_id());
                 SysUsers sysUsers2 = new SysUsers("1",sysUsers.getModify_date(),sysUsers.getMax_threshold());
+                //调用方法
                 staffSettingMapper.updateMessage(sysUsers1);
                 staffSettingMapper.updateThreshold(sysUsers2);
                 int code = 300;
@@ -56,6 +57,7 @@ public class StaffSettingServiceImpl implements StaffSettingService {
                 SysUsers sysUsers1 = new SysUsers(sysUsers.getId(),"1",date,sysUsers.getName(),
                         sysUsers.getSex(),sysUsers.getAge(),sysUsers.getPhone(),sysUsers.getJob_id(),
                         sysUsers.getDepart_id(),sysUsers.getDepart_role_id());
+                //调用方法
                 staffSettingMapper.updateMessage(sysUsers1);
                 int code = 300;
                 return code;

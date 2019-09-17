@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface PurchaseSupplierService {
     //查询全部供应商以及搜索功能
-    List<PurchaseSupplier> listSupplier(String page,String limit,String creator,String name);
+    List<PurchaseSupplier> listSupplier(String page,String limit,String SysProductName,String name);
     //获取菜单大小
     int countGetAll();
     //添加供应商
