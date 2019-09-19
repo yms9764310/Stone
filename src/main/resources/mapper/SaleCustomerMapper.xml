@@ -18,7 +18,24 @@
     </resultMap>
     <!--查询全部-->
     <select id="listCustomer" resultType="SaleCustomer">
-        SELECT id,creator,create_date,modifier,modify_date,state,name,address,phone,company FROM t_sale_custome
+        SELECT
+        salecustomer.id,
+        salecustomer.creator,
+        salecustomer.create_date,
+        salecustomer.modifier,
+        salecustomer.modify_date,
+        salecustomer.state,
+        salecustomer.name,
+        salecustomer.address,
+        salecustomer.phone,
+        salecustomer.company,
+        salebill.customer_id
+        FROM
+        t_sale_custome AS salecustomer
+        LEFT JOIN
+        t_sale_bill AS salebill
+        on
+        salecustomer.id = salebill.customer_id
         <where>
             <if test="name !=null and name !=''">
                 and name = #{name,jdbcType=VARCHAR}
@@ -50,8 +67,40 @@
         SELECT * FROM t_sale_custome WHERE id=#{id,jdbcType=INTEGER}
     </select>
 
+    <select id="loadById1" parameterType="java.lang.Integer" resultType="SaleCustomer">
+        SELECT * FROM t_sale_custome WHERE id=#{id,jdbcType=INTEGER}
+    </select>
+
     <insert id="insertCustomerExcel" parameterType="com.jc.model.sale.SaleCustomer">
         INSERT INTO t_sale_custome (creator,create_date,modifier,modify_date,state,name,address,phone,company)
         VALUES (#{creator},#{create_date},#{modifier},#{modify_date},#{state},#{name},#{address},#{phone},#{company})
     </insert>
+    <!--    查看客户记录-->
+    <select id="loadByCusId" parameterType="java.lang.Integer" resultType="com.jc.model.sale.SaleBill">
+        SELECT
+        salebill.id,
+        salebill.creator,
+        salebill.create_date,
+        salebill.modifier,
+        salebill.modify_date,
+        salebill.state,
+        salebill.bill_no,
+        salebill.sale_id,
+        salebill.address,
+        salebill.sale_money,
+        salebill.deliver_date,
+        salebill.settle_type,
+        salebill.customer_id
+        FROM
+        t_sale_bill AS salebill
+		LEFT JOIN
+        t_sale_custome AS salecustomer
+        on
+        salebill.customer_id = salecustomer.id
+        WHERE salebill.customer_id=#{customer_id,jdbcType=INTEGER}
+    </select>
+<!--    选择客户添加-->
+    <select id="listChooseCustomer" resultType="SaleCustomer">
+        SELECT id,name FROM t_sale_custome
+    </select>
 </mapper>

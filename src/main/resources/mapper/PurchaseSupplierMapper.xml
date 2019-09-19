@@ -97,7 +97,7 @@
     <!--    查询全部商品名-->
     <select id="listSysPurchaseProduct" parameterType="com.jc.model.SysPurchaseProduct" resultType="com.jc.model.SysPurchaseProduct">
         select
-        product.id,product.name
+        product.id,product.name,product.model_type as modelType
         from t_sys_purchase_product as product
     </select>
 <!--    删除-->

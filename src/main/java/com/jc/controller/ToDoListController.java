@@ -112,7 +112,7 @@ public class ToDoListController {
     @ResponseBody
     public IResult getWorkSpeed(int id){
         //返回json至前端的均返回ResultBean或者PageResultBean
-        List<ProduceTask> produceTasks = toDoListServiceImpl.listWorkflowHistory(id);
+        List<ProduceTask> produceTasks = toDoListServiceImpl.listWorkSpeed(id);
         return new ResultBean<Collection<ProduceTask>>(produceTasks);
     }
 }

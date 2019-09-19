@@ -1,5 +1,6 @@
 package com.jc.mapper.sale;
 
+import com.jc.model.sale.SaleBill;
 import com.jc.model.sale.SaleCustomer;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -23,10 +24,15 @@ public interface SaleCustomerMapper {
     void deleteCustomer(int id);
     //根据ID查询
     SaleCustomer loadById(int id);
+    List<SaleCustomer> loadById1(int id);
     //修改信息、
     void updateCustomer(SaleCustomer saleCustomer);
     //POI导入Excel
     String ajaxUploadExcel(HttpServletRequest request, HttpServletResponse response);
     //插入
     Boolean insertCustomerExcel(SaleCustomer saleCustomer);
+    //查询订单
+    SaleBill loadByCusId(Integer id);
+    //选择客户
+    List<SaleCustomer> listChooseCustomer();
 }

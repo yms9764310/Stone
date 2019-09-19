@@ -42,7 +42,7 @@ layui.config({
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
                 , {field: 'id', title: '加工单ID', width: '10%', align: 'center'}
-                , {field: 'bom_id', title: '物料ID', width: '10%', align: 'center'}
+                , {field: 'bom_id', title: '物料名称', width: '10%', align: 'center'}
                 , {field: 'process_user_id', title: '负责人', width: '15%', templet: '#upc', align: 'center'}
                 , {field: 'begin_date', title: '开始时间', width: '15%', templet: '#upc', align: 'center'}
                 , {field: 'end_date', title: '结束时间', width: '15%', templet: '#upc', align: 'center'}

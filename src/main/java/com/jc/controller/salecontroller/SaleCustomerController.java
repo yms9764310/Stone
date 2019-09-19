@@ -4,8 +4,10 @@ package com.jc.controller.salecontroller;
 import com.jc.beans.response.IResult;
 import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
+import com.jc.model.sale.SaleBill;
 import com.jc.model.sale.SaleCustomer;
 import com.jc.model.SysLoginUser;
+import com.jc.service.sale.SaleBillService;
 import com.jc.service.sale.SaleCustomerService;
 import com.jc.service.SysLoginUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +33,8 @@ public class SaleCustomerController {
     SaleCustomerService saleCustomerServiceImpl;
     @Autowired
     SysLoginUserService sysLoginUserServiceImpl;
+    @Autowired
+    SaleBillService saleBillServiceImpl;
     /**
      * 查看所有客户
      */
@@ -68,7 +73,15 @@ public class SaleCustomerController {
     @RequestMapping(value = "/delete.do",method = RequestMethod.POST)
     @ResponseBody
     public IResult deleteCustomer(int id){
-        return new ResultBean<Integer>(saleCustomerServiceImpl.deleteCustomer(id));
+        List<SaleCustomer> saleCustomerList = saleCustomerServiceImpl.loadById1(id);
+        for (SaleCustomer saleCustomer:saleCustomerList) {
+            List<SaleBill> saleBillList = saleBillServiceImpl.loadById1(saleCustomer.getId());
+            for (SaleBill saleBill:saleBillList) {
+                saleBillServiceImpl.deleteSaleBill(saleBill.getCustomer_id());
+            }
+            saleCustomerServiceImpl.deleteCustomer(id);
+        }
+        return new ResultBean<String>("success");
     }
     /**
      * 获取客户ID
@@ -102,5 +115,22 @@ public class SaleCustomerController {
     @RequestMapping(value="fileUpload.do", produces = "application/text; charset=utf-8")
     public String UploadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return saleCustomerServiceImpl.ajaxUploadExcel(request, response);
+    }
+    /**
+     * 查看订单记录
+     */
+    @RequestMapping("/loadByCusId")
+    @ResponseBody
+    public IResult loadByCusId(Integer id){
+        return new ResultBean<SaleBill>(saleCustomerServiceImpl.loadByCusId(id));
+    }
+    /*
+    * 选择客户添加
+    * */
+    @RequestMapping("/chooseCus")
+    @ResponseBody
+    public IResult chooseCus(){
+        List<SaleCustomer> saleCustomers = saleCustomerServiceImpl.listChooseCustomer();
+        return new ResultBean<Collection<SaleCustomer>>(saleCustomers);
     }
 }

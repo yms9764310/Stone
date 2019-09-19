@@ -5,12 +5,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
+/*
+ * 客户表
+ */
 @Data
 public class SaleCustomer implements Serializable {
-    /*
-    * 客户表
-    */
     private int id;//主键自增
     private int creator;//创建人
     //时间要加注解

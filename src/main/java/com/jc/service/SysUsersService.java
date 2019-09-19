@@ -3,6 +3,8 @@ package com.jc.service;
 import com.jc.model.SysLoginUser;
 import com.jc.model.SysUsers;
 
+import java.util.List;
+
 /**
  * 年: 2019
  * 月: 08
@@ -17,4 +19,6 @@ public interface SysUsersService {
     String  updateMessage(SysUsers sysUsers);
     //根据ID查询
     SysUsers loadById(Integer id);
+    List<SysUsers> listSysUsers();
+
 }

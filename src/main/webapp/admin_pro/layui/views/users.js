@@ -32,7 +32,7 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'Student/get.do' //数据接口
+            , url: $tool.getContext()  //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5

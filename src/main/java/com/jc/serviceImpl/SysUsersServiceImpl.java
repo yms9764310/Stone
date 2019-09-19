@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 年: 2019
@@ -31,5 +32,10 @@ public class SysUsersServiceImpl implements SysUsersService {
 
     public SysUsers loadById(Integer id) {
         return sysUsersMapper.loadById(id);
+    }
+
+    @Override
+    public List<SysUsers> listSysUsers() {
+        return sysUsersMapper.listSysUsers();
     }
 }
