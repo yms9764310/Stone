@@ -4,7 +4,6 @@ import com.jc.model.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ public interface ToDoListMapper {
         //盘点结果单
         List<ToDoList> listStoreCheck(@Param("start") Integer start,
                                     @Param("end") Integer end,
-                                    @Param("creator") String name);
+                                    @Param("name") String name);
         //出库单
         List<ToDoList> listStoreCheckout(@Param("start") Integer start,
                                     @Param("end") Integer end,
