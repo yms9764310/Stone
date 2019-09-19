@@ -27,7 +27,7 @@
            <div class="layui-form-item parent-menu">
                <label class="layui-form-label">供应商:</label>
                <div class="layui-input-block">
-                   <input type="text" class="layui-input" lay-verify="required" name="creator" placeholder="请输入创建人">
+                   <input type="text" class="layui-input" lay-verify="required" name="name" placeholder="请输入创建人">
                </div>
            </div>
 
@@ -42,14 +42,14 @@
            <div class="layui-form-item parent-menu">
                <label class="layui-form-label">联系人:</label>
                <div class="layui-input-block">
-                   <input type="text" class="layui-input" lay-verify="required" name="contact_name" placeholder="请输入联系人">
+                   <input type="text" class="layui-input" lay-verify="required" name="contact_name" id="contact" placeholder="请输入联系人">
                </div>
            </div>
 
            <div class="layui-form-item parent-menu">
                <label class="layui-form-label">联系电话:</label>
                <div class="layui-input-block">
-                   <input type="text" class="layui-input" lay-verify="required" name="contact_phone" placeholder="请输入联系电话">
+                   <input type="text" class="layui-input" lay-verify="required" name="contact_phone" placeholder="请输入联系电话" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'')">
                </div>
            </div>
 

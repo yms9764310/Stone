@@ -36,23 +36,22 @@ layui.config({
             , method: 'post'
             , page: true //开启分页
             , limit:10
-            , limits:[10,20,30,40,50,60,70,80,90]
+            , limits:[10,20,30,40,50,60,70]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
-                , {field: 'creator', title: '创建人', width: '10%',align:'center'}
+                , {field: 'creator', title: '创建人', width: '5%',align:'center'}
                 , {field: 'name', title: '供应商', width: '10%',align:'center'}
                 , {field: 'createDate', title: '创建时间', width: '13%',align:'center'}
-                , {field: 'modifier', title: '修改人', width: '10%', templet: '#upc',align:'center'}
+                , {field: 'modifier', title: '修改人', width: '5%', templet: '#upc',align:'center'}
                 , {field: 'modifyDate', title: '修改时间', width: '13%', templet: '#upc',align:'center'}
                 , {field: 'companyName', title: '公司名', width: '10%', templet: '#upc',align:'center'}
-                , {field: 'contactName', title: '联系人', width: '10%', templet: '#upc',align:'center'}
+                , {field: 'contactName', title: '联系人', width: '6%', templet: '#upc',align:'center'}
                 , {field: 'contactPhone', title: '联系电话', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'address', title: '公司地址', width: '10%', templet: '#upc',align:'center'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
 
         });
-
         //为toolbar添加事件响应
         table.on('tool(userFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var row = obj.data; //获得当前行数据
@@ -74,26 +73,23 @@ layui.config({
     defineTable();
     //查询
     form.on("submit(findLike)", function (data) {
-        var name = data.field.name;
-        var SysProductName = data.field.SysProductName;
-        // if(name==null||""==name||name!=data.field.name){
-        //     layer.msg("请输入要查询的供应商名称或正确的供应商名称!",{time:1500,icon:8});
-        //     return false;
-        // }
-        // if (name==null||""==name){
-        //     layer.msg("请输入要查询的商品!",{time:1500,icon:8});
-        //     return false;
-        // }
-
-        //alert(JSON.stringify(name));
-        //alert(creator);
-        //表格重新加载
-        tableIns.reload({
-            where: {
-                name:name,
-                SysProductName: SysProductName
-            }
-        });
+        //查询的校验
+        var searchSysProductName=document.getElementById("SysProductName").value;
+        var searchName=document.getElementById("name").value;
+        if ((searchSysProductName==null||searchSysProductName=="")&&(searchName==null||searchName=="")){
+            layer.msg("你未输入要查询的条件!",{time:1500,icon:8});
+            return false;
+        }else{
+            var SysProductName = data.field.SysProductName;
+            var name = data.field.name;
+            //表格重新加载
+            tableIns.reload({
+                where: {
+                    SysProductName: SysProductName,
+                    name:name
+                }
+            });
+        }
         return false;
     });
 
@@ -106,7 +102,7 @@ layui.config({
     };
 
 
-    //添加学生
+    //添加
     $(".insert_btn").click(function () {
         var index = layui.layer.open({
             title: "添加供应商信息",
@@ -171,24 +167,7 @@ layui.config({
 
 
 
-    //     判断Excel文件
-    // $(document).ready(function () {
-    //     $("#upfile").click(function () {
-    //         var file = $("#FileUpload1").val();
-    //         if (file == "") {
-    //             layer.msg("请选择要上传的文件",{time:1500,icon:8});
-    //             return false
-    //         } else {
-    //             //检验文件类型是否正确
-    //             var exec = (/[.]/.exec(file)) ? /[^.]+$/.exec(file.toLowerCase()) : '';
-    //             if (exec != "xlsx") {
-    //                 layer.msg("文件格式不对，请上传Excel文件!",{time:1500,icon:8});
-    //                 return false;
-    //             }
-    //         }
-    //         return true;
-    //     });
-    // });
+
 // Excel导入
     layui.use('upload', function () {
         var $ = layui.jquery
@@ -240,7 +219,7 @@ layui.config({
         var index = layui.layer.open({
             title: "商品信息",
             type: 2,
-            area:['75%','80%'],
+            area:['40%','50%'],
             fixed: false, //不固定
             maxmin: true,
             btn:['确定','取消'],

@@ -161,6 +161,34 @@ layui.define(['$tool','jquery'], function (exports) {
         LookProduct:function(req,successCallback,errorCallback){
             doPost($tool.getContext() + 'purchaseSupplier/loadProduct.do',req,successCallback,errorCallback);
         },
+        //添加采办事项
+        InsertPurchaseBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/insertPurchaseBill.do',req,config,successCallback,errorCallback);
+        },
+        //根据id获取采办事项信息
+        LoadBill:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/loadPurchaseBill.do',req,successCallback,errorCallback);
+        },
+        //删除采办事项
+        DeletePurchaseBill:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/deletePurchaseBill.do',req,successCallback,errorCallback);
+        },
+        //编辑采办事项
+        UpdatePurchaseBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/updatePurchaseBill.do',req,config,successCallback,errorCallback);
+        },
+        //
+        PurchaseSupplierOrders:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/purchaseSupplierLike.do',req,successCallback,errorCallback);
+        },
+        //审核
+        UpdatePurchaseBillAudit:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/purchaseBillAudit.do',req,config,successCallback,errorCallback);
+        },
+        //删除采办事项
+        SupplierProductLike:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/supplierProduct.do',req,successCallback,errorCallback);
+        },
         UpdatePassword:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'SysLoginUser/changePassword.do',req,config,successCallback,errorCallback);
         },

@@ -42,7 +42,7 @@
            <div class="layui-form-item parent-menu">
                <label class="layui-form-label">联系电话:</label>
                <div class="layui-input-block">
-                   <input type="text" class="layui-input" lay-verify="required" name="contact_phone" placeholder="请输入联系电话">
+                   <input type="text" class="layui-input" lay-verify="required" id="contact" name="contact_phone" placeholder="请输入联系电话" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'')">
                </div>
            </div>
 

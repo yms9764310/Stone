@@ -42,14 +42,35 @@ layui.config({
                     layer.msg("请选择商品",{time:1000,icon:5});
                     return false;
                 }
-                if (searchInputMax==null||searchInputMax==""){
-                    layer.msg("请填写数量",{time:2000,icon:5});
-                    return false;
-                }
-                if (searchInputPrice==null||searchInputPrice==""){
-                    layer.msg("请填写价格",{time:2000,icon:5});
-                    return false;
-                }
+                var i=0;
+                $(inputMax).each(function (index,max) {
+                    if (max==null||""==max){
+                        layer.msg("请填写数量",{time:1000,icon:5});
+                        flag = false;
+                        return flag;
+                    }else{
+                        i++;
+                    }
+                    if(i==inputMax.length){
+                        flag = true;
+                        return flag;
+                    }
+                });
+                var j=0;
+                $(inputPrice).each(function (index,price) {
+                    if (price==null||""==price){
+                        layer.msg("请填写价格",{time:1000,icon:5});
+                        flag = false;
+                        return flag;
+                    }else{
+                        j++;
+                    }
+                    if(j==inputPrice.length){
+                        flag = true;
+                        return flag;
+                    }
+                });
+
                 var g=0;
                 $(".shop").empty();
                 var show="";
@@ -95,7 +116,7 @@ layui.config({
             //alert(JSON.stringify(data));
             $(data).each(function (index,item) {
                 $("input[name='id']").val(item.id);
-                $("input[name='creator']").val(item.creator);
+                $("input[name='name']").val(item.name);
                 $("input[name='company_name']").val(item.companyName);
                 $("input[name='contact_name']").val(item.contactName);
                 $("input[name='contact_phone']").val(item.contactPhone);
@@ -148,7 +169,14 @@ layui.config({
         var name=$("input[name='name']").val();
         var companyName=$("input[name='company_name']").val();
         var contactName=$("input[name='contact_name']").val();
+        //联系电话
         var contactPhone=$("input[name='contact_phone']").val();
+        //联系电话的校验
+        var phone=document.getElementById("contact").value;
+        if (!(/^1[3456789]\d{9}$/.test(phone))) {
+            layer.msg("手机号码格式有误,请重填!",{time:1500,icon:5});
+            return false;
+        }
         var address=$("input[name='address']").val();
 
 
@@ -165,9 +193,9 @@ layui.config({
             address:address
         }
         //alert(JSON.stringify(req))
+        layer.confirm("确定修改信息吗?",function (confirmIndex) {
+            layer.close(confirmIndex);//关闭confirm
         $api.editSupplier(JSON.stringify(req), {contentType: 'application/json;charset=utf-8'}, function () {
-            layer.confirm("确定修改信息吗?",function (confirmIndex) {
-                layer.close(confirmIndex);//关闭confirm
                 layer.msg("修改成功！", {time: 1000,icon:1}, function () {
                     layer.closeAll("iframe");
                     //刷新父页面

@@ -73,9 +73,9 @@ layui.config({
                     }
                 });
 
+
                 // document.getElementById("pname").value=searchInput;
                 // document.getElementById("pid").value=searchInputId;
-                var g=0;
                 $(".shop").empty();
                 var show="";
                 $(inputName).each(function (index,item) {
@@ -132,7 +132,14 @@ layui.config({
         console.info(supplierProductList);
         var companyName = $("input[name='company_name']").val();
         var contactName = $("input[name='contact_name']").val();
+        //联系电话
         var contactPhone = $("input[name='contact_phone']").val();
+        //联系电话的校验
+        var phone=document.getElementById("contact").value;
+        if (!(/^1[3456789]\d{9}$/.test(phone))) {
+            layer.msg("手机号码格式有误,请重填!",{time:1500,icon:5});
+            return false;
+        }
         var address = $("input[name='address']").val();
         //请求
         var req = {
@@ -145,17 +152,16 @@ layui.config({
         };
         // alert(JSON.stringify(req));
         console.log(JSON.stringify(req));
-        $api.InsertSupplier(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {
-            layer.confirm("确定添加吗?",function (confirmIndex) {
-                layer.close(confirmIndex);//关闭confirm
-                layer.msg("添加成功！",{time:1000,icon:6},function () {
-                    layer.closeAll("iframe");
-                    //刷新父页面
-                    parent.location.reload();
+        layer.confirm("确定添加吗?",function (confirmIndex) {
+            layer.close(confirmIndex);//关闭confirm
+            $api.InsertSupplier(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {
+                    layer.msg("添加成功！",{time:1000,icon:6},function () {
+                        layer.closeAll("iframe");
+                        //刷新父页面
+                        parent.location.reload();
+                    });
                 });
             });
+            return false;
         });
-        return false;
-    });
-
 });

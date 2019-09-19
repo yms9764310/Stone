@@ -1,1 +1,0 @@
-这个jquery是非压缩版，测试用。layui自带压缩的jquery。
