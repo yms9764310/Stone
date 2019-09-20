@@ -31,8 +31,6 @@ public interface PurchaseBillService {
     boolean updatePurchaseBill(PurchaseBill purchaseBill);
     //查询采购人员
     List<SysUsers> listSysUsersName();
-    //根据商品名查询供应商
-
     //查询全部采购单
     List<PurchaseBill> listPurchaseBillOrders(String page,String limit);
 
@@ -41,4 +39,8 @@ public interface PurchaseBillService {
     List<SupplierProduct> listSupplierPrice(Integer purchaseSupplierId,Integer productId);
     //审核采办事项
     boolean updatePurchaseBillAudit(PurchaseBill purchaseBill);
+    //待完成,根据id查询
+    PurchaseBill loadPurchaseBillCompleted(Integer id);
+    //待完成,创建订单
+    boolean updateBillComplete(PurchaseBill purchaseBill);
 }

@@ -57,6 +57,8 @@ layui.config({
                 editCheck(row.id);
             }else if (layEvent==='audit') {//审核
                 audit(row.id);
+            }else if (layEvent==='completed'){//待完成
+                completed(row.id);
             }
         });
     }
@@ -142,6 +144,29 @@ layui.config({
             title: "审核采办事项信息",
             type: 2,
             content: "auditPurchaseBill.html?id=" +id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: [1,'#3595CC'],
+                        time:4000
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
+    //待完成,采购人员创建订单
+    function completed(id) {
+        var index = layui.layer.open({
+            title: "审核采办事项信息",
+            type: 2,
+            content: "completedBill.html?id=" +id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {

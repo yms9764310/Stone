@@ -290,6 +290,14 @@ layui.define(['$tool','jquery'], function (exports) {
         SupplierProductLike:function(req,successCallback,errorCallback){
             doPost($tool.getContext() + 'procurementBill/supplierProduct.do',req,successCallback,errorCallback);
         },
+        //待完成，根据id获取
+        LoadCompletedBill:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/loadCompletedBill.do',req,successCallback,errorCallback);
+        },
+        //待完成,创建订单
+        UpdateBillComplete:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/updateCompleted.do',req,config,successCallback,errorCallback);
+        },
         UpdatePassword:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'SysLoginUser/changePassword.do',req,config,successCallback,errorCallback);
         },

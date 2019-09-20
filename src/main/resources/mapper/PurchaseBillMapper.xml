@@ -54,44 +54,16 @@
         ON
         bill.is_bill=res.id
         where
-        bill.is_bill=6
+        bill.is_bill=11
         <if test="creator!=null and creator!=''">
             and bill.creator=#{creator}
         </if>
+        order by bill.state=3 desc
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
     <!--    获取采办菜单大小-->
     <select id="countGet" resultType="Integer" parameterType="map">
-        SELECT COUNT(0) FROM t_purchase_bill WHERE t_purchase_bill.is_bill=6
-    </select>
-<!--    待审核-->
-    <select id="listPurchaseCheck" resultMap="PurchaseBillResultMap">
-        SELECT
-        bill.id,bill.creator,users.name purchaseName,bill.create_date,
-        bill.modify_date,bill.modifier,bill.put_in_date,re.display_name emergent,
-        res.display_name is_bill,bill.sum_money,bill.expect_date,
-        resource.display_name state
-        FROM
-        t_purchase_bill AS bill
-        LEFT JOIN
-        t_sys_users AS users
-        ON
-        bill.purchase_id=users.id
-        LEFT JOIN
-        t_sys_resource as resource
-        ON
-        bill.state=resource.id
-        LEFT JOIN
-        t_sys_resource as re
-        ON
-        bill.emergent=re.id
-        LEFT JOIN
-        t_sys_resource as res
-        ON
-        bill.is_bill=res.id
-        WHERE
-        bill.state=5
-        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+        SELECT COUNT(0) FROM t_purchase_bill WHERE t_purchase_bill.is_bill=11
     </select>
 
     <resultMap id="DetailResultMap" type="com.jc.model.PurchaseBillDetail">
@@ -316,13 +288,13 @@
         ON
         bill.is_bill=resource.id
         WHERE
-        bill.is_bill=5
+        bill.is_bill=12
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 
     <!--    获取待采购单菜单大小-->
     <select id="countGetAll" resultType="Integer" parameterType="map">
-        SELECT COUNT(0) FROM t_purchase_bill WHERE t_purchase_bill.is_bill=5
+        SELECT COUNT(0) FROM t_purchase_bill WHERE t_purchase_bill.is_bill=12
     </select>
 
 <!--    根据商品名称和商品类型查询供货商商品表-->
@@ -393,4 +365,81 @@
         and
         product_id=#{productId}
     </update>
+
+
+    <!--    待完成，根据id查询-->
+<resultMap id="BillCompletedResultMap" type="com.jc.model.PurchaseBill">
+    <id column="id" property="id"></id>
+    <result column="creator" property="creator"></result>
+    <result column="creator_id" property="creator_id"></result>
+    <result column="create_date" property="createDate"></result>
+    <result column="modify_date" property="modifyDate"></result>
+    <result column="put_in_date" property="putInDate"></result>
+    <result column="emergent" property="emergent"></result>
+    <result column="state" property="state"></result>
+    <result column="purchase_id" property="purchaseId"></result>
+    <result column="purchaseName" property="purchaseName"></result>
+    <result column="expect_date" property="expectDate"></result>
+    <result column="sum_money" property="sumMoney"></result>
+    <association property="sysResource" javaType="com.jc.model.SysResource">
+        <id column="sid" property="id"></id>
+        <result column="display_name" property="displayName"></result>
+    </association>
+    <collection property="purchaseBillDetailList" ofType="com.jc.model.PurchaseBillDetail">
+        <id column="detail_id" property="id"></id>
+        <result column="product_id" property="productId"></result>
+        <result column="bill_id" property="billId"></result>
+        <result column="price" property="price"></result>
+        <result column="number" property="number"></result>
+        <result column="supplier_id" property="supplierId"></result>
+        <result column="money" property="sumMoney"></result>
+        <result column="supplierName" property="supplierName"></result>
+        <association property="sysPurchaseProduct" javaType="com.jc.model.SysPurchaseProduct">
+            <id column="pid" property="id"></id>
+            <result column="name" property="name"></result>
+        </association>
+    </collection>
+</resultMap>
+
+    <select id="loadPurchaseBillCompleted" parameterType="Integer" resultMap="BillCompletedResultMap">
+        SELECT
+        bill.id,bill.creator creator_id,users.name creator,bill.create_date,bill.modify_date,
+        bill.put_in_date,bill.emergent,bill.state,bill.purchase_id,users.name purchaseName,
+        bill.expect_date,bill.sum_money,resource.id sid,resource.display_name,
+        re.display_name,detail.id detail_id,detail.product_id,detail.bill_id,
+        detail.supplier_id,supplier.name supplierName,product.id pid,product.name,detail.price,
+        detail.number,detail.sum_money money
+        FROM
+        t_purchase_bill AS bill
+        LEFT JOIN
+        t_sys_resource as resource
+        ON
+        bill.state=resource.id
+        LEFT JOIN
+        t_sys_resource as re
+        ON
+        bill.emergent=re.id
+        LEFT JOIN
+        t_sys_resource as res
+        ON
+        bill.is_bill=res.id
+        LEFT JOIN
+        t_purchase_bill_detail AS detail
+        ON
+        bill.id=detail.bill_id
+        LEFT JOIN
+        t_sys_purchase_product AS product
+        ON
+        product.id=detail.product_id
+        LEFT JOIN
+        t_sys_users AS users
+        ON
+        users.id=bill.purchase_id
+        LEFT JOIN
+        t_purchase_supplier AS supplier
+        ON
+        supplier.id=detail.supplier_id
+        WHERE
+        bill.id=#{id}
+    </select>
 </mapper>

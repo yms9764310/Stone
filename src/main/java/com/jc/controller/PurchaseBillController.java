@@ -117,4 +117,18 @@ public class PurchaseBillController {
     public IResult updatePurchaseBillAudit(@RequestBody PurchaseBill purchaseBill){
         return new ResultBean<Boolean>(purchaseBillService.updatePurchaseBillAudit(purchaseBill));
     }
+
+    //待完成，根据id查询
+    @RequestMapping(value = "/loadCompletedBill",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult loadCompleted( Integer id){
+        return new ResultBean<PurchaseBill>(purchaseBillService.loadPurchaseBillCompleted(id));
+    }
+
+    //审核
+    @RequestMapping(value = "/updateCompleted",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult updateBillComleted(@RequestBody PurchaseBill purchaseBill){
+        return new ResultBean<Boolean>(purchaseBillService.updateBillComplete(purchaseBill));
+    }
 }

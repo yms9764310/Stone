@@ -28,6 +28,7 @@ public class PurchaseBillDetail implements Serializable {
     private String sumMoney;
     //供应商
     private String supplierId;
+    private String supplierName;
     //采购单Id
     private String billId;
     //关联供应商表

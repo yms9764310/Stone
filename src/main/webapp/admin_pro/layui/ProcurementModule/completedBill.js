@@ -23,11 +23,12 @@ layui.config({
         type:'datetime',
         trigger: 'click'
     });
-
+    var purchaseName;
     /*
       * 初始化菜单信息
       * */
     //根据id获取指定条目信息
+
     function init() {
         var queryArgs = $tool.getQueryParam();//获取查询参数
         var id = queryArgs['id'];
@@ -36,15 +37,18 @@ layui.config({
             id: id
         };
         //findById
-        $api.LoadBill(req, function (res) {
+        $api.LoadCompletedBill(req, function (res) {
             //获取到指定条目信息
             var data=res.data;
             console.log(data);
             $("input[name='id']").val(data.id);
             $("input[name='creator']").val(data.creator);
+            $("input[name='creator_id']").val(data.creator_id);
             $("input[name='putInDate']").val(data.putInDate);
             $("input[name='emergent'][value='13']").attr("checked",data.emergent=='13' ? true:false);
             $("input[name='emergent'][value='14']").attr("checked",data.emergent=='14' ? true:false);
+            $("input[name='expectDate']").val(data.expectDate);
+            $("input[name='sumMoney']").val(data.sumMoney);
             var productDiv='';
             $(data.purchaseBillDetailList).each(function (index,item) {
                 //alert(JSON.stringify(item.sysPurchaseProduct.id));
@@ -56,22 +60,48 @@ layui.config({
                     '               <div class="layui-input-inline supplier">\n' +
                     '                   <select name="supplier_id" id="supplierName" lay-filter="fangxiang" class="supplierName" lay-verify="required" required >\n';
                 productDiv+= '<option value="">请选择厂家</option>';
-                $(item.sysPurchaseProduct.supplierProductList).each(function (index,item) {
-                    productDiv+='<option value="'+item.id+'">'+item.name+'</option>';
+                $(item.sysPurchaseProduct.supplierProductList).each(function (index,supplier) {
+                    if (item.supplierName==supplier.name) {
+                        productDiv+='<option value="'+supplier.id+'" selected>'+supplier.name+'</option>';
+                    }else {
+                        productDiv+='<option value="'+supplier.id+'">'+supplier.name+'</option>';
+                    }
                 });
                 productDiv+='</select></div>';
                 productDiv+='<label class="layui-form-label la">单价:</label>\n' +
                     '               <div class="layui-input-inline">\n' +
-                    '                   <input type="text" name="price" class="layui-input price"  placeholder="0" readonly lay-verify="required" >\n' +
+                    '                   <input type="text" name="price" value="'+item.price+'" class="layui-input price"  placeholder="0" readonly lay-verify="required" >\n' +
                     '               </div>';
                 productDiv+='<label class="layui-form-label la">数量:</label>' +
                     '               <div class="layui-input-inline">' +
-                    '                  <input  type="text" class="layui-input number" name="number" placeholder="0" lay-verify="required" >' +
+                    '                  <input  type="text" class="layui-input number" value="'+item.number+'" name="number" placeholder="0" lay-verify="required" >' +
                     '               </div>';
                 productDiv+='<label class="layui-form-label la">金额:</label><div class="layui-input-inline">' +
-                    '<input type="text" class="layui-input" placeholder="0" name="sum_money" lay-verify="required" readonly></div>';
+                    '<input type="text" class="layui-input" placeholder="0" value="'+item.sumMoney+'" name="sum_money" lay-verify="required" readonly></div>';
                 productDiv+='</div>';
             });
+            var show = '<option value="">请分配采购人员</option>'; //全局变量
+            $.ajax({
+                url:$tool.getContext() + 'procurementBill/listSysUsersName.do',//数据接口
+                data:{},
+                dataType:"json",
+                type:'post',
+                async:false,
+                contentType : "application/json",
+                success:function (result) {
+                    console.log(result.data);
+                    for (var x in result.data){
+                        //alert(JSON.stringify(result.data[x].name));
+                        if (data.purchaseName==result.data[x].name){
+                            show+='<option value="'+result.data[x].id+'" selected>'+result.data[x].name+'</option>';
+                        }else{
+                            show+='<option value="'+result.data[x].id+'">'+result.data[x].name+'</option>';
+                        }
+                    }
+                    $("#userName").html(show);
+                }
+            });
+
             $(".product").append(productDiv);
                 layui.form.render('select');//需要渲染一下
             form.render();
@@ -87,8 +117,7 @@ layui.config({
                 }
                 //数量
                 var txtAmount=$(this).val();
-                var rege = new RegExp(/^\d*$/);
-                if (!rege.test(txtAmount)){
+                if (!reg.test(txtAmount)){
                     layer.msg("数量非法!",{time:1200,icon:5});
                     return false;
                 }
@@ -103,29 +132,13 @@ layui.config({
                 $("#txtTotal").val(sum);
             });
         });
+
     }
     init();
 
 
 
-    var show = '<option value="">请分配采购人员</option>'; //全局变量
-    $.ajax({
-        url:$tool.getContext() + 'procurementBill/listSysUsersName.do',//数据接口
-        data:{},
-        dataType:"json",
-        type:'post',
-        async:false,
-        contentType : "application/json",
-        success:function (result) {
-            console.log(result.data);
-            for (var x in result.data){
-                //alert(JSON.stringify(result.data[x].name));
-                show+='<option value="'+result.data[x].id+'">'+result.data[x].name+'</option>'
-            }
-            $("#userName").html(show);
-        }
-    });
-    layui.form.render('select');//需要渲染一下
+
 
     form.on("select(fangxiang)",function (data1) {
         var purchaseSupplierId=data1.value;
@@ -161,7 +174,7 @@ layui.config({
 
     form.on("submit(updateBill)",function (data) {
         var id=$("input[name='id']").val();
-        var creator=$("input[name='creator']").val();
+        var creator=$("input[name='creator_id']").val();
         var putInDate=$("input[name='putInDate']").val();
         var emergent=$("input[name='emergent']:checked").val();
         if (emergent==null||emergent==''){
@@ -184,7 +197,7 @@ layui.config({
             return false;
         }
         var purchaseId=$(".layui-form").children().eq(6).children().eq(1).children().eq(0).val();
-        var expectDate=$("input[name='expect_date']").val();
+        var expectDate=$("input[name='expectDate']").val();
         var sum=$("#txtTotal").val();
         var req={
             id:id,
@@ -198,10 +211,10 @@ layui.config({
         };
         console.log(req);
         //alert(JSON.stringify(req))
-        layer.confirm("审核确定通过吗?",function (confirmIndex) {
+        layer.confirm("确定创建订单吗?",function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
-            $api.UpdatePurchaseBillAudit(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {
-                layer.msg("审核成功！",{time:1000,icon:6},function () {
+            $api.UpdateBillComplete(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {
+                layer.msg("订单创建成功！",{time:1000,icon:6},function () {
                     layer.closeAll("iframe");
                     //刷新父页面
                     parent.location.reload();

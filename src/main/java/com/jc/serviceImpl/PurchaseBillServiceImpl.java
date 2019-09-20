@@ -65,10 +65,10 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         purchaseBill.setModifier(purchaseBill.getCreator());
         //修改时间
         purchaseBill.setModifyDate(new Date());
-        //状态7表示是待采办
-        purchaseBill.setState(9+"");
-        //状态6表示是待采办事项
-        purchaseBill.setIsBill(6+"");
+        //状态5表示是待采办
+        purchaseBill.setState(5+"");
+        //状态11表示是待采办事项
+        purchaseBill.setIsBill(11+"");
         purchaseBillMapper.insertPurchaseBill(purchaseBill);
 
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
@@ -85,7 +85,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     public PurchaseBill loadPurchaseBill(Integer id) {
         PurchaseBill purchaseBill = purchaseBillMapper.loadPurchaseBill(id);
         for (int i=0;i<purchaseBill.getPurchaseBillDetailList().size();i++){
-            System.out.println(purchaseBill.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
+            //System.out.println(purchaseBill.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
             List<SupplierProduct> purchaseSuppliers = purchaseBillMapper.listPurchaseSupplieLike(purchaseBill.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
             purchaseBill.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().setSupplierProductList(purchaseSuppliers);
         }
@@ -153,34 +153,67 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         return purchaseBillMapper.listSysUsersName();
     }
 
-//    @Override
-//    public List<PurchaseSupplier> listPurchaseSupplierLike(Integer id ) {
-//        return purchaseBillMapper.listPurchaseSupplieLike(id);
-//    }
 
+    //查询全部采购单
     @Override
     public List<PurchaseBill> listPurchaseBillOrders(String page,String limit) {
         PageRange pageRange=new PageRange(page,limit);
         return purchaseBillMapper.listPurchaseBillOrders(pageRange.getStart(),pageRange.getEnd());
     }
 
+    //商品查询
     @Override
     public List<SupplierProduct> listSupplierProduct(String productName, String kind) {
         return purchaseBillMapper.listSupplierProduct(productName,kind);
     }
 
+    //修改采购单详情
     @Override
     public List<SupplierProduct> listSupplierPrice(Integer purchaseSupplierId, Integer productId) {
         return purchaseBillMapper.listSupplierPrice(purchaseSupplierId,productId);
     }
 
+//审核
     @Override
     public boolean updatePurchaseBillAudit(PurchaseBill purchaseBill) {
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
         purchaseBill.setModifier(1+"");
-        purchaseBill.setIsBill(5+"");
+        purchaseBill.setIsBill(11+"");
         purchaseBill.setModifyDate(new Date());
-        purchaseBill.setState(12+"");
+        purchaseBill.setState(5+"");
+        for (PurchaseBillDetail billDetail : purchaseBill.getPurchaseBillDetailList()) {
+            purchaseBillDetail.setProductId(billDetail.getProductId());
+            purchaseBillDetail.setSupplierId(billDetail.getSupplierId());
+            purchaseBillDetail.setBillId(purchaseBill.getId()+"");
+            purchaseBillDetail.setPrice(billDetail.getPrice());
+            purchaseBillDetail.setNumber(billDetail.getNumber());
+            purchaseBillDetail.setSumMoney(billDetail.getSumMoney());
+            purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
+        }
+        purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
+        return true;
+    }
+
+    //待完成，根据id查询
+    @Override
+    public PurchaseBill loadPurchaseBillCompleted(Integer id) {
+        PurchaseBill purchaseBillCompleted = purchaseBillMapper.loadPurchaseBillCompleted(id);
+        for (int i=0;i<purchaseBillCompleted.getPurchaseBillDetailList().size();i++){
+            //System.out.println(purchaseBill.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
+            List<SupplierProduct> purchaseSuppliers = purchaseBillMapper.listPurchaseSupplieLike(purchaseBillCompleted.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
+            purchaseBillCompleted.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().setSupplierProductList(purchaseSuppliers);
+        }
+        return purchaseBillCompleted;
+    }
+
+    //待完成,创建订单
+    @Override
+    public boolean updateBillComplete(PurchaseBill purchaseBill) {
+        PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
+        purchaseBill.setModifier(1+"");
+        purchaseBill.setIsBill(12+"");
+        purchaseBill.setModifyDate(new Date());
+        purchaseBill.setState(3+"");
         for (PurchaseBillDetail billDetail : purchaseBill.getPurchaseBillDetailList()) {
             purchaseBillDetail.setProductId(billDetail.getProductId());
             purchaseBillDetail.setSupplierId(billDetail.getSupplierId());

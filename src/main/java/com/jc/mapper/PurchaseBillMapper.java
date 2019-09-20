@@ -56,4 +56,6 @@ public interface PurchaseBillMapper {
     int updatePurchaseBillAudit(PurchaseBill purchaseBill);
     //修改采办事项详细内容
     int updatePurchaseBillDetailAudit(PurchaseBillDetail purchaseBillDetail);
+    //待完成,根据id查询
+    PurchaseBill loadPurchaseBillCompleted(@Param("id")int id);
 }
