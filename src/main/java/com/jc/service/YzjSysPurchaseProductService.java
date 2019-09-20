@@ -23,7 +23,7 @@ public interface YzjSysPurchaseProductService {
 
 
 
-    //单独创建部门信息
+    //单独创建
     Integer saveYzjSysPurchaseProduct(YzjSysPurchaseProduct yzjSysPurchaseProduct);
     //批量导入
     String ajaxUploadExcel(HttpServletRequest request, HttpServletResponse response);

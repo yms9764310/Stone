@@ -6,12 +6,13 @@ import com.jc.beans.response.ResultBean;
 import com.jc.mapper.YzjSysDepartmentTestMapper;
 import com.jc.mapper.YzjSysLoginUserTestMapper;
 import com.jc.model.OrgNodeResponse;
+import com.jc.model.SysLoginUser;
 import com.jc.model.YzjSysDepartmentTest;
-import com.jc.model.YzjSysLoginUser;
 import com.jc.service.YzjSysDepartmentTestService;
 import com.jc.util.ExcelUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,9 +58,10 @@ public class YzjSysDepartmentTestServiceImpl implements YzjSysDepartmentTestServ
     public Integer updateDepartment(YzjSysDepartmentTest yzjSysDepartmentTest) {
         Date date = new Date();//获取时间
         //判断是否时管理员
-        int id = 1;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         //获取登录人员id
-        YzjSysLoginUser yzjSysLoginUser = yzjSysLoginUserTestMapper.loadLoginUserById(id);
+        SysLoginUser yzjSysLoginUser = yzjSysLoginUserTestMapper.loadLoginUserById(id);
         //获取前端添加的上级部门id,部门名称
         int parent_id = yzjSysDepartmentTest.getId();
         String name = yzjSysDepartmentTest.getName();
@@ -143,8 +145,9 @@ public class YzjSysDepartmentTestServiceImpl implements YzjSysDepartmentTestServ
 			}*/
             //vo.setUserId(Integer.valueOf(String.valueOf(lo.get(0))));  // 刚开始写了主键，由于主键是自增的，又去掉了，现在只有批量插入的功能，不能对现有数据进行修改了
             //获取登录id
-            int id = 1;
-            YzjSysLoginUser seleccid = yzjSysLoginUserTestMapper.loadLoginUserById(id);
+            SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+            int id = user.getId();
+            SysLoginUser seleccid = yzjSysLoginUserTestMapper.loadLoginUserById(id);
             //判断是否有这个集合
             List<YzjSysDepartmentTest> yzjSysDepartmentTests = sysDepartmentTestMapper.listDepartmetName();
             if(yzjSysDepartmentTests.size()==0){
@@ -238,9 +241,10 @@ public class YzjSysDepartmentTestServiceImpl implements YzjSysDepartmentTestServ
     @Override
     public Integer saveDepartmentTest(YzjSysDepartmentTest yzjSysDepartmentTest) {
         Date date = new Date();//获取时间
-        int id = 1;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();//获取当前登录用户id
+        int id = user.getId();
         //获取登录人员id
-        YzjSysLoginUser yzjSysLoginUser = yzjSysLoginUserTestMapper.loadLoginUserById(id);
+        SysLoginUser yzjSysLoginUser = yzjSysLoginUserTestMapper.loadLoginUserById(id);
         //获取前端添加的上级部门id,部门名称
         int parent_id = yzjSysDepartmentTest.getId();
         String name = yzjSysDepartmentTest.getName();

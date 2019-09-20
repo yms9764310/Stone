@@ -9,6 +9,7 @@ import com.jc.mapper.SysUsersMapper;
 import com.jc.model.*;
 import com.jc.service.StaffSettingService;
 import com.jc.service.SysUsersService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,9 @@ public class StaffSettingServiceImpl implements StaffSettingService {
     private StaffSettingMapper staffSettingMapper;
 
     public int updateMessage(SysUsers sysUsers) {
-        //先获取当前账号的ID,判断是否是主管
-        int id = 1;
+       // 先获取当前账号的ID,判断是否是主管
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         SysUsersBeans sysUsersBeans =staffSettingMapper.loadById(id);
         if(sysUsersBeans.getName().equals("主管")&&sysUsersBeans.getRole_id().equals("1")){
             //判断是否是销售部
@@ -46,7 +48,6 @@ public class StaffSettingServiceImpl implements StaffSettingService {
                         sysUsers.getSex(),sysUsers.getAge(),sysUsers.getPhone(),sysUsers.getJob_id(),
                         sysUsers.getDepart_id(),sysUsers.getDepart_role_id());
                 SysUsers sysUsers2 = new SysUsers("1",sysUsers.getModify_date(),sysUsers.getMax_threshold());
-                //调用方法
                 staffSettingMapper.updateMessage(sysUsers1);
                 staffSettingMapper.updateThreshold(sysUsers2);
                 int code = 300;
@@ -57,7 +58,6 @@ public class StaffSettingServiceImpl implements StaffSettingService {
                 SysUsers sysUsers1 = new SysUsers(sysUsers.getId(),"1",date,sysUsers.getName(),
                         sysUsers.getSex(),sysUsers.getAge(),sysUsers.getPhone(),sysUsers.getJob_id(),
                         sysUsers.getDepart_id(),sysUsers.getDepart_role_id());
-                //调用方法
                 staffSettingMapper.updateMessage(sysUsers1);
                 int code = 300;
                 return code;
@@ -67,6 +67,7 @@ public class StaffSettingServiceImpl implements StaffSettingService {
             int code = 400;
             return code;
         }
+
 
     }
 
@@ -112,7 +113,8 @@ public class StaffSettingServiceImpl implements StaffSettingService {
     public List<SysUsers> loadUsers(String page, String limit,String name){
         PageRange pageRange = new PageRange(page, limit);
         //先获取当前账号的ID,判断是否是主管
-        int id = 1;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         SysUsersBeans sysUsersBeans =staffSettingMapper.loadById(id);
         if(sysUsersBeans.getName().equals("主管")&&sysUsersBeans.getRole_id().equals("1")){
             //判断是否是销售部

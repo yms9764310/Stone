@@ -1,7 +1,7 @@
 package com.jc.serviceImpl;
 
 import com.jc.mapper.YzjSysLoginUserTestMapper;
-import com.jc.model.YzjSysLoginUser;
+import com.jc.model.SysLoginUser;
 import com.jc.service.YzjSysLoginUserTestService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ public class YzjSysLoginUserTestServiceImpl implements YzjSysLoginUserTestServic
     @Resource
     private YzjSysLoginUserTestMapper yzjSysLoginUserTestMapper;
     @Override
-    public YzjSysLoginUser loadLoginUserById(int id) {
+    public SysLoginUser loadLoginUserById(int id) {
         return yzjSysLoginUserTestMapper.loadLoginUserById(id);
     }
 }

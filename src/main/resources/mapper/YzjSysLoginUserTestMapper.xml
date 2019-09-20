@@ -5,7 +5,7 @@
 <mapper namespace="com.jc.mapper.YzjSysLoginUserTestMapper">
 
     <!--根据id查询-->
-    <select id="loadLoginUserById" parameterType="java.lang.Integer" resultType="YzjSysLoginUser">
+    <select id="loadLoginUserById" parameterType="java.lang.Integer" resultType="SysLoginUser">
         SELECT account_name,creator,modifier FROM  t_sys_login_user WHERE id=#{0}
     </select>
 

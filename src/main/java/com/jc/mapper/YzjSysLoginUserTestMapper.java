@@ -1,8 +1,8 @@
 package com.jc.mapper;
 
 
-import com.jc.model.YzjSysLoginUser;
+import com.jc.model.SysLoginUser;
 
 public interface YzjSysLoginUserTestMapper {
-    YzjSysLoginUser loadLoginUserById(int id);
+    SysLoginUser loadLoginUserById(int id);
 }

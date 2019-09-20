@@ -6,16 +6,18 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class YzjSysLoginUser {
-    private int id;
-    private int creator;//创建人
+public class YzjSysjob {
+    private Integer id;
+    private Integer creator;//创建人
+    private  String creator_name;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date create_date;//创建时间
-    private int modifier;//修改人
+    private Integer modifier;//修改人
+    private  String modefier_name;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modify_date;//修改时间
     private String state;//状态
-    private String psd;//密码
-    private int user_id;//用户id
-    private String account_name;//账户名称
+    private String name;//岗位名称
+    private Integer parent_id;//上级部门
+    private String parent_rew;
 }
