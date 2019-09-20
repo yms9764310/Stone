@@ -1,3 +1,4 @@
+var permissions ;
 layui.config({
     base: $config.resUrl + 'admin_pro/layui/assets/lay/modules/'//定义基目录
 }).extend({
@@ -29,7 +30,7 @@ layui.config({
 
 
             console.log(data.data)
-            if(data.data==false){
+            if(data.data[0]=='false'){
                 layer.msg("用户名或者密码错误！", {time: 1000}, function () {
                     // layer.closeAll("iframe");//疯狂模式，关闭所有层
                     //刷新父页面
@@ -38,8 +39,11 @@ layui.config({
             }
             else{
                 layer.msg("登录成功！",{time:1000},function () {
-                //保存用户信息到session中
+                    //将权限查询出来
+                    permissions=data.data;
+                    console.log(permissions.indexOf("list:select"));
                     window.location.href = $tool.getResUrl()+"admin_pro/layui/index.html";
+
                 });
             }
 

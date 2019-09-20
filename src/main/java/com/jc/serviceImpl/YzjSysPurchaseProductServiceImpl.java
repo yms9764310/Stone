@@ -6,7 +6,7 @@ import com.jc.beans.response.ResultBean;
 import com.jc.mapper.YzjSysLoginUserTestMapper;
 import com.jc.mapper.YzjSysPurchaseProductMapper;
 import com.jc.model.SysLoginUser;
-import com.jc.model.YzjSysLoginUser;
+
 import com.jc.model.YzjSysPurchaseProduct;
 import com.jc.model.YzjSysResource;
 import com.jc.service.YzjSysPurchaseProductService;
@@ -97,7 +97,7 @@ public class YzjSysPurchaseProductServiceImpl implements YzjSysPurchaseProductSe
         Date date = new Date();
         SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
         int id = user.getId();
-        YzjSysLoginUser yzjSysLoginUser = yzjSysLoginUserTestMapper.loadLoginUserById(id);
+        SysLoginUser yzjSysLoginUser = yzjSysLoginUserTestMapper.loadLoginUserById(id);
         yzjSysPurchaseProduct.setCreator(id);
         yzjSysPurchaseProduct.setCreate_date(date);
         yzjSysPurchaseProduct.setModifier(id);
@@ -144,7 +144,7 @@ public class YzjSysPurchaseProductServiceImpl implements YzjSysPurchaseProductSe
 
 
             int id = 1;
-            YzjSysLoginUser seleccid = yzjSysLoginUserTestMapper.loadLoginUserById(id);
+            SysLoginUser seleccid = yzjSysLoginUserTestMapper.loadLoginUserById(id);
             //根据登录表中的人员名称，匹配excle内容，将对应的创建人存入对象
             vo.setCreator(seleccid.getCreator());
 

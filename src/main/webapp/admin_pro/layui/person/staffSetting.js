@@ -71,12 +71,26 @@ layui.config({
                 , {field: 'depart_role_id', title: '部门角色', width: '10%', templet: '#upc', align: 'center'}
                 , {field: 'max_threshold', title: '最大阈值', width: '10%', templet: '#upc', align: 'center'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
-            ]]
+            ]],
+            done: function(res, curr, count){
+                $api.LogOut(null,function (data) {
+                    for(var i=0;i<data.data.length;i++){
+                        if(data.data[i]=="admin"){
+                            $('.gg5555').css("display","block");
+                        }
+
+                        else{
+                            $('.gg5555').css("display","none");
+                        }
+                    }
+                });
+            }
         });
 
         //为toolbar添加事件响应
         table.on('tool(userFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var row = obj.data; //获得当前行数据
+
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
@@ -88,7 +102,14 @@ layui.config({
             }
         });
     }
-    defineTable();
+
+    loadData();
+    function loadData(){
+
+        defineTable();
+
+    }
+
     //查询
     form.on("submit(queryUser)", function (data) {
         var name = data.field.name;

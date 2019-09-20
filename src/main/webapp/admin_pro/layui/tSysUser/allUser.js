@@ -26,21 +26,22 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'role/listrole.do' //数据接口
+            , url: $tool.getContext() + 'SysUser/listUser.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '', fixed: 'left'}
-                , {field: 'creator_name', title: '创建人', width: '10%'}
-                , {field: 'create_date', title: '创建时间', width: '10%'}
-                , {field: 'modefier_name', title: '修改人', width: '10%', templet: '#upc'}
-                , {field: 'modify_date', title: '修改时间', width: '10%', templet: '#upc'}
-                , {field: 'state', title: '状态', width: '10%', templet: '#upc'}
-                , {field: 'name', title: '角色名称', width: '10%', templet: '#upc'}
-                , {field: 'department', title: '部门名称', width: '10%', templet: '#upc'}
-                , {field: 'description', title: '描述', width: '10%', templet: '#upc'}
+                , {field: 'id', title: '员工ID', width: '6%', align: 'center'}
+                , {field: 'name', title: '姓名', width: '10%', align: 'center'}
+                , {field: 'sex', title: '性别', width: '8%', templet: '#upc', align: 'center'}
+                , {field: 'age', title: '年龄', width: '8%', templet: '#upc', align: 'center'}
+                , {field: 'phone', title: '电话', width: '12%', templet: '#upc', align: 'center'}
+                , {field: 'depart_id', title: '部门', width: '10%', templet: '#upc', align: 'center'}
+                , {field: 'job_id', title: '岗位', width: '10%', templet: '#upc', align: 'center'}
+                , {field: 'depart_role_id', title: '部门角色', width: '10%', templet: '#upc', align: 'center'}
+                , {field: 'max_threshold', title: '最大阈值', width: '10%', templet: '#upc', align: 'center'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
 
@@ -59,11 +60,10 @@ layui.config({
                 editRole(row.id,row.department_id);
             }
         });
-
     }
     defineTable();
-    //查询
 
+    //查询
     form.on("submit(queryUser)", function (data) {
         var name = data.field.name;
         var department = data.field.department;
@@ -83,7 +83,7 @@ layui.config({
         var index = layui.layer.open({
             title: "添加部门",
             type: 2,
-            content: "addRole.html",
+            content: "addUser.html",
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -153,17 +153,7 @@ layui.config({
             }
         });
     });
-    $api.LogOut(null,function (data) {
-        for(var i=0;i<data.data.length;i++){
-            if(data.data[i]=="dmin"){
-                $(".quanxian").css("display","block");
-            }
 
-            else{
-                $(".quanxian").css("display","none");
-            }
-        }
-    });
 
     //删除
     function deleteRole(id) {

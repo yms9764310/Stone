@@ -31,10 +31,7 @@
                                 <div class="layui-input-inline" style="width: 100px;">
                                   <input type="text" autocomplete="off" name="name" class="layui-input">
                                 </div>
-<!--                                <div class="layui-form-mid">员工ID:</div>-->
-<!--                                <div class="layui-input-inline" style="width: 100px;">-->
-<!--                                    <input type="text" autocomplete="off" name="id" class="layui-input">-->
-<!--                                </div>-->
+
                                 <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
                                 <button class="layui-btn layui-btn-primary">重置</button>
                             </div>
@@ -48,16 +45,19 @@
     </div>
 
     <script type="text/html" id="barDemo">
-        <a style="color: #007DDB;cursor: pointer" lay-event="edit">编辑</a>&nbsp;
+        <a style="color: #007DDB;cursor: pointer;float: left" lay-event="edit" class="gg5555" >编辑</a>
+
         {{# if(d.depart_id == "财务部"){ }}
-        <a style="color: #007DDB;cursor: pointer" lay-event="editThreshold">设置最大阈值</a>&nbsp;
+        <a style="color: #007DDB;cursor: pointer; float: right;padding-right: 50px" lay-event="editThreshold" class="gg5555">设置最大阈值</a>
         {{# } else { }}
-        <a style="color: #007DDB;opacity: 0.2" >设置最大阈值</a>&nbsp;
+        <a style="color: #007DDB;opacity: 0.2; float: right;padding-right: 50px" >设置最大阈值</a>
         {{# } }}
+
     </script>
     <script src="../assets/lay/modules/config.js"></script>
     <script src="../assets/layui.js"></script>
     <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
     <script type="text/javascript" src="staffSetting.js"></script>
+
 </body>
 </html>

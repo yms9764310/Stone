@@ -1,7 +1,6 @@
 package com.jc.mapper;
 
 import com.jc.model.SysLoginUser;
-import com.jc.model.YzjSysLoginUser;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

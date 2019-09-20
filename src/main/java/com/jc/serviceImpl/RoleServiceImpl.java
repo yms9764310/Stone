@@ -7,7 +7,6 @@ import com.jc.mapper.YzjUserRoleMapper;
 import com.jc.model.SysLoginUser;
 import com.jc.model.SysRole;
 import com.jc.model.SysUserRole;
-import com.jc.model.YzjSysLoginUser;
 import com.jc.service.RoleService;
 import com.jc.service.YzjSysLoginUserService;
 import org.apache.shiro.SecurityUtils;

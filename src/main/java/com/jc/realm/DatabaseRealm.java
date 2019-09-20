@@ -54,6 +54,7 @@ public class DatabaseRealm extends AuthorizingRealm {
         //获取账号的角色和权限信息
         String account_name = user.getAccount_name();
         Set<String> roles = roleService.listRoleName(account_name);
+
         int user_id = user.getUser_id();
         List<SysUserRole> role = yzjUserRoleMapper.getUserRoleByUID(user_id);
         SysRole roled = new SysRole();

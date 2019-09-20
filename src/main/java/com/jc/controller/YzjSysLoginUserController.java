@@ -2,7 +2,8 @@ package com.jc.controller;
 
 import com.jc.beans.response.IResult;
 import com.jc.beans.response.ResultBean;
-import com.jc.model.YzjSysLoginUser;
+
+import com.jc.model.SysLoginUser;
 import com.jc.service.YzjSysLoginUserService;
 import com.jc.serviceImpl.YzjSysLoginUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 年: 2019
@@ -32,8 +34,8 @@ public class YzjSysLoginUserController {
     private YzjSysLoginUserService sysLoginUserService;
     @RequestMapping("/login")
     @ResponseBody
-    public IResult login(@RequestBody YzjSysLoginUser yzjSysLoginUser){
-        return new ResultBean<Boolean>(sysLoginUserService.login(yzjSysLoginUser));
+    public IResult login(@RequestBody SysLoginUser yzjSysLoginUser){
+        return new ResultBean<Set>(sysLoginUserService.login(yzjSysLoginUser));
     }
     @RequestMapping("/logout")
     @ResponseBody

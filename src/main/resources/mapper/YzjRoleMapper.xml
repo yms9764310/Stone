@@ -37,14 +37,13 @@
         d.creator=l.creator left JOIN t_sys_department as s on s.id=d.department_id
         <where>
             <if test="name !=null and name !=''">
-                and d.name = #{name,jdbcType=VARCHAR}
+                and d.name like concat('%',#{name},'%')
             </if>
+                <if test="department !=null and department !=''">
+                    and s.name like concat('%',#{department},'%')
+                </if>
         </where>
-        <where>
-            <if test="department !=null and department !=''">
-                and s.name = #{name,jdbcType=VARCHAR}
-            </if>
-        </where>
+
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 

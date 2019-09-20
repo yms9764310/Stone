@@ -6,7 +6,6 @@ import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
 import com.jc.model.OrgNodeResponse;
 import com.jc.model.YzjSysDepartmentTest;
-import com.jc.model.YzjSysLoginUser;
 import com.jc.service.YzjSysDepartmentTestService;
 import com.jc.service.YzjSysLoginUserTestService;
 import lombok.Data;

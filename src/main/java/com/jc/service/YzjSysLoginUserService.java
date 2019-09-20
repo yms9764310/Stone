@@ -1,9 +1,10 @@
 package com.jc.service;
 
 import                                                                                                                                                                                                                                                com.jc.model.SysLoginUser;
-import com.jc.model.YzjSysLoginUser;
+
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 年: 2019
@@ -16,6 +17,6 @@ import java.util.List;
  */
 public interface YzjSysLoginUserService {
 
-    Boolean login(YzjSysLoginUser yzjSysLoginUser);
+    Set<String> login(SysLoginUser yzjSysLoginUser);
     List<String> logout();
 }

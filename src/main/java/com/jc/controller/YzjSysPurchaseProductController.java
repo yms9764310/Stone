@@ -4,7 +4,6 @@ import com.jc.beans.response.IResult;
 import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
 
-import com.jc.model.YzjSysLoginUser;
 import com.jc.model.YzjSysPurchaseProduct;
 import com.jc.model.YzjSysResource;
 import com.jc.service.YzjSysLoginUserTestService;
@@ -34,7 +33,7 @@ public class YzjSysPurchaseProductController {
     //分页查询
     @RequestMapping("/listprou")
     @ResponseBody
-    @RequiresPermissions("list:selec")
+    @RequiresPermissions("list:select")
 //    @RequiresPermissions("list:listprou")
     public IResult getPurchaseProduct(String page, String limit){
         List<YzjSysPurchaseProduct> resultData = yzjSysPurchaseProductServiceImpl.listYzjSysPurchaseProduct(page,limit);

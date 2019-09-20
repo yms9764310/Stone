@@ -108,6 +108,9 @@ layui.define(['$tool','jquery'], function (exports) {
         AddRole:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'role/saverole.do',req,config,successCallback,errorCallback);
         },
+        AddRUser:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'SysUser/saveuser.do',req,config,successCallback,errorCallback);
+        },
         DeleteRole:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'role/deleterole.do',req,config,successCallback,errorCallback);
         },
