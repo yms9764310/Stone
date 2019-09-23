@@ -7,17 +7,20 @@ import java.util.Date;
 
 @Data
 public class YzjSysAuthority {
-    private int id;
-    private int creator;//创建人
+    private Integer id;
+    private Integer creator;//创建人
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date create_date;//创建时间
-    private int modifier;//修改人
+    private Integer modifier;//修改人
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modify_date;//修改时间
     private String state;//状态
     private String name;//权限名称
     private String kind;//权限类型
     private String value;//权限内部值，用于系统判断。比如保存菜单名字
+    private String uname;
+    private String account_name;
+    private String rolename;
 
     public int getId() {
         return id;

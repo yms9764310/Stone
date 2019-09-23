@@ -88,11 +88,13 @@ public class YzjSysLoginUserServiceImpl implements YzjSysLoginUserService {
             return fals;
         }
     }
-    public List<String> logout(){
+    public Set<String> logout(){
         SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
-        String account_name = user.getAccount_name();
-        List<String> roles = new ArrayList<String>();
-        roles.add(account_name);
-        return roles;
+        int id = user.getId();
+        SysRole sysRole = yzjRoleMapper.selectByPrimaryKeyId(id);
+        String rolename = sysRole.getName();
+        Set<String> permissions = permissionService.listPermissionName(rolename);
+
+        return permissions;
     }
 }

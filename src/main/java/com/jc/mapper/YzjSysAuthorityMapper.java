@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface YzjSysAuthorityMapper {
     YzjSysAuthority selectByPrimaryKey(@Param("id")int id);
+    List<YzjSysAuthority> selectByPrimary(@Param("start") Integer start,
+                                    @Param("end") Integer end);
     List<YzjSysAuthority> selectPermissionList();
 }
