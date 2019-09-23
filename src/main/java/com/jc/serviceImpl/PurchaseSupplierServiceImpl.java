@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -152,6 +151,7 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
         Date date=new Date();
         //给创建时间获取当前系统时间
         purchaseSupplier.setModifyDate(date);
+        //添加修改人
         purchaseSupplier.setModifier("1");
         if(purchaseSupplier.getCreator().equals(1+"")){
             purchaseSupplier.setState(1+"");

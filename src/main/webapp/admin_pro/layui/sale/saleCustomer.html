@@ -53,9 +53,11 @@
     {{#  if(d.state == 'draft'){  }}
     <a style="color: #007DDB;cursor: pointer" lay-event="del">删除</a>&nbsp;
     <a style="color: #007DDB;cursor: pointer" lay-event="edit">编辑</a>&nbsp;
+    <a style="color: #007DDB;cursor: pointer" lay-event="look">查看交易记录</a>&nbsp;
     {{#  } else{ }}
     <a style="color: grey;cursor: pointer" lay-event="" onclick="javascript:alert('已生效，无法进行操作！');">删除</a>&nbsp;
     <a style="color: grey;cursor: pointer" lay-event="" onclick="javascript:alert('已生效，无法进行操作！');">编辑</a>&nbsp;
+    <a style="color: #007DDB;cursor: pointer" lay-event="look">查看交易记录</a>&nbsp;
     {{#  } }}
 </script>
 

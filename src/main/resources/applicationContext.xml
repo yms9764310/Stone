@@ -22,7 +22,6 @@
 <!--整合dao-->
     <!--注解扫描-->
     <context:component-scan base-package="com.jc"></context:component-scan>
-
     <!--1.指定数据库文件位置-->
     <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
     <!--2.指定数据源:c3p0-->
@@ -70,17 +69,6 @@
         <!--指定数据源-->
         <property name="dataSource" ref="dataSource"></property>
     </bean>
-
-    <!-- 官网中的方法，改写法注入后，spring-mvc.xml注入失效
-    <bean id="myHandler" class="com.jc.socket.MyHandler"/>
-    <websocket:handlers>
-        <websocket:mapping path="/myHandler" handler="myHandler"/>
-        <websocket:handshake-interceptors>
-            <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-            <bean class="cn.ssm.test.websocket.MyHandshakeInterceptor"/>
-        </websocket:handshake-interceptors>
-        <websocket:sockjs/>
-    </websocket:handlers>-->
 
     <!--注解配置-->
     <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>

@@ -1,5 +1,6 @@
 package com.jc.serviceImpl;
 
+
 import com.jc.mapper.SysLoginUserMapper;
 import com.jc.model.SysLoginUser;
 import com.jc.service.SysLoginUserService;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 年: 2019

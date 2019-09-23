@@ -39,15 +39,16 @@ layui.config({
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
-                , {field: 'creator', title: '创建人', width: '10%'}
+                , {field: 'id', title: 'ID', width: '5%'}
+                , {field: 'creator', title: '创建人', width: '7%'}
                 , {field: 'create_date', title: '创建时间', width:'10%'}
-                , {field: 'modifier', title: '修改人', width: '10%'}
+                , {field: 'modifier', title: '修改人', width: '7%'}
                 , {field: 'modify_date', title: '修改时间', width: '10%'}
                 , {field: 'name', title: '客户名字', width: '10%'}
                 , {field: 'address', title: '客户地址', width: '10%'}
                 , {field: 'phone', title: '联系方式', width: '10%'}
                 , {field: 'company', title: '所属机构', width: '10%'}
-                , {fixed: 'right', title: '操作', width: '10%', align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+                , {fixed: 'right', title: '操作', width: '20%', align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
         });
         //为toolbar添加事件响应
@@ -61,6 +62,8 @@ layui.config({
                 deleteCustomer(row.id);
             } else if (layEvent === 'edit') { //编辑
                 editCustomer(row.id);
+            } else if (layEvent === 'look') { //查看交易记录
+                checkCustomer(row.id);
             }
         });
     }
@@ -132,7 +135,6 @@ layui.config({
                 }, 500)
             }
         });
-
         //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
         $(window).resize(function () {
             layui.layer.full(index);
@@ -169,9 +171,9 @@ layui.config({
                             //clearForm: true,//提交后是否清空表单数据
                             success: function (data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
                                 layer.msg("导入成功", {time: 1000}, function () {
-
-                                    //重新加载表格
-                                    window.parent.location.reload(true);
+                                    layer.closeAll("iframe");
+                                    //刷新父页面
+                                    location.reload();
                                 });
                             },
                             error: function (data, status, e) {  //提交失败自动执行的处理函数。
@@ -187,5 +189,25 @@ layui.config({
             }
         });
     });
+    //查看交易记录
+    function checkCustomer(id) {
+        var index = layui.layer.open({
+            title: "该客户交易记录",
+            type: 2,
+            content: "checkCustomer.html?id=" + id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            }
+        });
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
 
 });

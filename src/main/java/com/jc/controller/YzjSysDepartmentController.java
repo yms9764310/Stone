@@ -6,12 +6,12 @@ import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
 import com.jc.model.OrgNodeResponse;
 import com.jc.model.YzjSysDepartmentTest;
-import com.jc.model.YzjSysLoginUser;
 import com.jc.service.YzjSysDepartmentTestService;
 import com.jc.service.YzjSysLoginUserTestService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +33,7 @@ public class YzjSysDepartmentController {
 
     @RequestMapping("/dempList")
     @ResponseBody
+    @RequiresPermissions("list:select")
     //分页查询
     public IResult getDempList(String page,String limit,String name){
 

@@ -58,7 +58,8 @@
     </select>
 <!--添加出库单-->
     <insert id="insertCheckOut" parameterType="StoreCheckOut" keyProperty="id" useGeneratedKeys="true">
-    insert into t_store_checkout (product_id,`number`,checkout_user_id) values (#{product_id},#{number},#{checkout_user_id})
+    insert into t_store_checkout (product_id,creator,create_date,modifier,modify_date,`number`,checkout_user_id,state)
+    values (#{product_id},#{creator},#{create_date},#{modifier},#{number},#{checkout_user_id},#{modify_date},3)
     </insert>
 
     <!--出库单-->

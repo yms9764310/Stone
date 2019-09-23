@@ -1,5 +1,7 @@
 package com.jc.beans.response;
 
+
+
 import java.util.List;
 
 /**

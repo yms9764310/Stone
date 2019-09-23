@@ -28,6 +28,7 @@ public class PurchaseSupplier implements Serializable {
     private Date modifyDate;
     //供应商
     private String name;
+
     private String SysProductName;
     //状态
     private String state;

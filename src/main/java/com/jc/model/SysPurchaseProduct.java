@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 李文教
@@ -37,4 +38,6 @@ public class SysPurchaseProduct implements Serializable {
     private String standard;
     //描述
     private String description;
+
+    private List<SupplierProduct> supplierProductList;
 }

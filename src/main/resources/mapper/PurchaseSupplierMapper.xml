@@ -118,7 +118,7 @@
 
     <resultMap id="PurchaseResultMap" type="com.jc.model.PurchaseSupplier">
         <id column="id" property="id" jdbcType="INTEGER"></id>
-        <result column="creator" property="creator" jdbcType="INTEGER"></result>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
         <result column="company_name" property="companyName" jdbcType="VARCHAR"></result>
         <result column="contact_name" property="contactName" jdbcType="VARCHAR"></result>
         <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"></result>
@@ -136,7 +136,7 @@
     <select id="loadPurchaseSupplier" parameterType="Integer" resultMap="PurchaseResultMap">
 
         select
-        sup.id,sup.creator,sup.company_name,sup.contact_name,sup.contact_phone,sup.address,
+        sup.id,sup.name,sup.company_name,sup.contact_name,sup.contact_phone,sup.address,
         pru.id pid,
         syspro.id productId,sup.id purchaseSupplierId,syspro.name productName,
         pru.max_number,pru.price

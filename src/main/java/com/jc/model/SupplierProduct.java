@@ -3,8 +3,6 @@ package com.jc.model;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * @author 李文教
@@ -17,6 +15,8 @@ public class SupplierProduct implements Serializable {
     private int id;
     //供应商id
     private int purchaseSupplierId;
+    //供货商名称
+    private String supplierName;
     //商品id
     private int productId;
     //可供应最大数量
@@ -25,4 +25,10 @@ public class SupplierProduct implements Serializable {
     private String price;
 
     private  String productName;
+    //供应商名称
+    private String name;
+
+    private SysPurchaseProduct sysPurchaseProduct;
+
+    private String kind;
 }

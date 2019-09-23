@@ -18,9 +18,11 @@ import java.util.Date;
 public class SysUsers {
     private Integer id;
     private String creator;
+    private Integer creator_id;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date create_date;
     private String modifier;
+    private Integer modifier_id;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date modify_date;
     private String state;
@@ -35,7 +37,23 @@ public class SysUsers {
     private SysRole sysRole;
     private SysUserRole sysUserRole;
 
-    public SysUsers(Integer id,String creator, Date modify_date, String name, String sex, Integer age, String phone, String job_id, String depart_id, String depart_role_id) {
+    public Integer getCreator_id() {
+        return creator_id;
+    }
+
+    public void setCreator_id(Integer creator_id) {
+        this.creator_id = creator_id;
+    }
+
+    public Integer getModifier_id() {
+        return modifier_id;
+    }
+
+    public void setModifier_id(Integer modifier_id) {
+        this.modifier_id = modifier_id;
+    }
+
+    public SysUsers(Integer id, String creator, Date modify_date, String name, String sex, Integer age, String phone, String job_id, String depart_id, String depart_role_id) {
         this.id = id;
         this.creator = creator;
         this.modify_date = modify_date;

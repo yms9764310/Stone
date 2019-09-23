@@ -2,7 +2,10 @@ package com.jc.mapper;
 
 import com.jc.model.SysLoginUser;
 import com.jc.model.SysUsers;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 年: 2019
@@ -19,4 +22,11 @@ public interface SysUsersMapper {
         SysUsers loadById(Integer id);
         //修改信息
         void updateMessage(SysUsers sysUsers);
+        List<SysUsers> listSysUsers();
+        List<SysUsers> listUserAll(@Param("start") Integer start,
+                                   @Param("end") Integer end);
+    //获取条数
+    int countGetAll();
+    //添加人员
+    Integer saveSysUser(SysUsers sysUsers);
 }

@@ -53,7 +53,7 @@
 <!--修改-->
     <update id="updateYzjSysPurchaseProduct" parameterType="YzjSysPurchaseProduct">
 
-        UPDATE t_sys_purchase_product SET creator=#{creator},create_date=#{create_date},modifier=#{modifier},modify_date=#{modify_date},
+        UPDATE t_sys_purchase_product SET modify_date=#{modify_date},
         state=#{state},kind=#{kind},name=#{name},model_type=#{model_type},standard=#{standard},description=#{description}
         WHERE  id=#{id}
     </update>
