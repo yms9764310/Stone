@@ -71,7 +71,8 @@ public interface StoreManagementMapper {
 
     int countGetCheckOutAll();
 
-    List<Store> countStoreLoss( );
+    List<LossBeans> countStoreLoss( @Param("startTime") String startTime,
+                                    @Param("endTime") String endTime);
 
     int countGetPutInAll();
     //根据盘点单的ID去明细里面查询

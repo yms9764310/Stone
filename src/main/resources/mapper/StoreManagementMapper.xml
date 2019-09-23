@@ -419,17 +419,27 @@
     </select>
 
     <!--查询损耗-->
-    <select id="countStoreLoss" resultType="Store">
-      SELECT
+    <select id="countStoreLoss" resultType="LossBeans">
+   SELECT
     t.id,
+    t.modify_date,
+		t.state,
     p.name product_name,
-    t.number
+    d.stock_number,
+		d.check_number
     FROM
-    t_store as t
+    t_store_check as t
     LEFT JOIN
+    t_store_check_task_detail as d
+    ON d.check_id = t.id
+		LEFT JOIN
     t_sys_purchase_product as p
-    ON t.product_id = p.id
-
+    ON d.product_id = p.id
+    <where>
+        <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
+            AND modify_date between #{startTime} and #{endTime}
+        </if>
+    </where>
     </select>
 
 </mapper>
