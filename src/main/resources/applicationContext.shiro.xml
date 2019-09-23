@@ -28,16 +28,13 @@
         <property name="filterChainDefinitions">
             <value>
                 <!-- anon 表示此地址不需要任何权限即可访问 -->
-                /login=anon
-                /login.do=anon
-                /logout.do=anon
+                /login.do = anon
                 /admin_pro/layui/login.html = anon
                 /admin_pro/layui/assets/** = anon
                 /admin_pro/layui/index.js = anon
                 /admin_pro/layui/login.js = anon
                 /admin_pro/layui/home.js = anon
                 /admin_pro/layui/index.html= authc
-                /admin_pro/layui/tSysDepartment/addDemp.html=authc,perms[list:select]
                 /admin_pro/layui/= authc
                 /admin_pro/layui/unauthorized.html = anon
                 <!-- 权限配置，只允许 admin 访问 -->

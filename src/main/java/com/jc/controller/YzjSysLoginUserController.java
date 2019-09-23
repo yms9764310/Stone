@@ -41,7 +41,7 @@ public class YzjSysLoginUserController {
     @ResponseBody
     public IResult  logout(){
 
-       return new ResultBean<List<String >>(sysLoginUserService.logout());
+       return new ResultBean<Set<String >>(sysLoginUserService.logout());
     }
 
 

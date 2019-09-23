@@ -18,5 +18,5 @@ import java.util.Set;
 public interface YzjSysLoginUserService {
 
     Set<String> login(SysLoginUser yzjSysLoginUser);
-    List<String> logout();
+    Set<String> logout();
 }
