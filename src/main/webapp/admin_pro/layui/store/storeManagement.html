@@ -55,6 +55,9 @@
 
                         </div>
                         <button class="layui-btn layui-btn-blue add_btn"><i class="layui-icon">&#xe654;</i>新增</button>
+                        <button type="button" class="layui-btn layui-btn-normal" id="upfile" name="upfile" accept=".xls,.xlsx">
+                            导入结果单
+                        </button>
                     </div>
                     <!--                        <button class="layui-btn layui-btn-blue add_btn"><i class="layui-icon">&#xe654;</i>新增</button>-->
                     <table id="demo" lay-filter="userFilter" class="layui-table"></table>
@@ -70,12 +73,27 @@
 <!--{{# if(d.depart_name=="职员" ){ }}-->
 <!--    {{# } }}-->
 <script type="text/html" id="barDemo">
-    {{# if(d.depart_name=="职员" ){ }}
+    {{# if(d.depart_name=="职员"&&d.display_name=="待完成" ){ }}
     <a style="color: #007DDB;cursor: pointer" lay-event="counting">盘点</a>&nbsp;
-        {{# } else { }}
+        {{# } else if(d.display_name=="已确认"){ }}
+    <a style="color: #007DDB;cursor: pointer" lay-event="export">导出</a>&nbsp;
+    {{# } else if(d.display_name=="已完成"){ }}
+    <a style="color: #007DDB;cursor: pointer" lay-event="look">查看</a>&nbsp;
+    {{# } else if(d.display_name=="待审核"){ }}
+    <a style="color: #007DDB;cursor: pointer" lay-event="review">审核</a>&nbsp;
+    {{# } else if(d.display_name=="待确认"){ }}
     <a style="color: #007DDB;cursor: pointer" lay-event="edit">编辑</a>&nbsp;
-        {{# } }}
     <a style="color: #007DDB;cursor: pointer" lay-event="delete">删除</a>&nbsp;
+        {{# } }}
+
+<!--    {{# if(d.depart_name=='主管' && d.display_name=='已确认'){ }}-->
+<!--    <a style="color: #007DDB;cursor: pointer" lay-event="edit">导出</a>&nbsp;-->
+<!--    <a style="color: #007DDB;cursor: pointer" lay-event="delete">删除</a>&nbsp;-->
+<!--    {{# } else { }}-->
+<!--    <a style="color: #007DDB;cursor: pointer" lay-event="edit">编辑</a>&nbsp;-->
+<!--    <a style="color: #007DDB;cursor: pointer" lay-event="delete">删除</a>&nbsp;-->
+<!--    {{# } }}-->
+
 </script>
 <!--<script type="text/html" id="upc">-->
 <!--    {{# if(d.number < d.warn_number || d.number == d.warn_number ){ }}-->
@@ -119,6 +137,23 @@
         });
 
     });
+</script>
+<script type="text/javascript">
+    //JS校验form表单信息
+    function checkData() {
+        var fileDir = $("#upfile").val();
+        var suffix = fileDir.substr(fileDir.lastIndexOf("."));
+        if ("" == fileDir) {
+            alert("选择需要导入的Excel文件！");
+            return false;
+        }
+        if (".xls" != suffix && ".xlsx" != suffix) {
+            alert("选择Excel格式的文件导入！");
+            return false;
+        }
+        return true;
+    }
+
 </script>
 </body>
 </html>

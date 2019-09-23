@@ -3,6 +3,8 @@ package com.jc.service;
 import com.jc.model.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
@@ -29,6 +31,8 @@ public interface StoreManagementService {
     int countGetAll();
 
     int countGetCheckAll();
+    //统计损耗量
+    List<Store>  countStoreLoss();
 
     int countGetCheckOutAll();
 
@@ -49,8 +53,17 @@ public interface StoreManagementService {
     //修改盘点任务
     String updateCountingTask(StoreCheck storeCheck);
 
+    //导入结果单
+    String ajaxUploadExcel(HttpServletRequest request, HttpServletResponse response);
+
     //修改盘点任务
     String SureCountingTask(StoreCheck storeCheck);
+
+    //审核盘点结果单
+    String ReviewCountingTask(StoreCheck storeCheck);
+
+    //驳回盘点结果单
+    String updateCheckState(StoreCheck storeCheck);
 
     //根据商品ID查询
     StoreWarn loadByProduct_id(Integer product_id);

@@ -36,7 +36,6 @@ layui.config({
         $api.GetCheckTask(req, function (res) {
             var data = res.data;
             console.log(data);
-             alert(JSON.stringify(data));
             // $("[name='id']").val(data.id);
             $("[name='check_user_id']").val(data.check_user_id);
             $("[name='check_user_name']").val(data.check_user_name);
@@ -95,7 +94,6 @@ layui.config({
             end_date: end_date,
             storeCheckTaskDetailList: storeCheckTaskDetailList
         };
-        alert(JSON.stringify(req));
         $api.SureCountingTask(JSON.stringify(req), {contentType: 'application/json;charset=utf-8'}, function (data) {
             if (data.data == "success") {
                 layer.msg("确定成功！", {time: 1000}, function () {

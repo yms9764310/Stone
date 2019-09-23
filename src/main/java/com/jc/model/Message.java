@@ -15,7 +15,7 @@ import java.util.Date;
  * @author 严脱兔
  */
 @Data
-public class UserMessage {
+public class Message {
     private Integer id;
     private Integer creator;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
@@ -29,5 +29,6 @@ public class UserMessage {
     private Integer source_id;
     private String message_content;
     private Integer from_user_id;
+    private String from_user_name;
     private String to_user_ids;
 }

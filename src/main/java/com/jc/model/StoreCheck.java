@@ -18,6 +18,7 @@ import java.util.List;
 @Data
 public class StoreCheck {
     private Integer id;
+    private Integer role_id;
     private String creator;
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date create_date;
@@ -61,5 +62,10 @@ public class StoreCheck {
     }
 
     public StoreCheck() {
+    }
+
+    public StoreCheck(Integer id, String state) {
+        this.id = id;
+        this.state = state;
     }
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<form action="../../../Message/Send.do" method="post">
+    <table>
+        <tr>
+            <td align="right">用户名:</td>
+            <td><input name="username" type="text" style="width: 300px;"></td>
+        </tr>
+        <tr>
+            <td align="right">内容:</td>
+            <td><textarea name="message" style="width: 300px;"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center" ><input type="submit" /></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">
+    var PATH = "${pageContext.request.contextPath}";
+    var websocket = null;
+    // 连接websocket
+    if (window['WebSocket'])
+        websocket = new WebSocket("ws://" + window.location.host + PATH + '/websocket');
+    else
+        websocket = new new SockJS(PATH + '/websocket/socketjs');
+
+    websocket.onopen = function(event) {
+        console.log('open', event);
+    };
+    websocket.onmessage = function(event) {
+        console.log('message', event.data);
+        $('div[message] > ul').append('<li>' + event.data + '</li>');
+    };
+</script>
+</body>
+</html>
