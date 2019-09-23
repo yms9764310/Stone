@@ -150,6 +150,15 @@ layui.define(['$tool','jquery'], function (exports) {
         GetSysUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'SysUser/find.do',req,config,successCallback,errorCallback);
         },
+        GetUsersName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StoreManagement/findUsersName.do',req,config,successCallback,errorCallback);
+        },
+        GetProductList:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'purchaseSupplier/listPurchaseProduct.do',req,config,successCallback,errorCallback);
+        },
+        GetCheckTask:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StoreManagement/getCheckTask.do',req,config,successCallback,errorCallback);
+        },
         GetDepartUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'StaffSetting/get.do',req,config,successCallback,errorCallback);
         },
