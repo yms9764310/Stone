@@ -29,6 +29,7 @@
             <value>
                 <!-- anon 表示此地址不需要任何权限即可访问 -->
                 /login.do = anon
+                /Customer/loadByCusId.do=anon
                 /admin_pro/layui/login.html = anon
                 /admin_pro/layui/assets/** = anon
                 /admin_pro/layui/index.js = anon
