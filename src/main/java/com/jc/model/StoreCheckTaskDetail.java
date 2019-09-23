@@ -2,6 +2,8 @@ package com.jc.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 年: 2019
  * 月: 09
@@ -21,6 +23,7 @@ public class StoreCheckTaskDetail {
     private String name;
     private Integer value;
     private Integer number;
+    private List<ProductNumberBeans> productNumberBeansList;
 
 
     public StoreCheckTaskDetail(Integer product_id, Integer check_id) {

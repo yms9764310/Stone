@@ -48,11 +48,7 @@ public class ToDoListServiceImpl implements ToDoListService {
         return toDoListMapper.loadByProcessId(id);
     }
 
-    public List<ToDoList> listStoreAll(String page, String limit, String name) {
-        PageRange pageRange = new PageRange(page, limit);
-        return toDoListMapper.listStoreAll(pageRange.getStart(), pageRange.getEnd(), name);
 
-    }
 
     public List<ToDoList> listAll(String page, String limit, String name) {
         PageRange pageRange = new PageRange(page, limit);
@@ -62,7 +58,7 @@ public class ToDoListServiceImpl implements ToDoListService {
         SysUsersBeans sysUsersBeans = toDoListMapper.loadById(id);
         if (sysUsersBeans.getName().equals("主管")) {
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
-                List<ToDoList> listStoreCheck = toDoListMapper.listStoreCheck(pageRange.getStart(), pageRange.getEnd(),name);
+                List<ToDoList> listStoreCheck = toDoListMapper.listStoreCheck(pageRange.getStart(), pageRange.getEnd(), name);
                 for (ToDoList toDoList : listStoreCheck) {
                     toDoList.setTypename("盘点任务单");
                     resultData.add(toDoList);
@@ -214,10 +210,7 @@ public class ToDoListServiceImpl implements ToDoListService {
     }
 
 
-    public List<ToDoList> listSysAll(String page, String limit, String name) {
-        PageRange pageRange = new PageRange(page, limit);
-        return toDoListMapper.listSysAll(pageRange.getStart(), pageRange.getEnd(), name);
-    }
+
 
     @Override
     public List<ProduceTask> listWorkAll(String page, String limit, String name) {
@@ -283,22 +276,6 @@ public class ToDoListServiceImpl implements ToDoListService {
     }
 
 
-    public List<ToDoList> listAccountAll(String page, String limit, String name) {
-        PageRange pageRange = new PageRange(page, limit);
-        return toDoListMapper.listAccountAll(pageRange.getStart(), pageRange.getEnd(), name);
-    }
-
-
-    public List<ToDoList> listPruchaseAll(String page, String limit, String name) {
-        PageRange pageRange = new PageRange(page, limit);
-        return toDoListMapper.listPruchaseAll(pageRange.getStart(), pageRange.getEnd(), name);
-    }
-
-
-    public List<ToDoList> listSaleAll(String page, String limit, String name) {
-        PageRange pageRange = new PageRange(page, limit);
-        return toDoListMapper.listSaleAll(pageRange.getStart(), pageRange.getEnd(), name);
-    }
 
     @Override
     public int countGetAll() {

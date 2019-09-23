@@ -4,13 +4,17 @@ import com.jc.beans.response.IResult;
 import com.jc.beans.response.ResultBean;
 import com.jc.model.SysLoginUser;
 import com.jc.service.SysLoginUserService;
+import com.jc.socket.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * 年: 2019
@@ -49,6 +53,17 @@ public class SysLoginUserController {
             return new ResultBean<Integer>(code);
         }
 
+    }
+    @RequestMapping("login")
+    public String login(HttpServletRequest request, @RequestParam("username") String username) {
+        HttpSession session = request.getSession();
+        session.setAttribute(Constants.DEFAULT_SESSION_USERNAME, username);
+        return "redirect:index3";
+    }
+
+    @RequestMapping("index")
+    public String index() {
+        return "index3";
     }
 
 }

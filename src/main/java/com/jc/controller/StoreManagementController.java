@@ -168,9 +168,31 @@ public class StoreManagementController {
      */
     @RequestMapping("/sureCountingTask")
     @ResponseBody
-    public IResult SureCountingTask(@RequestBody StoreCheck storeCheck) {
+    public IResult sureCountingTask(@RequestBody StoreCheck storeCheck) {
         //返回json至前端的均返回ResultBean或者PageResultBea
         String s = storeManagementServiceImpl.SureCountingTask(storeCheck);
+        return new ResultBean<String>(s);
+    }
+
+    /**
+     * 审核盘点结果单
+     */
+    @RequestMapping("/reviewCountingTask")
+    @ResponseBody
+    public IResult reviewCountingTask(@RequestBody StoreCheck storeCheck) {
+        //返回json至前端的均返回ResultBean或者PageResultBea
+        String s = storeManagementServiceImpl.ReviewCountingTask(storeCheck);
+        return new ResultBean<String>(s);
+    }
+
+    /**
+     * 审核盘点结果单
+     */
+    @RequestMapping("/updateCheckState")
+    @ResponseBody
+    public IResult updateCheckState(@RequestBody StoreCheck storeCheck) {
+        //返回json至前端的均返回ResultBean或者PageResultBea
+        String s = storeManagementServiceImpl.updateCheckState(storeCheck);
         return new ResultBean<String>(s);
     }
 
@@ -184,13 +206,20 @@ public class StoreManagementController {
 
         return new ResultBean<String>(storeManagementServiceImpl.updateCountingTask(storeCheck));
     }
-
-
-
-
-    @RequestMapping(value = "/exportExcel", method = RequestMethod.POST)
+    /**
+     * 导入结果单
+     * */
     @ResponseBody
-    public void export(Integer check_id, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IntrospectionException, IllegalAccessException, ParseException, InvocationTargetException {
+    @RequestMapping(value="/fileUpload")
+    public IResult uploadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return new ResultBean<String>(storeManagementServiceImpl.ajaxUploadExcel(request, response));
+    }
+
+
+    //导出盘点任务单
+    @RequestMapping("/exportExcel")
+    @ResponseBody
+    public void export(String check_id, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IllegalAccessException{
         if (check_id != null) {
             response.reset(); //清除buffer缓存
             Map<String, Object> map = new HashMap<String, Object>();
@@ -204,7 +233,7 @@ public class StoreManagementController {
             HSSFWorkbook workbook = null;
             //导出Excel对象
             try {
-                workbook = storeManagementServiceImpl.exportExcelInfo(check_id);
+                workbook = storeManagementServiceImpl.exportExcelInfo(Integer.valueOf(check_id));
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             } catch (IntrospectionException e) {
@@ -223,5 +252,15 @@ public class StoreManagementController {
                 e.printStackTrace();
             }
         }
+    }
+    /**
+     * 统计库存损耗
+     */
+    @RequestMapping("/countStoreLoss")
+    @ResponseBody
+    public IResult countStoreLoss() {
+        //返回json至前端的均返回ResultBean或者PageResultBea
+        List<Store> stores = storeManagementServiceImpl.countStoreLoss();
+        return new ResultBean<Collection<Store>>(stores);
     }
 }

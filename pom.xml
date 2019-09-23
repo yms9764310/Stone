@@ -9,6 +9,7 @@
   <url>http://maven.apache.org</url>
 
   <properties>
+    <jackson-version>2.7.5</jackson-version>
     <spring-version>4.2.3.RELEASE</spring-version>
     <logback-version>1.0.13</logback-version>
     <jackson.version>2.5.4</jackson.version>
@@ -52,6 +53,7 @@
       <artifactId>gson</artifactId>
       <version>2.8.5</version>
     </dependency>
+
     <!--spring 依赖-->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -119,12 +121,28 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.6.3</version>
+      <version>${jackson-version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.6.3</version>
+      <version>${jackson-version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>jackson-core</artifactId>
+          <groupId>com.fasterxml.jackson.core</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jackson-annotations</artifactId>
+          <groupId>com.fasterxml.jackson.core</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson-version}</version>
     </dependency>
     <!--日志-->
     <dependency>
@@ -221,6 +239,7 @@
       <artifactId>poi-ooxml</artifactId>
       <version>3.14</version>
     </dependency>
+
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
@@ -237,6 +256,38 @@
       <artifactId>hibernate-validator</artifactId>
       <version>5.2.4.Final</version>
     </dependency>
+    <!-- start websocket -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-websocket</artifactId>
+      <version>4.2.3.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-messaging</artifactId>
+      <version>4.2.3.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>4.2.3.RELEASE</version>
+    </dependency>
+    <!-- end websocket -->
     <!--支持文件上传-->
     <dependency>
       <groupId>commons-fileupload</groupId>

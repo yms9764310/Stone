@@ -6,6 +6,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
                         http://www.springframework.org/schema/context
@@ -15,8 +16,10 @@
                         http://www.springframework.org/schema/tx
                           http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
                           http://www.springframework.org/schema/aop
-                          http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
-    <!--整合dao-->
+                          http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+                          http://www.springframework.org/schema/websocket
+                           http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+<!--整合dao-->
     <!--注解扫描-->
     <context:component-scan base-package="com.jc"></context:component-scan>
 
@@ -67,6 +70,17 @@
         <!--指定数据源-->
         <property name="dataSource" ref="dataSource"></property>
     </bean>
+
+    <!-- 官网中的方法，改写法注入后，spring-mvc.xml注入失效
+    <bean id="myHandler" class="com.jc.socket.MyHandler"/>
+    <websocket:handlers>
+        <websocket:mapping path="/myHandler" handler="myHandler"/>
+        <websocket:handshake-interceptors>
+            <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+            <bean class="cn.ssm.test.websocket.MyHandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+        <websocket:sockjs/>
+    </websocket:handlers>-->
 
     <!--注解配置-->
     <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
