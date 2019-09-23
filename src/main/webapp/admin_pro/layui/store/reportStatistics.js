@@ -25,7 +25,7 @@ layui.config({
         var startTime = data.field.start_time;
         var endTime = data.field.end_time;
         //表格重新加载
-        echarts.reload({
+        echarts.setOption({
             where: {
                 startTime: startTime,
                 endTime: endTime,

@@ -423,16 +423,16 @@
    SELECT
     t.id,
     t.modify_date,
-		t.state,
+	t.state,
     p.name product_name,
     d.stock_number,
-		d.check_number
+	d.check_number
     FROM
     t_store_check as t
     LEFT JOIN
     t_store_check_task_detail as d
     ON d.check_id = t.id
-		LEFT JOIN
+	LEFT JOIN
     t_sys_purchase_product as p
     ON d.product_id = p.id
     <where>
