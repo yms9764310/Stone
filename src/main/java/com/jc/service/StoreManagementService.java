@@ -32,7 +32,7 @@ public interface StoreManagementService {
 
     int countGetCheckAll();
     //统计损耗量
-    List<Store>  countStoreLoss();
+    List<LossBeans>  countStoreLoss(String startTime, String endTime);
 
     int countGetCheckOutAll();
 

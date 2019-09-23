@@ -116,12 +116,23 @@ public class StoreManagementServiceImpl implements StoreManagementService {
         return storeManagementMapper.countGetCheckAll();
     }
 
-    public List<Store> countStoreLoss() {
-        //查询库存量
-        List<Store> stores = storeManagementMapper.countStoreLoss();
-        //审核通过后，修改库存量时，AOP切进方法  记录修改时间与修改的数量，然后传到前端
-        // AOP切
-        return stores;
+    public List<LossBeans> countStoreLoss(String startTime, String endTime) {
+        List<LossBeans> resultList = new ArrayList<LossBeans>();
+        //查询库存量,盘点数量
+        List<LossBeans> lossBeans = storeManagementMapper.countStoreLoss( startTime, endTime);
+        for (LossBeans lossBean : lossBeans) {
+            if (lossBean.getState() == 6) {
+                //获取盘点量
+                Double check_number = lossBean.getCheck_number();
+                //获取原始数量
+                Double stock_number = lossBean.getStock_number();
+                //计算损耗量
+                Double loss_number = stock_number - check_number;
+                lossBean.setLoss_number(loss_number);
+                resultList.add(lossBean);
+            }
+        }
+        return resultList;
     }
 
     @Override
@@ -225,7 +236,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
             }
         }
 
-        InputStream in =null; //读取数据
+        InputStream in = null; //读取数据
         try {
             in = file.getInputStream();
         } catch (IOException e) {
@@ -269,7 +280,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
             }
             //vo.setDepartmentId(String.valueOf(lo.get(2)));   // 表格的第三列
             //开始时间
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date begin_date = null;
             try {
                 begin_date = sdf.parse((String) lo.get(1));
@@ -298,7 +309,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
 
             //vo.setPosition(String.valueOf(lo.get(4)));   // 表格的第五列
             //库存数量
-                  Store store = new Store();
+            Store store = new Store();
             List<Store> selectpnum = storeManagementMapper.listStoreNumber();
             System.out.println(lo.get(4));
             for (int d = 0; d < selectpnum.size(); d++) {
@@ -309,8 +320,8 @@ public class StoreManagementServiceImpl implements StoreManagementService {
             // vo.setGradeOfJudge(String.valueOf(lo.get(5)));   // 表格的第六列
             //盘点数量
             System.out.println(lo.get(5));
-            System.out.println(Double.parseDouble((String)lo.get(5)));
-            storeCheckTaskDetail.setCheck_number(Double.parseDouble((String)lo.get(5)));
+            System.out.println(Double.parseDouble((String) lo.get(5)));
+            storeCheckTaskDetail.setCheck_number(Double.parseDouble((String) lo.get(5)));
             // vo.setCategory(String.valueOf(lo.get(6)));   // 表格的第七列
             //vo.setRegTime(Date.valueOf(String.valueOf(lo.get(2))));
             Date date = new Date();//获取时间
@@ -340,7 +351,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
             for (StoreCheckTaskDetail storeCheckTaskDetail : storeCheckTaskDetailList) {
                 storeManagementMapper.SureCountingTask(storeCheckTaskDetail);
             }
-            StoreCheck newstoreCheck = new StoreCheck(storeCheck.getId(),"3");
+            StoreCheck newstoreCheck = new StoreCheck(storeCheck.getId(), "3");
             storeManagementMapper.updateState(newstoreCheck);
 
             return "success";
@@ -357,10 +368,10 @@ public class StoreManagementServiceImpl implements StoreManagementService {
             for (StoreCheckTaskDetail storeCheckTaskDetail : storeCheckTaskDetailList) {
                 int product_id = storeCheckTaskDetail.getProduct_id();
                 Double number = storeCheckTaskDetail.getCheck_number();
-                Store newstore = new Store(product_id,number);
+                Store newstore = new Store(product_id, number);
                 storeManagementMapper.updateStoreNumber(newstore);
             }
-            StoreCheck newstoreCheck = new StoreCheck(storeCheck.getId(),"6");
+            StoreCheck newstoreCheck = new StoreCheck(storeCheck.getId(), "6");
             storeManagementMapper.updateState(newstoreCheck);
 
             return "success";
@@ -440,6 +451,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
         List<StorePutIn> storePutIns = storeManagementMapper.listPutIn(pageRange.getStart(), pageRange.getEnd(), startTime, endTime, name, source_type);
         return storePutIns;
     }
+
     //导出盘点任务
     //合并单元格问题。
     public HSSFWorkbook exportExcelInfo(Integer check_id) throws

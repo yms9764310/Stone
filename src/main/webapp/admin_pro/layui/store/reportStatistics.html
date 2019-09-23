@@ -56,11 +56,6 @@
                                     </div>
                                 </div>
                                 <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
-                                <ul class="layui-tab-title daoHang" >
-                                    <li class="layui-nav-item"><a href="reportStatistics.html"><font style="color:#29adeb;">报表统计</font></a></li>
-                                    <li class="layui-nav-item"><a href="reportCheckOut.html">出库记录 </a></li>
-                                    <li class="layui-nav-item"><a href="reportPutIn.html">入库记录</a></li>
-                                </ul>
                             </div>
                         </div>
                         <div id="main" style="width: 600px;height:400px;"></div>
@@ -117,7 +112,7 @@
                         names.push(result.data[i].product_name);    //挨个取出类别并填入类别数组
                     }
                     for(var i=0;i<result.data.length;i++){
-                        nums.push(result.data[i].number);    //挨个取出销量并填入损耗数组
+                        nums.push(result.data[i].loss_number);    //挨个取出销量并填入损耗数组
                     }
                     myChart.hideLoading();    //隐藏加载动画
                     myChart.setOption({        //加载数据图表

@@ -258,9 +258,9 @@ public class StoreManagementController {
      */
     @RequestMapping("/countStoreLoss")
     @ResponseBody
-    public IResult countStoreLoss() {
+    public IResult countStoreLoss(String startTime, String endTime) {
         //返回json至前端的均返回ResultBean或者PageResultBea
-        List<Store> stores = storeManagementServiceImpl.countStoreLoss();
-        return new ResultBean<Collection<Store>>(stores);
+        List<LossBeans> lossBeans = storeManagementServiceImpl.countStoreLoss(startTime,endTime);
+        return new ResultBean<Collection<LossBeans>>(lossBeans);
     }
 }
