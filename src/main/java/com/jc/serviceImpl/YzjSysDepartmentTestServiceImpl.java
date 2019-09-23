@@ -1,8 +1,8 @@
 package com.jc.serviceImpl;
 
-import com.jc.beans.response.IResult;
+
 import com.jc.beans.response.PageRange;
-import com.jc.beans.response.ResultBean;
+
 import com.jc.mapper.YzjSysDepartmentTestMapper;
 import com.jc.mapper.YzjSysLoginUserTestMapper;
 import com.jc.model.OrgNodeResponse;
@@ -11,7 +11,6 @@ import com.jc.model.YzjSysDepartmentTest;
 import com.jc.service.YzjSysDepartmentTestService;
 import com.jc.util.ExcelUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

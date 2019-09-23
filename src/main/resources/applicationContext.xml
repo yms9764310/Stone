@@ -6,7 +6,6 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:websocket="http://www.springframework.org/schema/websocket"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
                         http://www.springframework.org/schema/context
@@ -16,10 +15,8 @@
                         http://www.springframework.org/schema/tx
                           http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
                           http://www.springframework.org/schema/aop
-                          http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-                          http://www.springframework.org/schema/websocket
-                           http://www.springframework.org/schema/websocket/spring-websocket.xsd">
-<!--整合dao-->
+                          http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+    <!--整合dao-->
     <!--注解扫描-->
     <context:component-scan base-package="com.jc"></context:component-scan>
     <!--1.指定数据库文件位置-->
@@ -80,9 +77,8 @@
         <!-- 配置切面 -->
         <aop:aspect ref="myAspect">
             <!-- 配置通知和切入点 -->
-<!--            <aop:after-returning method="log" pointcut="execution(public String com.jc.serviceImpl.StorePutInServiceImpl.updateCheckOutSuccess(..))" />-->
-<!--            <aop:around method="getFieldsName" pointcut="execution(public String com.jc.serviceImpl.StorePutInServiceImpl.updateCheckOutSuccess(..))"/>-->
+            <!--            <aop:after-returning method="log" pointcut="execution(public String com.jc.serviceImpl.StorePutInServiceImpl.updateCheckOutSuccess(..))" />-->
+            <!--            <aop:around method="getFieldsName" pointcut="execution(public String com.jc.serviceImpl.StorePutInServiceImpl.updateCheckOutSuccess(..))"/>-->
         </aop:aspect>
     </aop:config>
-
 </beans>

@@ -83,9 +83,6 @@ layui.define(['$tool','jquery'], function (exports) {
         DeleteStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
         },
-        DeleteStudent:function(req,config,successCallback,errorCallback){
-            doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
-        },
         DeleteDemp:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'demp/deletedemp.do',req,config,successCallback,errorCallback);
         },
