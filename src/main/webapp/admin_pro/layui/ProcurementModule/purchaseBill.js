@@ -44,10 +44,9 @@ layui.config({
             done: function(res, curr, count){
                 $api.LogOut(null,function (data) {
                     for(var i=0;i<data.data.length;i++){
-                        if(data.data[i]=="admin"){
+                        if(data.data.indexOf("list:select")!=-1){
                             $('.d1').css("display","block");
-                        }
-                        else{
+                        } else{
                             $('.d1').css("display","none");
                         }
                     }
