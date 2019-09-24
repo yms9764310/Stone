@@ -289,6 +289,7 @@
         bill.is_bill=resource.id
         WHERE
         bill.is_bill=12
+        order by bill.state=18
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 
@@ -441,5 +442,52 @@
         supplier.id=detail.supplier_id
         WHERE
         bill.id=#{id}
+    </select>
+
+<!--    查询已审核的商品-->
+    <select id="listBillDetailAudited" resultType="com.jc.model.PurchaseBillDetail">
+        SELECT
+        DISTINCT detail.product_id productId,product.name productName
+        FROM
+        t_purchase_bill_detail AS detail
+        LEFT JOIN
+        t_sys_purchase_product AS product
+        ON
+        detail.product_id=product.id
+        LEFT JOIN
+        t_purchase_bill AS bill
+        ON
+        bill.id=detail.bill_id
+        WHERE
+        bill.state=18
+    </select>
+<!--根据月统计金额、数量、种类-->
+    <resultMap id="CountResultMap" type="com.jc.model.PurchaseBillDetail">
+        <result column="createDate" property="createDate"></result>
+        <result column="numberTotal" property="numberTotal"></result>
+        <result column="money" property="money"></result>
+        <result column="kind" property="kind"></result>
+        <result column="product_id" property="productId"></result>
+    </resultMap>
+    <select id="countPurchase" resultMap="CountResultMap">
+        SELECT
+        DATE_FORMAT(bill.create_date,'%m月') as createDate,
+        sum(detail.number) AS numberTotal,SUM(bill.sum_money) AS money,COUNT(DISTINCT detail.product_id) AS kind
+        FROM
+        t_purchase_bill_detail AS detail
+        LEFT JOIN
+        t_sys_purchase_product AS product
+        ON
+        detail.product_id=product.id
+        LEFT JOIN
+        t_purchase_bill AS bill
+        ON
+        bill.id=detail.bill_id
+        WHERE
+        bill.state=18
+        <if test="productId!=null and productId!=''">
+
+        </if>
+        GROUP BY createDate
     </select>
 </mapper>

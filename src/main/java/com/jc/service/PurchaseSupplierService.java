@@ -2,8 +2,6 @@ package com.jc.service;
 
 import com.jc.model.PurchaseSupplier;
 import com.jc.model.SysPurchaseProduct;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +13,7 @@ import java.util.List;
  */
 public interface PurchaseSupplierService {
     //查询全部供应商以及搜索功能
-    List<PurchaseSupplier> listSupplier(String page,String limit,String SysProductName,String name);
+    List<PurchaseSupplier> listSupplier(String page,String limit,String SysProductName,String name,Integer id);
     //获取菜单大小
     int countGetAll();
     //添加供应商

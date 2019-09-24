@@ -15,11 +15,20 @@ import java.util.Map;
  */
 @Repository
 public interface PurchaseSupplierMapper {
-    //查询全部供应商
+    //员工查询
     List<PurchaseSupplier> listSupplier(@Param("start")int start,
                                         @Param("end")int end,
                                         @Param("name") String name,
-                                        @Param(("SysProductName"))String SysProductName);
+                                        @Param(("SysProductName"))String SysProductName,
+                                        @Param("id") int id
+                                        );
+    //主管查看全部信息
+    List<PurchaseSupplier> listSupplierUser(@Param("start")int start,
+                                        @Param("end")int end,
+                                        @Param("name") String name,
+                                        @Param(("SysProductName"))String SysProductName
+                                        );
+
     //获取菜单大小
     int countGetAll();
     //添加供应商

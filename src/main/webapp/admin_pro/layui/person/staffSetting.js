@@ -78,7 +78,6 @@ layui.config({
                         if(data.data[i]=="admin"){
                             $('.gg5555').css("display","block");
                         }
-
                         else{
                             $('.gg5555').css("display","none");
                         }

@@ -38,7 +38,7 @@ layui.config({
             id: id
         };
         //findById
-        $api.LoadCompletedBill(req, function (res) {
+        $api.LoadPurchaseBillOrders(req, function (res) {
             //获取到指定条目信息
             var data=res.data;
             console.log(data);
@@ -212,10 +212,10 @@ layui.config({
         };
         console.log(req);
         //alert(JSON.stringify(req))
-        layer.confirm("确定创建订单吗?",function (confirmIndex) {
+        layer.confirm("确定订单通过审核吗?",function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
-            $api.UpdateBillComplete(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {
-                layer.msg("订单创建成功！",{time:1000,icon:6},function () {
+            $api.AuditBillOrders(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {
+                layer.msg("订单审核通过成功！",{time:1000,icon:6},function () {
                     layer.closeAll("iframe");
                     //刷新父页面
                     parent.location.reload();

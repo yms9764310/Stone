@@ -51,11 +51,12 @@
 </div>
 
 <script type="text/html" id="barDemo">
-    <a style="color: #007DDB;cursor: pointer" lay-event="editCheck">编辑</a>&nbsp;
     <a style="color: #007DDB;cursor: pointer" lay-event="delCheck">删除</a>&nbsp;
     {{#  if(d.state=='待审核'){  }}
-    <a style="color: #007DDB;cursor: pointer" lay-event="audit">待审核</a>&nbsp;
+    <a style="color: #007DDB;cursor: pointer" lay-event="editCheck">编辑</a>&nbsp;
+    <a style="color: #007DDB;cursor: pointer;float: right;position: relative;right: 73px" lay-event="audit" class="d1" >待审核</a>&nbsp;
     {{#  } else{ }}
+    <a style="color: #007DDB;cursor: pointer" lay-event="editCompleted">编辑</a>&nbsp;
     <a style="color:#D60711;cursor: pointer" lay-event="completed">待完成</a>&nbsp;
     {{#  } }}
 </script>

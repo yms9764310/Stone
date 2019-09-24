@@ -20,6 +20,7 @@ public class PurchaseBillDetail implements Serializable {
     //商品名称
     private String productId;
     private String value;
+    private String productName;
     //采购数量
     private String number;
     //订单价格
@@ -35,5 +36,13 @@ public class PurchaseBillDetail implements Serializable {
     private PurchaseSupplier purchaseSupplier;
     //关联采购商品表
     private SysPurchaseProduct sysPurchaseProduct;
+    //统计金额
+    private String money;
+    //统计数量
+    private String numberTotal;
+    //统计种类
+    private String kind;
+    //时间
+    private String createDate;
 
 }

@@ -66,7 +66,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         //修改时间
         purchaseBill.setModifyDate(new Date());
         //状态5表示是待采办
-        purchaseBill.setState(5+"");
+        purchaseBill.setState(3+"");
         //状态11表示是待采办事项
         purchaseBill.setIsBill(11+"");
         purchaseBillMapper.insertPurchaseBill(purchaseBill);
@@ -161,6 +161,12 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         return purchaseBillMapper.listPurchaseBillOrders(pageRange.getStart(),pageRange.getEnd());
     }
 
+    //查询已审核的商品
+    @Override
+    public List<PurchaseBillDetail> listBillDetailAudited() {
+        return purchaseBillMapper.listBillDetailAudited();
+    }
+
     //商品查询
     @Override
     public List<SupplierProduct> listSupplierProduct(String productName, String kind) {
@@ -173,7 +179,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         return purchaseBillMapper.listSupplierPrice(purchaseSupplierId,productId);
     }
 
-//审核
+    //审核
     @Override
     public boolean updatePurchaseBillAudit(PurchaseBill purchaseBill) {
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
@@ -225,5 +231,100 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         }
         purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
         return true;
+    }
+
+    //待完成的编辑
+    @Override
+    public boolean updateCompletedBill(PurchaseBill purchaseBill) {
+        PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
+        purchaseBill.setModifier(1+"");
+        purchaseBill.setIsBill(11+"");
+        purchaseBill.setModifyDate(new Date());
+        purchaseBill.setState(5+"");
+        for (PurchaseBillDetail billDetail : purchaseBill.getPurchaseBillDetailList()) {
+            purchaseBillDetail.setProductId(billDetail.getProductId());
+            purchaseBillDetail.setSupplierId(billDetail.getSupplierId());
+            purchaseBillDetail.setBillId(purchaseBill.getId()+"");
+            purchaseBillDetail.setPrice(billDetail.getPrice());
+            purchaseBillDetail.setNumber(billDetail.getNumber());
+            purchaseBillDetail.setSumMoney(billDetail.getSumMoney());
+            purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
+        }
+        purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
+        return true;
+    }
+
+    //根据id获取采购单的信息
+    @Override
+    public PurchaseBill loadBillOrders(Integer id) {
+        PurchaseBill billOrders = purchaseBillMapper.loadPurchaseBillCompleted(id);
+        for (int i=0;i<billOrders.getPurchaseBillDetailList().size();i++){
+            //System.out.println(purchaseBill.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
+            List<SupplierProduct> purchaseSuppliers = purchaseBillMapper.listPurchaseSupplieLike(billOrders.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
+            billOrders.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().setSupplierProductList(purchaseSuppliers);
+        }
+        return billOrders;
+    }
+
+    //采购单的编辑
+    @Override
+    public boolean updateBillOrders(PurchaseBill purchaseBill) {
+        PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
+        purchaseBill.setModifier(1+"");
+        purchaseBill.setIsBill(12+"");
+        purchaseBill.setModifyDate(new Date());
+        purchaseBill.setState(3+"");
+        for (PurchaseBillDetail billDetail : purchaseBill.getPurchaseBillDetailList()) {
+            purchaseBillDetail.setProductId(billDetail.getProductId());
+            purchaseBillDetail.setSupplierId(billDetail.getSupplierId());
+            purchaseBillDetail.setBillId(purchaseBill.getId()+"");
+            purchaseBillDetail.setPrice(billDetail.getPrice());
+            purchaseBillDetail.setNumber(billDetail.getNumber());
+            purchaseBillDetail.setSumMoney(billDetail.getSumMoney());
+            purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
+        }
+        purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
+        return true;
+    }
+
+    //采购单的审核,根据id获取信息
+    @Override
+    public PurchaseBill loadPurchaseBillOrders(Integer id) {
+        PurchaseBill PurchaseBillOrders = purchaseBillMapper.loadPurchaseBillCompleted(id);
+        for (int i=0;i<PurchaseBillOrders.getPurchaseBillDetailList().size();i++){
+            //System.out.println(purchaseBill.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
+            List<SupplierProduct> purchaseSuppliers = purchaseBillMapper.listPurchaseSupplieLike(PurchaseBillOrders.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().getId());
+            PurchaseBillOrders.getPurchaseBillDetailList().get(i).getSysPurchaseProduct().setSupplierProductList(purchaseSuppliers);
+        }
+        return PurchaseBillOrders;
+    }
+
+    //采购单审核通过
+    @Override
+    public boolean updatePurchaseBillOrders(PurchaseBill purchaseBill) {
+        PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
+        purchaseBill.setModifier(1+"");
+        //状态12表示是采购单
+        purchaseBill.setIsBill(12+"");
+        purchaseBill.setModifyDate(new Date());
+        //表示已审核
+        purchaseBill.setState(18+"");
+        for (PurchaseBillDetail billDetail : purchaseBill.getPurchaseBillDetailList()) {
+            purchaseBillDetail.setProductId(billDetail.getProductId());
+            purchaseBillDetail.setSupplierId(billDetail.getSupplierId());
+            purchaseBillDetail.setBillId(purchaseBill.getId()+"");
+            purchaseBillDetail.setPrice(billDetail.getPrice());
+            purchaseBillDetail.setNumber(billDetail.getNumber());
+            purchaseBillDetail.setSumMoney(billDetail.getSumMoney());
+            purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
+        }
+        purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
+        return true;
+    }
+
+    @Override
+    public List<PurchaseBillDetail> countPurchase() {
+        List<PurchaseBillDetail> purchaseBillDetails = purchaseBillMapper.countPurchase();
+        return purchaseBillDetails;
     }
 }

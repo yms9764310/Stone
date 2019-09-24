@@ -125,10 +125,59 @@ public class PurchaseBillController {
         return new ResultBean<PurchaseBill>(purchaseBillService.loadPurchaseBillCompleted(id));
     }
 
-    //审核
+    //创建订单
     @RequestMapping(value = "/updateCompleted",method = RequestMethod.POST)
     @ResponseBody
     public IResult updateBillComleted(@RequestBody PurchaseBill purchaseBill){
         return new ResultBean<Boolean>(purchaseBillService.updateBillComplete(purchaseBill));
+    }
+
+    //待完成的编辑操作
+    @RequestMapping(value = "/editCompleted",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult updateCompleted(@RequestBody PurchaseBill purchaseBill){
+        return new ResultBean<Boolean>(purchaseBillService.updateCompletedBill(purchaseBill));
+    }
+
+    //采购单根据id获取
+    @RequestMapping(value = "/loadBillOrders",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult loadBillOrders( Integer id){
+        return new ResultBean<PurchaseBill>(purchaseBillService.loadBillOrders(id));
+    }
+
+    //采购单的编辑
+    @RequestMapping(value = "/updateBillOrders",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult updateBillOrders(@RequestBody PurchaseBill purchaseBill){
+        return new ResultBean<Boolean>(purchaseBillService.updateBillOrders(purchaseBill));
+    }
+
+    //采购单的审核根据id获取
+    @RequestMapping(value = "/loadPurchaseBillOrders",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult loadPurchaseBillOrders( Integer id){
+        return new ResultBean<PurchaseBill>(purchaseBillService.loadPurchaseBillOrders(id));
+    }
+
+    //采购单的审核
+    @RequestMapping(value = "/updatePurchaseBillOrders",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult updatePurchaseBillOrders(@RequestBody PurchaseBill purchaseBill){
+        return new ResultBean<Boolean>(purchaseBillService.updatePurchaseBillOrders(purchaseBill));
+    }
+
+    //查询已审核的商品
+    @RequestMapping(value = "/listPurchaseBillAudited",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult listPurchaseBillAudited(){
+        return new ResultBean<Collection<PurchaseBillDetail>>(purchaseBillService.listBillDetailAudited());
+    }
+
+    //统计采购金额、数量、种类
+    @RequestMapping(value = "/countPurchase",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult countPurchase(){
+        return new ResultBean<Collection<PurchaseBillDetail>>(purchaseBillService.countPurchase());
     }
 }

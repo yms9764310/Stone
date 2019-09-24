@@ -33,6 +33,8 @@ public interface PurchaseBillService {
     List<SysUsers> listSysUsersName();
     //查询全部采购单
     List<PurchaseBill> listPurchaseBillOrders(String page,String limit);
+    //查询已审核商品
+    List<PurchaseBillDetail> listBillDetailAudited();
 
     List<SupplierProduct> listSupplierProduct(String productName,String kind);
     //商品价格
@@ -43,4 +45,16 @@ public interface PurchaseBillService {
     PurchaseBill loadPurchaseBillCompleted(Integer id);
     //待完成,创建订单
     boolean updateBillComplete(PurchaseBill purchaseBill);
+    //待完成的编辑操作
+    boolean updateCompletedBill(PurchaseBill purchaseBill);
+    //采购单信息根据id获取
+    PurchaseBill loadBillOrders(Integer id);
+    //采购单的编辑
+    boolean updateBillOrders(PurchaseBill purchaseBill);
+    //采购单的审核,根据id获取信息
+    PurchaseBill loadPurchaseBillOrders(Integer id);
+    //采购单的审核
+    boolean updatePurchaseBillOrders(PurchaseBill purchaseBill);
+    //统计金额、数量、种类
+    List<PurchaseBillDetail> countPurchase();
 }

@@ -58,4 +58,8 @@ public interface PurchaseBillMapper {
     int updatePurchaseBillDetailAudit(PurchaseBillDetail purchaseBillDetail);
     //待完成,根据id查询
     PurchaseBill loadPurchaseBillCompleted(@Param("id")int id);
+    //查询已审核的商品
+    List<PurchaseBillDetail> listBillDetailAudited();
+    //统计金额、数量、种类
+    List<PurchaseBillDetail> countPurchase();
 }

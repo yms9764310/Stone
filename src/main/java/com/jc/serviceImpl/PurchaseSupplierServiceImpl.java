@@ -4,9 +4,11 @@ import com.jc.beans.response.PageRange;
 import com.jc.mapper.PurchaseSupplierMapper;
 import com.jc.model.PurchaseSupplier;
 import com.jc.model.SupplierProduct;
+import com.jc.model.SysLoginUser;
 import com.jc.model.SysPurchaseProduct;
 import com.jc.service.PurchaseSupplierService;
 import com.jc.utils.ExcelUtil;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,9 +38,16 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
 
     //查询全部供应商以及搜索的功能
     @Override
-    public List<PurchaseSupplier> listSupplier(String page, String limit, String SysProductName,String name) {
-        PageRange pageRange=new PageRange(page,limit);
-        return purchaseSupplierMapper.listSupplier(pageRange.getStart(),pageRange.getEnd(),SysProductName,name);
+    public List<PurchaseSupplier> listSupplier(String page, String limit, String SysProductName,String name,Integer id) {
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id1=user.getId();
+        if (id1==2){
+            PageRange pageRange=new PageRange(page,limit);
+            return purchaseSupplierMapper.listSupplier(pageRange.getStart(),pageRange.getEnd(),SysProductName,name,id1);
+        }else {
+            PageRange  pageRange=new PageRange(page,limit);
+            return purchaseSupplierMapper.listSupplierUser(pageRange.getStart(),pageRange.getEnd(),SysProductName,name);
+        }
     }
     //获取菜单大小
     @Override
@@ -152,6 +161,7 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
         purchaseSupplier.setModifyDate(date);
         //添加修改人
         purchaseSupplier.setModifier("1");
+        purchaseSupplier.setCreator(1+"");
         if(purchaseSupplier.getCreator().equals(1+"")){
             purchaseSupplier.setState(1+"");
         }else if (purchaseSupplier.getCreator().equals(2+"")){

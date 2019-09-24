@@ -217,7 +217,7 @@ layui.define(['$tool','jquery'], function (exports) {
         UpdatePurchaseBillAudit:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'procurementBill/purchaseBillAudit.do',req,config,successCallback,errorCallback);
         },
-        //删除采办事项
+
         SupplierProductLike:function(req,successCallback,errorCallback){
             doPost($tool.getContext() + 'procurementBill/supplierProduct.do',req,successCallback,errorCallback);
         },
@@ -228,6 +228,30 @@ layui.define(['$tool','jquery'], function (exports) {
         //待完成,创建订单
         UpdateBillComplete:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'procurementBill/updateCompleted.do',req,config,successCallback,errorCallback);
+        },
+        //待完成,编辑操作
+        EditCompletedBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/editCompleted.do',req,config,successCallback,errorCallback);
+        },
+        //删除采购订单
+        DeleteBillOrders:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/deletePurchaseBill.do',req,successCallback,errorCallback);
+        },
+        //采购单，根据id获取信息
+        LoadBillOrders:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/loadBillOrders.do',req,successCallback,errorCallback);
+        },
+        //采购单,编辑操作
+        UpdateBillOrders:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/updateBillOrders.do',req,config,successCallback,errorCallback);
+        },
+        //采购单的审核,根据id获取
+        LoadPurchaseBillOrders:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/loadPurchaseBillOrders.do',req,successCallback,errorCallback);
+        },
+        //采购单审核通过
+        AuditBillOrders:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/updatePurchaseBillOrders.do',req,config,successCallback,errorCallback);
         },
         UpdatePassword:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'SysLoginUser/changePassword.do',req,config,successCallback,errorCallback);
