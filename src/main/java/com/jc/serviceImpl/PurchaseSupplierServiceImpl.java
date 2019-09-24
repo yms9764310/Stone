@@ -7,6 +7,7 @@ import com.jc.model.SupplierProduct;
 import com.jc.model.SysLoginUser;
 import com.jc.model.SysPurchaseProduct;
 import com.jc.service.PurchaseSupplierService;
+import com.jc.util.ExcelUtils;
 import com.jc.utils.ExcelUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +195,7 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
 
         List<List<Object>> listob = null;
         try {
-            listob = new ExcelUtil().getBankListByExcel(in,file.getOriginalFilename());
+            listob = new ExcelUtils().getBankListByExcel(in,file.getOriginalFilename());
         } catch (Exception e) {
             e.printStackTrace();
         }

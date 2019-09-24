@@ -55,13 +55,30 @@
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 
+    <!--查询所有人员-->
+    <select id="listUserAll" resultType="SysUsers">
+        SELECT id,`name`,depart_id,depart_role_id from t_sys_users
+    </select>
+    <!--查询所有商品-->
+    <select id="listProductAll" resultType="SysPurchaseProduct">
+            select id,`name`,kind,model_type from t_sys_purchase_product
+    </select>
+    <!--查询所有库存-->
+    <select id="listStoreNumber" resultType="Store">
+        select id,product_id,`number` from t_store
+    </select>
+    <!--查询所有盘点-->
+    <select id="listCheckTaskNumber" resultType="StoreCheckTaskDetail">
+        select id,product_id,check_id,check_number from t_store_check_task_detail
+    </select>
     <!--查询盘点全部-->
     <select id="listCheckAll" resultType="StoreCheck">
-
         SELECT
+        t_sys_role.id as role_id,
         t.id,
         us. NAME AS creator,
         users. NAME AS check_user_id,
+        t_sys_role.name as depart_name,
         t.create_date,
         t.end_date,
         t.begin_date,
@@ -71,7 +88,10 @@
         t_store_check AS t
         LEFT JOIN t_sys_users AS us ON t.creator = us.id
         LEFT JOIN t_sys_users AS users ON t.check_user_id = users.id
-        LEFT JOIN t_sys_resource as r  ON t.state = r.id
+        LEFT JOIN t_sys_resource as r ON t.state = r.id
+        LEFT JOIN t_sys_user_role ON users.depart_role_id = t_sys_user_role.role_id
+        LEFT JOIN t_sys_role ON t_sys_user_role.role_id = t_sys_role.id
+        LEFT JOIN t_sys_department ON users.depart_id = t_sys_department.id
         <where>
             <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
                 AND begin_date between #{startTime} and #{endTime}
@@ -83,11 +103,11 @@
     <!--根据账户查询相关的盘点任务-->
     <select id="listCheckWith" resultType="StoreCheck">
         SELECT
-        us.name as user_name,
-        t_sys_role.name as depart_name,
+        t_sys_role.id as role_id,
         t.id,
         us. NAME AS creator,
         users. NAME AS check_user_id,
+        t_sys_role.name as depart_name,
         t.create_date,
         t.end_date,
         t.begin_date,
@@ -139,8 +159,7 @@
         ON t.state = r.id
         LEFT JOIN t_sys_purchase_product as p
         ON t.product_id = p.id
-        WHERE t.state = 5
-
+        <where>
         <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
             AND checkout_date between #{startTime} and #{endTime}
         </if>
@@ -150,6 +169,7 @@
         <if test="source_kind !=null and source_kind !=''">
             AND t.source_kind = #{source_kind,jdbcType=VARCHAR}
         </if>
+        </where>
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
     <!--查询库存量-->
@@ -195,7 +215,7 @@
         ON t.state = r.id
         LEFT JOIN t_sys_purchase_product as p
         ON t.product_id = p.id
-        WHERE t.state = 5
+        <where>
         <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
             AND put_id_date between #{startTime} and #{endTime}
         </if>
@@ -205,6 +225,7 @@
         <if test="source_type !=null and source_type !=''">
             AND t.source_type = #{source_type,jdbcType=VARCHAR}
         </if>
+        </where>
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 
@@ -313,7 +334,9 @@
     <delete id="deleteCheckTaskDetail" parameterType="java.lang.Integer">
         DELETE  FROM  t_store_check_task_detail WHERE check_id=#{0}
     </delete>
-    <select id="loadByCheckId" resultType="StoreCheckTaskDetail">
+
+
+    <select id="listByCheckId" resultType="StoreCheckTaskDetail">
     SELECT
 	detail.product_id,
 	detail.check_id,
@@ -325,6 +348,25 @@
     on detail.product_id = product.id
     WHERE
 	check_id =#{0}
+    </select>
+<!--封装类的查询单个盘点任务-->
+    <select id="loadBy_id" resultType="StoreCheck">
+    SELECT
+	t.creator,
+	t.create_date,
+	t.check_user_id,
+	t.begin_date,
+	t.end_date,
+	u.name creatorname,
+	us.name check_user_name
+    FROM
+        t_store_check as t
+    LEFT JOIN t_sys_users as u
+    ON t.creator = u.id
+    LEFT JOIN t_sys_users as us
+    ON t.check_user_id = us.id
+    WHERE
+	t.id = #{0}
     </select>
 
     <select id="loadByCheck_Id" resultType="StoreCheck">
@@ -355,6 +397,17 @@
         UPDATE t_store_check SET modifier=#{modifier},modify_date=#{modify_date},check_user_id=#{check_user_id},begin_date=#{begin_date},state=#{state},end_date=#{end_date}
         WHERE  id=#{id}
     </update>
+<!--审核盘点数量-->
+    <update id="updateStoreNumber" parameterType="Store">
+        UPDATE t_store SET `number`=#{number}
+        WHERE  product_id=#{product_id}
+    </update>
+
+    <!--驳回盘点-->
+    <update id="updateState" parameterType="StoreCheck">
+        UPDATE t_store_check SET state = 5
+        WHERE  id=#{id}
+    </update>
     <!--确定盘点明细-->
     <update id="SureCountingTask" parameterType="StoreCheck">
         UPDATE t_store_check_task_detail SET check_number=#{check_number}
@@ -364,4 +417,29 @@
     <select id="count" parameterType="java.lang.Integer" resultType="INTEGER">
        SELECT `number` from t_store WHERE product_id=#{product_id}
     </select>
+
+    <!--查询损耗-->
+    <select id="countStoreLoss" resultType="LossBeans">
+   SELECT
+    t.id,
+    t.modify_date,
+	t.state,
+    p.name product_name,
+    d.stock_number,
+	d.check_number
+    FROM
+    t_store_check as t
+    LEFT JOIN
+    t_store_check_task_detail as d
+    ON d.check_id = t.id
+	LEFT JOIN
+    t_sys_purchase_product as p
+    ON d.product_id = p.id
+    <where>
+        <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
+            AND modify_date between #{startTime} and #{endTime}
+        </if>
+    </where>
+    </select>
+
 </mapper>

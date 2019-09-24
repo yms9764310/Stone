@@ -38,6 +38,7 @@
                 /admin_pro/layui/login.js = anon
                 /admin_pro/layui/home.js = anon
                 /admin_pro/layui/index.html= authc
+                /admin_pro/layui/tSysDepartment/addDemp.html=authc,perms[list:select]
                 /admin_pro/layui/= authc
                 /admin_pro/layui/unauthorized.html = anon
                 <!-- 权限配置，只允许 admin 访问 -->

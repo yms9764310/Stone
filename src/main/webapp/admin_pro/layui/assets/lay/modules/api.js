@@ -65,6 +65,21 @@ layui.define(['$tool','jquery'], function (exports) {
         AddStudent:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'Student/add.do',req,config,successCallback,errorCallback);
         },
+        InsertCountingTask:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'StoreManagement/insertCountingTask.do',req,config,successCallback,errorCallback);
+        },
+        UpdateCountingTask:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StoreManagement/updateCountingTask.do',req,config,successCallback,errorCallback);
+        },
+        SureCountingTask:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'StoreManagement/sureCountingTask.do',req,config,successCallback,errorCallback);
+        },
+        ReviewCountingTask:function(req,config,successCallback,errorCallback){
+        doComplexPost($tool.getContext()+'StoreManagement/reviewCountingTask.do',req,config,successCallback,errorCallback);
+        },
+        ExportCountingTask:function(req,config,successCallback,errorCallback){
+        doPost($tool.getContext()+'StoreManagement/exportExcel.do',req,config,successCallback,errorCallback);
+        },
         DeleteStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
         },
@@ -134,6 +149,15 @@ layui.define(['$tool','jquery'], function (exports) {
         },
         GetSysUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'SysUser/find.do',req,config,successCallback,errorCallback);
+        },
+        GetUsersName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StoreManagement/findUsersName.do',req,config,successCallback,errorCallback);
+        },
+        GetProductList:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'purchaseSupplier/listPurchaseProduct.do',req,config,successCallback,errorCallback);
+        },
+        GetCheckTask:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'StoreManagement/getCheckTask.do',req,config,successCallback,errorCallback);
         },
         GetDepartUsers:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'StaffSetting/get.do',req,config,successCallback,errorCallback);
@@ -286,6 +310,9 @@ layui.define(['$tool','jquery'], function (exports) {
         updateCheckOutReject:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'StorePutIn/updateCheckOutReject.do',req,config,successCallback,errorCallback);
         },
+        updateCheckState:function(req,config,successCallback,errorCallback){
+        doComplexPost($tool.getContext()+'StoreManagement/updateCheckState.do',req,config,successCallback,errorCallback);
+         },
     };
 
     //输出扩展模块

@@ -114,4 +114,13 @@ public class StorePutInController {
         return new ResultBean<String>(storePutInServiceImpl.insertCheckOut(storeCheckOut));
     }
 
+    /**
+     * 添加入库单
+     */
+    @RequestMapping("/insertStorePutIn")
+    @ResponseBody
+    public IResult insertStorePutIn(@RequestBody StorePutIn storePutIn){
+        return new ResultBean<String>(storePutInServiceImpl.insertStorePutIn(storePutIn));
+    }
+
 }

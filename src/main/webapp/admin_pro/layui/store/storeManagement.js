@@ -61,13 +61,18 @@ layui.config({
                 deleteCheck(row.id);
             }else  if (layEvent === 'counting') { //盘点
                 viewCheck(row.id);
+            }else  if (layEvent === 'export') { //导出
+                exportCheck(row.id);
+            }else  if (layEvent === 'review') { //审核
+                reviewCheck(row.id);
+            }else  if (layEvent === 'look') { //查看
+                lookCheck(row.id);
             }
         });
     }
     defineTable();
     //查询
     form.on("submit(queryUser)", function (data) {
-        alert(JSON.stringify(data));
         var startTime = data.field.start_time;
         var endTime = data.field.end_time;
         //表格重新加载
@@ -101,6 +106,51 @@ layui.config({
         });
         layui.layer.full(index);
     });
+
+    //审核
+    function reviewCheck(id) {
+        var index = layui.layer.open({
+            title: "审核盘点结果",
+            type: 2,
+            content: "reviewCountingTask.html?id="+id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
+    //查看
+    function lookCheck(id) {
+        var index = layui.layer.open({
+            title: "查看结果单",
+            type: 2,
+            content: "lookCountingTask.html?id="+id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
 
     //删除
     function deleteCheck(id) {
@@ -143,6 +193,29 @@ layui.config({
         layui.layer.full(index);
     }
 
+    //导出
+    function exportCheck(id) {
+        var index = layui.layer.open({
+            title: "导出盘点任务",
+            type: 2,
+            content: "exportCountingTask.html?id="+id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
+
     //盘点
     function viewCheck(id) {
         var index = layui.layer.open({
@@ -164,5 +237,50 @@ layui.config({
         });
         layui.layer.full(index);
     }
+        //导入结果单
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+        var uploadInst = upload.render({
+
+            elem: '#upfile'
+            , url: '/Stone/StoreManagement/fileUpload.do'
+            , auto: false
+            , accept: 'file'
+            //,multiple: true
+            , choose: function (obj) {
+                layer.confirm('确认导入吗？', function (confirmIndex) {
+                    obj.preview(function (index, file, result) {
+                        var formData = new FormData();
+                        //# 给formData对象添加<input>标签,注意与input标签的ID一致
+                        formData.append('upfile', file);
+                        $.ajax({
+                            url: '/Stone/StoreManagement/fileUpload.do',//这里写你的url
+                            type: 'POST',
+                            data: formData,
+                            contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
+                            processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
+                            //dataType: 'json',//这里是返回类型，一般是json,text等
+                            //clearForm: true,//提交后是否清空表单数据
+                            success: function (data) {   //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                                layer.msg("导入成功", {time: 1000}, function () {
+                                    //重新加载表格
+                                    tableIns.reload();
+                                });
+                            },
+                            error: function (data, status, e) {  //提交失败自动执行的处理函数。
+                                console.error(e);
+                            }
+                        });
+                    });
+
+
+                });
+            }
+            , done: function (res) {
+                console.log(res)
+            }
+        });
+    });
 
 });

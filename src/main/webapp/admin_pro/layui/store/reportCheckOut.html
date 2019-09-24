@@ -10,9 +10,9 @@
     <style type="text/css">
     .daoHang{
     position: relative;
-        left: 1290px;
+        left: 110%;
         bottom: 40px;
-        width: 275px;
+        width: 186px;
     }
     #Text{
         width: 15px;
@@ -44,9 +44,15 @@
                                 <div class="layui-input-inline" style="width: 100px;">
                                   <input type="text" autocomplete="off" name="name" class="layui-input">
                                 </div>
-                                <div class="layui-form-mid">出库类型</div>
-                                <div class="layui-input-inline" style="width: 100px;">
-                                    <input type="text" autocomplete="off" name="source_kind" class="layui-input">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">出库类型</label>
+                                    <div class="layui-input-block">
+                                        <select name="source_kind">
+                                            <option value="">--请选择--</option>
+                                            <option value="销售单">销售单</option>
+                                            <option value="采购单">采购单</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="layui-inline">
                                     <label class="layui-form-label">出库时间</label>
@@ -66,7 +72,6 @@
                                 <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
                                 <button class="layui-btn layui-btn-primary">重置</button>
                                 <ul class="layui-tab-title daoHang" >
-                                    <li class="layui-nav-item"><a href="reportStatistics.html">报表统计</a></li>
                                     <li class="layui-nav-item"><a href="reportCheckOut.html"><font style="color:#29adeb;">出库记录</font> </a></li>
                                     <li class="layui-nav-item"><a href="reportPutIn.html">入库记录</a></li>
                                 </ul>
@@ -80,9 +85,9 @@
         </div>
     </div>
 
-    <script type="text/html" id="barDemo">
-        <a style="color: #007DDB;cursor: pointer" lay-event="review">删除</a>&nbsp;
-    </script>
+<!--    <script type="text/html" id="barDemo">-->
+<!--        <a style="color: #007DDB;cursor: pointer" lay-event="review">删除</a>&nbsp;-->
+<!--    </script>-->
     <script src="../assets/lay/modules/config.js"></script>
     <script src="../assets/layui.js"></script>
     <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>

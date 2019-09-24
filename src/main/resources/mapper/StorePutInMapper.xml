@@ -62,6 +62,12 @@
     values (#{product_id},#{creator},#{create_date},#{modifier},#{number},#{checkout_user_id},#{modify_date},3)
     </insert>
 
+    <!--添加入库单-->
+    <insert id="insertStorePutIn" parameterType="StorePutIn" keyProperty="id" useGeneratedKeys="true">
+    insert into t_store_put_in (product_id,creator,create_date,modifier,modify_date,put_in_number,put_in_user_id,state)
+    values (#{product_id},#{creator},#{create_date},#{modifier},#{put_in_number},#{put_in_user_id},#{modify_date},3)
+    </insert>
+
     <!--出库单-->
     <select id="listStoreCheckout" resultType="ToDoList">
         SELECT

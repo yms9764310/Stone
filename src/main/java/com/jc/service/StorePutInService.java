@@ -38,6 +38,8 @@ public interface StorePutInService {
     String updateCheckOutReject(StoreCheckOut storeCheckOut);
     //添加出库单
     String insertCheckOut(StoreCheckOut storeCheckOut);
+    //添加入库单
+    String insertStorePutIn(StorePutIn storePutIn);
 
 
 }

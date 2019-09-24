@@ -155,16 +155,15 @@ layui.config({
     });
     $api.LogOut(null,function (data) {
         for(var i=0;i<data.data.length;i++){
-            if(data.data[i]=="dmin"){
-                $(".quanxian").css("display","block");
+            if(data.data.indexOf("list:select") != -1){
+                $(".add_btn").css("display","block");
             }
 
             else{
-                $(".quanxian").css("display","none");
+                $(".add_btn").css("display","none");
             }
         }
     });
-
     //删除
     function deleteRole(id) {
         layer.confirm('确认删除吗？', function (confirmIndex) {

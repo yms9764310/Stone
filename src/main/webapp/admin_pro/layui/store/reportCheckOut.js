@@ -87,9 +87,9 @@ layui.config({
         return false;
     });
 
-    //编辑
+    //删除
     function reviewUser(id) {
-        layer.confirm('确定审核吗？', function (confirmIndex) {
+        layer.confirm('确定删除吗？', function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
             //向服务端发送删除指令
             var req = {
@@ -104,27 +104,4 @@ layui.config({
             });
         });
     }
-
-    //设置阈值
-    function editThreshold(id) {
-        var index = layui.layer.open({
-            title: "设置阈值",
-            type: 2,
-            content: "editThreshold.html?id=" + id,
-            success: function (layero, index) {
-                setTimeout(function () {
-                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                }, 500)
-            }
-        });
-
-        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-        $(window).resize(function () {
-            layui.layer.full(index);
-        });
-        layui.layer.full(index);
-    }
-
 });

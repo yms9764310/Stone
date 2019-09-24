@@ -71,9 +71,14 @@ public interface StoreManagementMapper {
 
     int countGetCheckOutAll();
 
+    List<LossBeans> countStoreLoss( @Param("startTime") String startTime,
+                                    @Param("endTime") String endTime);
+
     int countGetPutInAll();
     //根据盘点单的ID去明细里面查询
-    List<StoreCheckTaskDetail> loadByCheckId(Integer id);
+    List<StoreCheckTaskDetail> listByCheckId(Integer id);
+    //根据ID查询盘点任务
+    StoreCheck loadBy_id(Integer id);
     //删除盘点任务
     void deleteCheckTask(Integer id);
     //删除盘点明细任务
@@ -82,13 +87,26 @@ public interface StoreManagementMapper {
     void updateCountingTask(StoreCheck storeCheck);
     //确定盘点明细
     void SureCountingTask(StoreCheckTaskDetail StoreCheckTaskDetail);
+    //审核盘点结果单后修改库存量
+    void updateStoreNumber(Store Store);
+    //驳回盘点结果单后修改状态
+    void updateState(StoreCheck storeCheck);
     //修改盘点明细
     void updateCountingTaskDetail(StoreCheckTaskDetail storeCheckTaskDetail);
-
+    //添加盘点任务
     void insertCheckTask(StoreCheck storeCheck);
-
+    //导入盘点任务
+    void updateCheckTask(StoreCheck storeCheck);
+    //添加盘点明细
     void insertCheckTaskDetail(StoreCheckTaskDetail storeCheckTaskDetail);
-
+    //查询人员表
+    List<SysUsers> listUserAll();
+    //查询商品表
+    List<SysPurchaseProduct> listProductAll();
+    //查询库存量
+    List<Store> listStoreNumber();
+    //查询盘点量
+    List<StoreCheckTaskDetail> listCheckTaskNumber();
     //根据商品ID查询
     Store loadByProductId(String product_id);
 

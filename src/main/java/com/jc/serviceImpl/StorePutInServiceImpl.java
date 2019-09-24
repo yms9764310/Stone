@@ -186,6 +186,12 @@ public class StorePutInServiceImpl implements StorePutInService {
         return "success";
     }
 
+    @Override
+    public String insertStorePutIn(StorePutIn storePutIn) {
+        storePutInMapper.insertStorePutIn(storePutIn);
+        return "success";
+    }
+
 
     public List<ToDoList> listLimitData(String page, String limit, List<ToDoList> limitData) {
         List<ToDoList> resultData = new ArrayList<ToDoList>();

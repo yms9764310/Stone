@@ -22,10 +22,7 @@ public interface ToDoListService {
     SysUsersBeans loadById(Integer id);
     //根据加工单ID查询
     ProduceTaskDetail loadByProcessId(Integer id);
-    //根据仓库管理
-    List<ToDoList> listStoreAll(@Param("start") String start,
-                                @Param("end") String end,
-                                @Param("creator") String name);
+
     //根据生产订单
     List<ProduceTask> listProcessAll(@Param("start") String start,
                                         @Param("end") String end,
@@ -45,23 +42,6 @@ public interface ToDoListService {
                                    @Param("end") String end,
                                    @Param("name") String name);
 
-    //根据系统模块
-    List<ToDoList> listSysAll(@Param("start") String start,
-                                    @Param("end") String end,
-                                    @Param("creator") String name);
-
-    //根据财务模块
-    List<ToDoList> listAccountAll(@Param("start") String start,
-                                        @Param("end") String end,
-                                        @Param("creator") String name);
-    //根据采购模块
-    List<ToDoList> listPruchaseAll(@Param("start") String start,
-                                         @Param("end") String end,
-                                         @Param("creator") String name);
-    //根据销售模块
-    List<ToDoList> listSaleAll(@Param("start") String start,
-                                     @Param("end") String end,
-                                     @Param("creator") String name);
     //根据销售模块
     List<ToDoList> listAll(@Param("start") String start,
                                @Param("end") String end,
