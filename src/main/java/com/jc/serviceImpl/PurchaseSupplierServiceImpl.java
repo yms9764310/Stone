@@ -2,10 +2,10 @@ package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
 import com.jc.mapper.PurchaseSupplierMapper;
-import com.jc.model.PurchaseSupplier;
-import com.jc.model.SupplierProduct;
-import com.jc.model.SysLoginUser;
-import com.jc.model.SysPurchaseProduct;
+import com.jc.mapper.SysUsersMapper;
+import com.jc.mapper.YzjRoleMapper;
+import com.jc.mapper.YzjUserRoleMapper;
+import com.jc.model.*;
 import com.jc.service.PurchaseSupplierService;
 import com.jc.util.ExcelUtils;
 import org.apache.shiro.SecurityUtils;
@@ -35,18 +35,31 @@ import java.util.Map;
 public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
     @Autowired
     PurchaseSupplierMapper purchaseSupplierMapper;
+    @Autowired
+    SysUsersMapper sysUsersMapper;
+    @Autowired
+    YzjUserRoleMapper yzjUserRoleMapper;
+    @Autowired
+    YzjRoleMapper yzjRoleMapper;
 
     //查询全部供应商以及搜索的功能
     @Override
     public List<PurchaseSupplier> listSupplier(String page, String limit, String SysProductName,String name,Integer id) {
         SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
-        int id1=user.getId();
-        if (id1==2){
+        int userId=user.getId();
+        List<SysUserRole> userRoleByUID = yzjUserRoleMapper.getUserRoleByUID(userId);
+        SysRole sysRole = new SysRole();
+        for (SysUserRole sysUserRole : userRoleByUID) {
+             sysRole = yzjRoleMapper.selectByPrimaryKeyId(sysUserRole.getRole_id());
+        }
+        if (sysRole.getName().equals("主管")){
             PageRange pageRange=new PageRange(page,limit);
-            return purchaseSupplierMapper.listSupplier(pageRange.getStart(),pageRange.getEnd(),SysProductName,name,id1);
+            List<PurchaseSupplier> purchaseSuppliers = purchaseSupplierMapper.listSupplierUser(pageRange.getStart(), pageRange.getEnd(), SysProductName, name);
+            return purchaseSuppliers;
         }else {
             PageRange  pageRange=new PageRange(page,limit);
-            return purchaseSupplierMapper.listSupplierUser(pageRange.getStart(),pageRange.getEnd(),SysProductName,name);
+            List<PurchaseSupplier> purchaseSuppliers = purchaseSupplierMapper.listSupplier(pageRange.getStart(), pageRange.getEnd(), SysProductName, name, userId);
+            return purchaseSuppliers;
         }
     }
     //获取菜单大小
@@ -60,10 +73,12 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
     @Override
     public boolean insertSupplier(PurchaseSupplier purchaseSupplier) {
         Date date=new Date();
-        purchaseSupplier.setCreator(1+"");
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int userId=user.getId();
+        purchaseSupplier.setCreator(userId+"");
         purchaseSupplier.setCreateDate(date);
         purchaseSupplier.setModifyDate(date);
-        purchaseSupplier.setModifier("1");
+        purchaseSupplier.setModifier(userId+"");
         if(purchaseSupplier.getCreator().equals(1+"")){
             purchaseSupplier.setState(1+"");
         }else if (purchaseSupplier.getCreator().equals(2+"")){

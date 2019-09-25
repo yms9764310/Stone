@@ -44,5 +44,7 @@ public class PurchaseBillDetail implements Serializable {
     private String kind;
     //时间
     private String createDate;
+    //年份
+    private String yearDate;
 
 }

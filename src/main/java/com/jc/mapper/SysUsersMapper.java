@@ -1,6 +1,5 @@
 package com.jc.mapper;
 
-import com.jc.model.SysLoginUser;
 import com.jc.model.SysUsers;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -23,6 +22,7 @@ public interface SysUsersMapper {
         //修改信息
         void updateMessage(SysUsers sysUsers);
         List<SysUsers> listSysUsers();
+        SysUsers listSysUser(int id);
         List<SysUsers> listUserAll(@Param("start") Integer start,
                                    @Param("end") Integer end);
     //获取条数

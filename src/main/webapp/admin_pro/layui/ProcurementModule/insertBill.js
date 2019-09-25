@@ -41,31 +41,9 @@ var productSupplier;
     });
     formSelects.render('select');//需要渲染一下
 
-    //追加采办商品
-    // $("#parentDiv").click(function () {
-    //     var show='<div class="layui-form-item parent-menu" ><label class="layui-form-label">采办商品:</label>' +
-    //         '<div class="layui-input-inline"><select name="productId" id="productValue" lay-verify="required" required>';
-    //     var htmls = '<option value="" selected="selected">请选择商品</option>'
-    //     for (var x in productSupplier) {
-    //         htmls += '<option value="' + productSupplier[x].id + '">' + productSupplier[x].name + '</option>';
-    //     }
-    //     show+=htmls;
-    //     show+='</select></div>';
-    //     show+='</div>';
-    //     $("#insert").append(show);
-    //     formSelects.render("select");
-    // });
 
-
-    // form.on("select",function (data) {
-    //     console.log(data.elem); //得到select原始DOM对象
-    //     console.log(data.value); //得到被选中的值]
-    //     $("#productValue").val(data.value);
-    //     console.log(data.othis); //得到美化后的DOM对象
-    // });
 
     form.on("submit(insertSupplier)",function (data) {
-        var creator=$("input[name='creator']").val();
         var putInDate=$("input[name='putInDate']").val();
         var emergent=$("input[name='emergent']:checked").val();
         if (emergent==null||emergent==''){
@@ -73,20 +51,8 @@ var productSupplier;
             return false;
         }
         var purchaseBillDetailList=formSelects.value('select1');
-        //alert(JSON.stringify(purchaseBillDetailList))
-        //获取select父类长度
-        // var productId=$('.insert').children('.parent-menu');
-        //alert(productId.length);
-        //遍历获取select选中的值
-        // var purchaseBillDetailList=[];
-        // for (var i=0;i<productId.length;i++){
-        //     var productName=$($(productId[i]).children('.layui-input-inline')[0]).children('select').find("option:selected").val();
-        //     //alert(productName);
-        //     purchaseBillDetailList.push({productId:productName});
-        // }
-        //alert(JSON.stringify(purchaseBillDetailList));
+
         var req={
-            creator:creator,
             putInDate:putInDate,
             emergent:emergent,
             purchaseBillDetailList:purchaseBillDetailList

@@ -33,7 +33,7 @@ layui.config({
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
-                , {field: 'creator', title: '创建人', width: '5%',align:'center'}
+                , {field: 'creatorName', title: '创建人', width: '5%',align:'center'}
                 , {field: 'createDate', title: '创建时间', width: '10%',align:'center'}
                 , {field: 'modifier', title: '修改人', width: '5%', templet: '#upc',align:'center'}
                 , {field: 'modifyDate', title: '修改时间', width: '10%', templet: '#upc',align:'center'}
@@ -79,11 +79,11 @@ layui.config({
 
     //查询事项信息
     form.on("submit(queryUser)",function (data) {
-        var creator=data.field.creator;
+        var creatorName=data.field.creatorName;
         //表格重新加载
         tableIns.reload({
             where: {
-                creator: creator
+                creatorName: creatorName
             }
         });
         return false;

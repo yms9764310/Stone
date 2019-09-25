@@ -3,6 +3,9 @@ package com.jc.serviceImpl;
 import com.jc.beans.response.PageRange;
 import com.jc.mapper.AccountHandleBillMapper;
 import com.jc.mapper.PurchaseBillMapper;
+import com.jc.mapper.SysUsersMapper;
+import com.jc.mapper.YzjRoleMapper;
+import com.jc.mapper.YzjUserRoleMapper;
 import com.jc.model.*;
 import com.jc.service.PurchaseBillService;
 import org.apache.shiro.SecurityUtils;
@@ -23,14 +26,34 @@ import java.util.List;
 public class PurchaseBillServiceImpl implements PurchaseBillService {
     @Autowired
     PurchaseBillMapper purchaseBillMapper;
+    @Autowired
+    SysUsersMapper sysUsersMapper;
+    @Autowired
+    YzjUserRoleMapper yzjUserRoleMapper;
+    @Autowired
+    YzjRoleMapper yzjRoleMapper;
 
     @Autowired
     private AccountHandleBillMapper taccountHandleBillMapper;
     //查询全部采办事项
     @Override
-    public List<PurchaseBill> listPurchaseBill(String page, String limit,String creator) {
-        PageRange pageRange=new PageRange(page,limit);
-        return purchaseBillMapper.listPurchaseBill(pageRange.getStart(),pageRange.getEnd(),creator);
+    public List<PurchaseBill> listPurchaseBill(String page, String limit,Integer creator,String creatorName) {
+        SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
+        int creatorId=sysLoginUser.getId();
+        final List<SysUserRole> userRoleByUID = yzjUserRoleMapper.getUserRoleByUID(creatorId);
+        SysRole sysRole=new SysRole();
+        for (SysUserRole sysUserRole : userRoleByUID) {
+            sysRole=yzjRoleMapper.selectByPrimaryKeyId(sysUserRole.getRole_id());
+        }
+        if (sysRole.getName().equals("主管")){
+            PageRange pageRange=new PageRange(page,limit);
+            List<PurchaseBill> purchaseBills = purchaseBillMapper.listPurchaseBill(pageRange.getStart(), pageRange.getEnd(),creatorName);
+            return purchaseBills;
+        }else{
+            PageRange pageRange=new PageRange(page,limit);
+            List<PurchaseBill> purchaseBills = purchaseBillMapper.listPurchaseBillUser(pageRange.getStart(), pageRange.getEnd(), creatorId,creatorName);
+            return purchaseBills;
+        }
     }
 //获取采办菜单大小
     @Override
@@ -62,10 +85,13 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     //添加采办事项
     @Override
     public Boolean insertPurchaseBill(PurchaseBill purchaseBill) {
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int userId=user.getId();
+        purchaseBill.setCreator(userId+"");
         //创建时间
         purchaseBill.setCreateDate(new Date());
         //修改人
-        purchaseBill.setModifier(purchaseBill.getCreator());
+        purchaseBill.setModifier(userId+"");
         //修改时间
         purchaseBill.setModifyDate(new Date());
         //状态5表示是待采办
@@ -340,9 +366,29 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         return true;
     }
 
+    //月统计金额、数量、种类
     @Override
-    public List<PurchaseBillDetail> countPurchase() {
-        List<PurchaseBillDetail> purchaseBillDetails = purchaseBillMapper.countPurchase();
+    public List<PurchaseBillDetail> countPurchase(Integer yearDate) {
+        List<PurchaseBillDetail> purchaseBillDetails = purchaseBillMapper.countPurchase(yearDate);
         return purchaseBillDetails;
+    }
+
+    //根据商品种类月统计金额、数量
+    @Override
+    public List<PurchaseBillDetail> countPurchaseProduct(Integer productId,Integer yearDate) {
+        List<PurchaseBillDetail> purchaseBillDetails = purchaseBillMapper.countPurchaseProduct(productId,yearDate);
+        return purchaseBillDetails;
+    }
+
+    @Override
+    public List<PurchaseBillDetail> countPurchaseYear() {
+        List<PurchaseBillDetail> year = purchaseBillMapper.countPurchaseYear();
+        return year;
+    }
+
+    @Override
+    public List<PurchaseBillDetail> countPurchaseProductYear(Integer productId) {
+        List<PurchaseBillDetail> yearProduct = purchaseBillMapper.countPurchaseProductYear(productId);
+        return yearProduct;
     }
 }
