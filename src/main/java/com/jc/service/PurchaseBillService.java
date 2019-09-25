@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface PurchaseBillService {
     //查询全部采办事项
-    List<PurchaseBill> listPurchaseBill(String page,String limit,String creator);
+    List<PurchaseBill> listPurchaseBill(String page,String limit,Integer creator,String creatorName);
     //获取采办菜单大小
     int countGet();
     //查询待审核
@@ -55,6 +55,12 @@ public interface PurchaseBillService {
     PurchaseBill loadPurchaseBillOrders(Integer id);
     //采购单的审核
     boolean updatePurchaseBillOrders(PurchaseBill purchaseBill);
-    //统计金额、数量、种类
-    List<PurchaseBillDetail> countPurchase();
+    //根据年份统计月金额、数量、种类
+    List<PurchaseBillDetail> countPurchase(Integer yearDate);
+    //根据商品年份种类月统计金额、数量
+    List<PurchaseBillDetail> countPurchaseProduct(Integer productId,Integer yearDate);
+    //年统计金额、数量、种类
+    List<PurchaseBillDetail> countPurchaseYear();
+    //根据商品种类年统计金额、数量
+    List<PurchaseBillDetail> countPurchaseProductYear(Integer productId);
 }

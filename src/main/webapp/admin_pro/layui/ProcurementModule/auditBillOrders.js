@@ -174,6 +174,20 @@ layui.config({
 
 
     form.on("submit(updateBill)",function (data) {
+        layer.prompt({title:'请输入银行卡号！',formType:3},function (value,index) {
+            if (value==null||value==""){
+                layer.msg("请填写银行卡号",{time:1300,icon:5});
+                return false;
+            }
+            if(value.length < 16 || value.length > 19) {
+                layer.msg("银行卡号长度必须在16到19之间",{time:1300,icon:5});
+                return false;
+            }
+            var num = /^\d*$/; //全数字
+            if(!num.exec(value)) {
+                layer.msg("银行卡号必须全为数字",{time:1300,icon:5});
+                return false;
+            }
         var id=$("input[name='id']").val();
         var creator=$("input[name='creator_id']").val();
         var putInDate=$("input[name='putInDate']").val();
@@ -222,7 +236,9 @@ layui.config({
                 });
             });
         });
+        });
         return false;
+
     });
 });
 

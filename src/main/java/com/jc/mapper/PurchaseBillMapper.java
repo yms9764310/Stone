@@ -17,7 +17,12 @@ public interface PurchaseBillMapper {
     //查询采办事项
     List<PurchaseBill> listPurchaseBill(@Param("start")int start,
                                         @Param("end")int end,
-                                        @Param("creator")String creator);
+                                        @Param("creatorName")String creatorName);
+    //查询采办事项
+    List<PurchaseBill> listPurchaseBillUser(@Param("start")int start,
+                                        @Param("end")int end,
+                                        @Param("creator")int creator,
+                                            @Param("creatorName")String creatorName);
     //获取采办菜单总数,分页
     int countGet();
     //查询待审核
@@ -60,6 +65,12 @@ public interface PurchaseBillMapper {
     PurchaseBill loadPurchaseBillCompleted(@Param("id")int id);
     //查询已审核的商品
     List<PurchaseBillDetail> listBillDetailAudited();
-    //统计金额、数量、种类
-    List<PurchaseBillDetail> countPurchase();
+    //月统计金额、数量、种类
+    List<PurchaseBillDetail> countPurchase(@Param("yearDate")int yearDate);
+    //根据商品种类月统计金额、数量
+    List<PurchaseBillDetail> countPurchaseProduct(@Param("productId")int productId,@Param("yearDate")int yearDate);
+    //年统计金额、数量、种类
+    List<PurchaseBillDetail> countPurchaseYear();
+    //根据商品种类年统计金额、数量
+    List<PurchaseBillDetail> countPurchaseProductYear(@Param("productId")int productId);
 }

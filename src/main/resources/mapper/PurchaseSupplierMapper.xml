@@ -31,8 +31,8 @@
 <!--    员工查询自己的信息-->
     <select id="listSupplier" resultMap="SupplierResultMap">
         SELECT
-        purchase.id, purchase.creator, purchase.create_date, purchase.name name,
-        purchase.modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
+        purchase.id, users.name creator, purchase.create_date, purchase.name name,
+        users.name modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
         res.id sid, res.display_name state,purchase.company_name,
         purchase.contact_name,purchase.contact_phone,
         purchase.address
@@ -54,6 +54,10 @@
         t_sys_login_user AS login
         ON
         login.user_id=purchase.creator
+        LEFT JOIN
+        t_sys_users AS users
+        ON
+        users.id=purchase.creator
         where
         purchase.creator=#{id}
         <if test="name!=null and name!=''">
@@ -72,8 +76,8 @@
 <!--    主管查看全部信息-->
     <select id="listSupplierUser" resultMap="SupplierResultMap">
         SELECT
-        purchase.id, purchase.creator, purchase.create_date, purchase.name name,
-        purchase.modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
+        purchase.id, users.name creator, purchase.create_date, purchase.name name,
+        users.name modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
         res.id sid, res.display_name state,purchase.company_name,
         purchase.contact_name,purchase.contact_phone,
         purchase.address
@@ -95,6 +99,10 @@
         t_sys_login_user AS login
         ON
         login.user_id=purchase.creator
+        LEFT JOIN
+        t_sys_users AS users
+        ON
+        users.id=purchase.creator
         <where >
         <if test="name!=null and name!=''">
             and purchase.name like concat('%',#{name},'%')
