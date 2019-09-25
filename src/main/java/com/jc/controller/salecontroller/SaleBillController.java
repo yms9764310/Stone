@@ -11,6 +11,7 @@ import com.jc.model.sale.SaleBill;
 import com.jc.service.SysLoginUserService;
 import com.jc.service.sale.SaleBillService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,7 +45,7 @@ public class SaleBillController {
     /**
      * 获取客户ID
      * */
-    @RequestMapping("/loadById.do")
+    @RequestMapping("/loadById")
     @ResponseBody
     public IResult loadById(Integer id){
         //返回json至前端的均返回ResultBean或者PageResultBean
@@ -53,7 +54,7 @@ public class SaleBillController {
     /**
      * 修改订单
      */
-    @RequestMapping("/updateSaleBill.do")
+    @RequestMapping("/updateSaleBill")
     @ResponseBody
     public IResult updateSaleBill(@RequestBody SaleBill saleBill){
         //取到管理员ID
@@ -68,18 +69,18 @@ public class SaleBillController {
     /*
      * 添加单个客户信息
      * */
-    @RequestMapping(value = "/insertSaleBill.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/insertSaleBill",method = RequestMethod.POST)
     @ResponseBody
     public IResult insertCustomer(@RequestBody SaleBill saleBill){
-        int id = 2;
-        SysLoginUser sysLoginUser = sysLoginUserServiceImpl.loadById(id);
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+//        SysLoginUser sysLoginUser = sysLoginUserServiceImpl.loadById(id);
         //SaleCustomer saleCustomer = new SaleCustomer();
         Date create_date = new Date();
         saleBill.setCreate_date(create_date);
         saleBill.setModify_date(create_date);
-        saleBill.setCreator(sysLoginUser.getCreator());
-        saleBill.setModifier(sysLoginUser.getModifier());
-        saleBill.setSale_id(sysLoginUser.getCreator());
+        saleBill.setCreator(user.getCreator());
+        saleBill.setModifier(user.getModifier());
+        saleBill.setSale_id(user.getCreator());
         //客户ID等于客户表ID
         //saleBill.setCustomer_id(saleCustomer.getId());
         //如果是管理员提交则不可修改,如说是员工提交则可以修改
@@ -106,13 +107,13 @@ public class SaleBillController {
     /*
     * 审核订单
     * */
-    @RequestMapping(value = "/success.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/success",method = RequestMethod.POST)
     @ResponseBody
     public IResult updateYes(Integer id){
         //返回json至前端的均返回ResultBean或者PageResultBean
         return new ResultBean<Integer>(saleBillServiceImpl.updateStateYes(id));
     }
-    @RequestMapping(value = "/defeat.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/defeat",method = RequestMethod.POST)
     @ResponseBody
     public IResult updateNo(Integer id){
         //返回json至前端的均返回ResultBean或者PageResultBean

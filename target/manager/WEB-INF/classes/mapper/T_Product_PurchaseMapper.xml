@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.TProductPurchaseMapper">
+    <resultMap id="TProductsyspurchaseproduct" type="com.jc.model.TProductsyspurchaseproduct">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="kind" property="kind" jdbcType="VARCHAR"/>
+        <result column="model_type" property="model_type" jdbcType="VARCHAR"/>
+        <result column="standard" property="standard" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--查询全部-->
+    <select id="listT_Product_sys_purchase_product" resultType="TProductsyspurchaseproduct">
+        SELECT id,name,kind,model_type,standard,description,state FROM t_sys_purchase_product
+        <where>
+            <if test="name !=null and name !=''">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="kind !=null and kind !=''">
+                and kind = #{kind,jdbcType=VARCHAR}
+            </if>
+        </where>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <select id="countT_Product_sys_purchase_product" parameterType="map" resultType="Integer">
+         select count(1) from t_sys_purchase_product
+        <where>
+            <if test="name !=null and name !=''">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="kind !=null and kind !=''">
+                and kind = #{kind,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <delete id="removeT_Product_sys_purchase_product" parameterType="int">
+        delete from t_sys_purchase_product where id=#{id}
+    </delete>
+    <insert id="saveT_Product_sys_purchase_product" parameterType="com.jc.model.TProductsyspurchaseproduct">
+        insert into t_sys_purchase_product (creator,create_date,modifier,modify_date,state,name,kind,model_type,standard,description)
+         values (#{creator},#{create_date},#{modifier},#{modify_date},#{state},#{name,jdbcType=VARCHAR},
+        #{kind,jdbcType=VARCHAR},#{model_type,jdbcType=VARCHAR},#{standard,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
+    </insert>
+    <select id="loadT_Product_sys_purchase_product" parameterType="INTEGER" resultType="com.jc.model.TProductsyspurchaseproduct">
+        select creator,create_date,modifier,modify_date,state,name,kind,model_type,standard,description from t_sys_purchase_product
+        where id=#{id}
+    </select>
+    <update id="updateT_Product_sys_purchase_product" parameterType="com.jc.model.TProductsyspurchaseproduct">
+        update t_sys_purchase_product set name=#{name,jdbcType=VARCHAR},kind=#{kind,jdbcType=VARCHAR},
+        model_type=#{model_type,jdbcType=VARCHAR},standard=#{standard},description=#{description},modify_date=#{modify_date} where
+       id=#{id,jdbcType=INTEGER}
+    </update>
+    <insert id="addBatchMembers"  parameterType="java.util.List">
+
+        INSERT INTO t_sys_purchase_product (
+        <trim suffix="" suffixOverrides=",">
+            creator,create_date,modifier,modify_date,state,name,kind,model_type,standard,description
+        </trim>
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.creator} ,
+            #{item.create_date} ,
+            #{item.modifier} ,
+            #{item.modify_date} ,
+            #{item.state},
+            #{item.name},
+            #{item.kind},
+            #{item.model_type},
+            #{item.standard},
+            #{item.description},
+            )
+        </foreach>
+    </insert>
+    <select id="listTProductsyspurchaseproduct" resultType="com.jc.model.TProductsyspurchaseproduct">
+       SELECT p.id,p.name from t_sys_purchase_product as p where p.id not in (select b.product_id from t_produce_bom as b) AND
+        p.model_type != '原料'
+    </select>
+    <select id="listTProductsyspurchaseproductMaterialName" resultType="com.jc.model.TProductsyspurchaseproduct">
+       SELECT p.id,p.name from t_sys_purchase_product as p where
+        p.model_type != '成品'
+    </select>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.TysProductTaskDetailMapper">
+<!--    <resultMap id="ProduceTask" type="com.jc.model.ProduceTaskDetail">-->
+<!--            <id column="id" property="id" jdbcType="INTEGER"/>-->
+<!--            <result column="begin_date" property="begin_date" jdbcType="TIMESTAMP"/>-->
+<!--            <result column="end_date" property="end_date" jdbcType="TIMESTAMP"/>-->
+<!--            <result column="state" property="state" jdbcType="VARCHAR"/>-->
+<!--            <result column="description" property="description" jdbcType="VARCHAR"/>-->
+<!--    </resultMap>-->
+    <!--查询全部-->
+<!--    <select id="listProduceTask" resultMap="ProduceTask" parameterType="INTEGER">-->
+<!--        SELECT-->
+<!--        id,begin_date,end_date,description,state-->
+<!--        FROM t_produce_task-->
+<!--        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}-->
+<!--    </select>-->
+
+<!--    <select id="countProduceTask" parameterType="map" resultType="Integer">-->
+<!--         select count(1) from t_produce_task-->
+<!--    </select>-->
+<!--&lt;!&ndash;sql语句删除&ndash;&gt;-->
+<!--批量删除 -->
+    <delete id="removeProduceTaskDetail" parameterType="INTEGER">
+        delete from t_product_task_detail where produce_task_id=#{produce_task_id}
+    </delete>
+<!--单个删除 -->
+    <delete id="removeTyProductTaskDetail" parameterType="INTEGER">
+        delete from t_product_task_detail where id=#{id}
+    </delete>
+<!--&lt;!&ndash;添加一条记录&ndash;&gt;-->
+    <insert id="saveProduceTaskDetail" parameterType="com.jc.model.ProduceTaskDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into t_product_task_detail (produce_task_id,product_id,number)
+         values (#{produce_task_id},#{product_id},#{number})
+    </insert>
+    <select id="listProduceTaskDetail" parameterType="INTEGER" resultType="com.jc.model.ProduceTaskDetail">
+        select tptd.id,tptd.number,tptd.product_id,tspp.name from t_product_task_detail as tptd,t_sys_purchase_product as tspp
+        where tspp.id=tptd.product_id and tptd.produce_task_id=#{id}
+    </select>
+<!--&lt;!&ndash;查询一条记录    &ndash;&gt;-->
+<!--    <select id="loadTysProductBom" parameterType="INTEGER" resultType="com.jc.model.TysProduceBom">-->
+<!--        select tpb.id,tpb.product_id,tpb.number,tspp.name from t_produce_bom as tpb,t_sys_purchase_product as tspp-->
+<!--        where tpb.product_id=tspp.id and tpb.id=#{id}-->
+<!--    </select>-->
+<!--&lt;!&ndash;修改一条记录    &ndash;&gt;-->
+    <update id="updateProduceTaskDetail" parameterType="com.jc.model.ProduceTaskDetail">
+        update t_product_task_detail set number=#{number,jdbcType=INTEGER} where
+       id=#{id,jdbcType=INTEGER}
+    </update>
+<!--    <insert id="addBatchMembers"  parameterType="java.util.List">-->
+
+<!--        INSERT INTO t_sys_purchase_product (-->
+<!--        <trim suffix="" suffixOverrides=",">-->
+<!--            creator,create_date,modifier,modify_date,state,name,kind,model_type,standard,description-->
+<!--        </trim>-->
+<!--        ) VALUES-->
+<!--        <foreach collection="list" item="item" index="index" separator=",">-->
+<!--            (-->
+<!--            #{item.creator} ,-->
+<!--            #{item.create_date} ,-->
+<!--            #{item.modifier} ,-->
+<!--            #{item.modify_date} ,-->
+<!--            #{item.state},-->
+<!--            #{item.name},-->
+<!--            #{item.kind},-->
+<!--            #{item.model_type},-->
+<!--            #{item.standard},-->
+<!--            #{item.description},-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+</mapper>

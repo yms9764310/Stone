@@ -43,7 +43,7 @@ public class SaleCustomerController {
     /*
     * 添加单个客户信息
     * */
-    @RequestMapping(value = "/insert.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/insert",method = RequestMethod.POST)
     @ResponseBody
     public IResult insertCustomer(@RequestBody SaleCustomer saleCustomer){
         int id = 2;
@@ -66,7 +66,7 @@ public class SaleCustomerController {
     /**
      * 删除客户信息
      */
-    @RequestMapping(value = "/delete.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
     public IResult deleteCustomer(int id){
         return new ResultBean<Integer>(saleCustomerServiceImpl.deleteCustomer(id));
@@ -74,7 +74,7 @@ public class SaleCustomerController {
     /**
      * 获取客户ID
      * */
-    @RequestMapping("/loadById.do")
+    @RequestMapping("/loadById")
     @ResponseBody
     public IResult getId(int id){
         //返回json至前端的均返回ResultBean或者PageResultBean
@@ -83,7 +83,7 @@ public class SaleCustomerController {
     /**
      * 修改客户信息
      */
-    @RequestMapping("/updateCustomer.do")
+    @RequestMapping("/updateCustomer")
     @ResponseBody
     public IResult updateCustomer(@RequestBody SaleCustomer saleCustomer){
         //取到管理员ID
@@ -100,8 +100,17 @@ public class SaleCustomerController {
         return new ResultBean<String>("success");
     }
     @ResponseBody
-    @RequestMapping(value="fileUpload.do", produces = "application/text; charset=utf-8")
+    @RequestMapping(value="fileUpload", produces = "application/text; charset=utf-8")
     public String UploadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return saleCustomerServiceImpl.ajaxUploadExcel(request, response);
+    }
+    /*
+     * 选择客户添加
+     * */
+    @RequestMapping("/chooseCus")
+    @ResponseBody
+    public IResult chooseCus(){
+        List<SaleCustomer> saleCustomers = saleCustomerServiceImpl.listChooseCustomer();
+        return new ResultBean<Collection<SaleCustomer>>(saleCustomers);
     }
 }
