@@ -46,8 +46,9 @@
 <script type="text/html" id="barDemo">
     {{#  if(d.state=='待审核'){  }}
     <a style="color: #007DDB;cursor: pointer" lay-event="auditOrders">待审核</a>&nbsp;
-    {{#  } else if(d.state=='已审核'){ }}
-    <a style="color: #D60711;cursor: pointer" lay-event="#">已审核</a>&nbsp;
+    {{#  } else if(d.state=='待完成'){ }}
+    <a style="color: #D60711;cursor: pointer" lay-event="#">待完成</a>&nbsp;
+    <a style="color: #D60711;cursor: pointer" lay-event="#">是否关闭</a>&nbsp;
     {{#  } else if(d.state=='未提交'){ }}
     <a style="color: #007DDB;cursor: pointer" lay-event="editOrders">编辑</a>&nbsp;
     {{#  } }}

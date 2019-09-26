@@ -1,10 +1,7 @@
 package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
-import com.jc.mapper.PurchaseBillMapper;
-import com.jc.mapper.SysUsersMapper;
-import com.jc.mapper.YzjRoleMapper;
-import com.jc.mapper.YzjUserRoleMapper;
+import com.jc.mapper.*;
 import com.jc.model.*;
 import com.jc.service.PurchaseBillService;
 import org.apache.shiro.SecurityUtils;
@@ -31,6 +28,8 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     YzjUserRoleMapper yzjUserRoleMapper;
     @Autowired
     YzjRoleMapper yzjRoleMapper;
+    @Autowired
+    StorePutInMapper storePutInMapper;
 
 
     //查询全部采办事项
@@ -329,13 +328,16 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     //采购单审核通过
     @Override
     public boolean updatePurchaseBillOrders(PurchaseBill purchaseBill) {
+        //当前登入人的id
+        SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
+        int creatorId=sysLoginUser.getId();
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
-        purchaseBill.setModifier(1+"");
+        purchaseBill.setModifier(creatorId+"");
         //状态12表示是采购单
         purchaseBill.setIsBill(12+"");
         purchaseBill.setModifyDate(new Date());
-        //表示已审核
-        purchaseBill.setState(18+"");
+        //表示审核通过，但未完成
+        purchaseBill.setState(5+"");
         for (PurchaseBillDetail billDetail : purchaseBill.getPurchaseBillDetailList()) {
             purchaseBillDetail.setProductId(billDetail.getProductId());
             purchaseBillDetail.setSupplierId(billDetail.getSupplierId());
@@ -344,6 +346,17 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
             purchaseBillDetail.setNumber(billDetail.getNumber());
             purchaseBillDetail.setSumMoney(billDetail.getSumMoney());
             purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
+            //添加入库单
+            StorePutIn storePutIn=new StorePutIn();
+            storePutIn.setProduct_id(billDetail.getProductId());
+            storePutIn.setCreator(creatorId+"");
+            storePutIn.setCreate_date(new Date());
+            storePutIn.setModifier(creatorId+"");
+            storePutIn.setSource_type("采购单");
+            storePutIn.setModify_date(new Date());
+            storePutIn.setPut_in_number(Double.valueOf(billDetail.getNumber()));
+            storePutIn.setPut_in_user_id(creatorId+"");
+            storePutInMapper.insertStorePutIn(storePutIn);
         }
         purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
         return true;

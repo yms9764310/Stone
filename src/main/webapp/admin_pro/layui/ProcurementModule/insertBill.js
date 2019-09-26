@@ -21,7 +21,6 @@ layui.config({
 });
 
 var productSupplier;
-
     var htmls = '<option value="">请选择商品</option>'; //全局变量
     $.ajax({
         url:$tool.getContext() + 'procurementBill/listSysPurchaseProduct.do',//数据接口
@@ -51,7 +50,6 @@ var productSupplier;
             return false;
         }
         var purchaseBillDetailList=formSelects.value('select1');
-
         var req={
             putInDate:putInDate,
             emergent:emergent,
