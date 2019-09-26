@@ -8,6 +8,7 @@
     <resultMap id="PurchaseBillResultMap" type="com.jc.model.PurchaseBill">
         <id column="id" property="id"></id>
         <result column="creator" property="creator"></result>
+        <result column="creatorName" property="creator"></result>
         <result column="create_date" property="createDate"></result>
         <result column="modifier" property="modifier"></result>
         <result column="modify_date" property="modifyDate"></result>
@@ -26,13 +27,12 @@
             <id column="id" property="id"></id>
             <result column="display_name" property="displayName"></result>
         </association>
-
     </resultMap>
-<!--    待采办-->
+<!--    主管查询待采办-->
     <select id="listPurchaseBill" resultMap="PurchaseBillResultMap">
         SELECT
-        bill.id,bill.creator,users.name purchaseName,bill.create_date,
-        bill.modify_date,bill.modifier,bill.put_in_date,re.display_name emergent,
+        bill.id,us.name creatorName,users.name purchaseName,bill.create_date,
+        bill.modify_date,u.name modifier,bill.put_in_date,re.display_name emergent,
         res.display_name is_bill,bill.sum_money,bill.expect_date,
         resource.display_name state
         FROM
@@ -53,10 +53,18 @@
         t_sys_resource as res
         ON
         bill.is_bill=res.id
+        LEFT JOIN
+        t_sys_users AS us
+        ON
+        us.id=bill.creator
+        LEFT JOIN
+        t_sys_users AS u
+        ON
+        u.id=bill.modifier
         where
         bill.is_bill=11
-        <if test="creator!=null and creator!=''">
-            and bill.creator=#{creator}
+        <if test="creatorName!=null and creatorName!=''">
+            and creatorName=#{creatorName}
         </if>
         order by bill.state=3 desc
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
@@ -64,6 +72,49 @@
     <!--    获取采办菜单大小-->
     <select id="countGet" resultType="Integer" parameterType="map">
         SELECT COUNT(0) FROM t_purchase_bill WHERE t_purchase_bill.is_bill=11
+    </select>
+
+    <!--    员工查询待采办-->
+    <select id="listPurchaseBillUser" resultMap="PurchaseBillResultMap">
+        SELECT
+        bill.id,us.name creatorName,users.name purchaseName,bill.create_date,
+        bill.modify_date,u.name modifier,bill.put_in_date,re.display_name emergent,
+        res.display_name is_bill,bill.sum_money,bill.expect_date,
+        resource.display_name state
+        FROM
+        t_purchase_bill AS bill
+        LEFT JOIN
+        t_sys_users AS users
+        ON
+        bill.purchase_id=users.id
+        LEFT JOIN
+        t_sys_resource as resource
+        ON
+        bill.state=resource.id
+        LEFT JOIN
+        t_sys_resource as re
+        ON
+        bill.emergent=re.id
+        LEFT JOIN
+        t_sys_resource as res
+        ON
+        bill.is_bill=res.id
+        LEFT JOIN
+        t_sys_users AS us
+        ON
+        us.id=bill.creator
+        LEFT JOIN
+        t_sys_users AS u
+        ON
+        u.id=bill.modifier
+        where
+        bill.is_bill=11
+        and bill.creator=#{creator}
+        <if test="creatorName!=null and creatorName!=''">
+            and creatorName=#{creatorName}
+        </if>
+        order by bill.state=3 desc
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 
     <resultMap id="DetailResultMap" type="com.jc.model.PurchaseBillDetail">
@@ -266,7 +317,7 @@
     </resultMap>
     <select id="listPurchaseBillOrders" resultMap="PurchaseBillOrdersResultMap">
         SELECT
-        bill.id,bill.creator,bill.create_date,bill.modifier,bill.modify_date,
+        bill.id,us.name creator,bill.create_date,u.name modifier,bill.modify_date,
         re.display_name state,bill.purchase_id,users.name purchaseName,bill.put_in_date,res.display_name emergent,
         resource.display_name is_bill,bill.sum_money,bill.expect_date
         FROM
@@ -287,6 +338,14 @@
         t_sys_resource AS resource
         ON
         bill.is_bill=resource.id
+        LEFT JOIN
+        t_sys_users AS us
+        ON
+        us.id=bill.creator
+        LEFT JOIN
+        t_sys_users AS u
+        ON
+        u.id=bill.modifier
         WHERE
         bill.is_bill=12
         order by bill.state=18
@@ -461,18 +520,19 @@
         WHERE
         bill.state=18
     </select>
-<!--根据月统计金额、数量、种类-->
+<!--月统计金额、数量、种类-->
     <resultMap id="CountResultMap" type="com.jc.model.PurchaseBillDetail">
         <result column="createDate" property="createDate"></result>
         <result column="numberTotal" property="numberTotal"></result>
         <result column="money" property="money"></result>
         <result column="kind" property="kind"></result>
         <result column="product_id" property="productId"></result>
+        <result column="yearDate" property="yearDate"></result>
     </resultMap>
     <select id="countPurchase" resultMap="CountResultMap">
         SELECT
         DATE_FORMAT(bill.create_date,'%m月') as createDate,
-        sum(detail.number) AS numberTotal,SUM(bill.sum_money) AS money,COUNT(DISTINCT detail.product_id) AS kind
+        sum(detail.number) AS numberTotal,SUM(detail.sum_money) AS money,COUNT(DISTINCT detail.product_id) AS kind
         FROM
         t_purchase_bill_detail AS detail
         LEFT JOIN
@@ -485,8 +545,91 @@
         bill.id=detail.bill_id
         WHERE
         bill.state=18
-        <if test="productId!=null and productId!=''">
+        AND year(bill.create_date)=#{yearDate}
+        GROUP BY createDate
+    </select>
+<!--根据商品种类月统计金额、数量-->
+    <resultMap id="CountProductResultMap" type="com.jc.model.PurchaseBillDetail">
+        <result column="createDate" property="createDate"></result>
+        <result column="numberTotal" property="numberTotal"></result>
+        <result column="money" property="money"></result>
+        <result column="product_id" property="productId"></result>
+    </resultMap>
+    <select id="countPurchaseProduct" resultMap="CountProductResultMap">
+        SELECT
+        DATE_FORMAT(bill.create_date,'%m月') as createDate,
+        sum(detail.number) AS numberTotal,SUM(detail.sum_money) AS money
+        FROM
+        t_purchase_bill_detail AS detail
+        LEFT JOIN
+        t_sys_purchase_product AS product
+        ON
+        detail.product_id=product.id
+        LEFT JOIN
+        t_purchase_bill AS bill
+        ON
+        bill.id=detail.bill_id
+        WHERE
+        bill.state=18
+        AND year(bill.create_date)=#{yearDate}
+        <if test="productId !=null and productId!=''">
+            and detail.product_id=#{productId}
+        </if>
+        GROUP BY createDate
+    </select>
 
+<!--    年统计金额、数量、种类-->
+    <resultMap id="CountYearResultMap" type="com.jc.model.PurchaseBillDetail">
+        <result column="createDate" property="createDate"></result>
+        <result column="numberTotal" property="numberTotal"></result>
+        <result column="money" property="money"></result>
+        <result column="kind" property="kind"></result>
+        <result column="product_id" property="productId"></result>
+    </resultMap>
+    <select id="countPurchaseYear" resultMap="CountYearResultMap">
+        SELECT
+        DATE_FORMAT(bill.create_date,'%Y年') as createDate,
+        sum(detail.number) AS numberTotal,SUM(detail.sum_money) AS money,COUNT(DISTINCT detail.product_id) AS kind
+        FROM
+        t_purchase_bill_detail AS detail
+        LEFT JOIN
+        t_sys_purchase_product AS product
+        ON
+        detail.product_id=product.id
+        LEFT JOIN
+        t_purchase_bill AS bill
+        ON
+        bill.id=detail.bill_id
+        WHERE
+        bill.state=18
+        GROUP BY createDate
+    </select>
+
+    <!--根据商品种类年统计金额、数量-->
+    <resultMap id="CountProductYearResultMap" type="com.jc.model.PurchaseBillDetail">
+        <result column="createDate" property="createDate"></result>
+        <result column="numberTotal" property="numberTotal"></result>
+        <result column="money" property="money"></result>
+        <result column="product_id" property="productId"></result>
+    </resultMap>
+    <select id="countPurchaseProductYear" resultMap="CountProductYearResultMap">
+        SELECT
+        DATE_FORMAT(bill.create_date,'%Y年') as createDate,
+        sum(detail.number) AS numberTotal,SUM(detail.sum_money) AS money
+        FROM
+        t_purchase_bill_detail AS detail
+        LEFT JOIN
+        t_sys_purchase_product AS product
+        ON
+        detail.product_id=product.id
+        LEFT JOIN
+        t_purchase_bill AS bill
+        ON
+        bill.id=detail.bill_id
+        WHERE
+        bill.state=18
+        <if test="productId !=null and productId!=''">
+            and detail.product_id=#{productId}
         </if>
         GROUP BY createDate
     </select>

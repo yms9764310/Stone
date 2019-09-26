@@ -361,7 +361,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         accountHandleBill.setSource_id(purchaseBill.getId());
         accountHandleBill.setSource_type("采购单");
         accountHandleBill.setPay_date(purchaseBill.getExpectDate());
-        accountHandleBill.setAccount_no("1595586548564");
+        accountHandleBill.setAccount_no(purchaseBill.getAccountNo());
         taccountHandleBillMapper.saveAccountHandleBill(accountHandleBill);
         return true;
     }

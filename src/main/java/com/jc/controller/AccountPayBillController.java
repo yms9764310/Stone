@@ -40,19 +40,21 @@ public class AccountPayBillController {
 
     @RequestMapping(value = "/addFile")
     @ResponseBody
-    public String addFile(@RequestParam("file") CommonsMultipartFile uploadFile, HttpServletRequest request) {
+    public String addFile(@RequestBody File file, CommonsMultipartFile uploadFile, HttpServletRequest request) {
+
+        AccountPayBill f = new AccountPayBill();
         String filename = uploadFile.getOriginalFilename();
-        AccountPayBill accountPayBill = new AccountPayBill();
         String path = request.getSession().getServletContext().getRealPath("uploadfile");
         if (request instanceof MultipartHttpServletRequest) {
             String filepath = path + File.separator + filename;
-            accountPayBill.setPayment_voucher_path(filepath);
-            File file = new File(path, filename);
-            if (!file.exists()) {
-                file.mkdirs();
+            f.setPayment_voucher_path(filepath);
+
+            File file1 = new File(path, filename);
+            if (!file1.exists()) {
+                file1.mkdirs();
             }
             try {
-                uploadFile.transferTo(file);
+                uploadFile.transferTo(file1);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
                 return "ERROR";
@@ -68,4 +70,5 @@ public class AccountPayBillController {
         }
         return "ERROR";
     }
+
 }

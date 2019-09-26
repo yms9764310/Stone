@@ -24,89 +24,90 @@
         <select name="purchaseId" id="userName" lay-filter="renyuan" lay-verify="required" required xm-select="select2" >
         </select>
     </div>
+    <label class="layui-form-label">年份:</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" lay-verify="required" id="year" readonly>
+    </div>
 </div>
 </form>
-<div id="main" style="width: 1500px;height:700px;"></div>
+<div id="main" style="width: 1500px;height:700px;" class="main">
+
+
+</div>
 </div>
     <script src="../assets/layui.all.js"></script>
     <script src="../assets/lay/modules/config.js"></script>
     <script type="text/javascript" src="purchaseCount.js"></script>
     <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
     <script src="../assets/lay/modules/echarts.min.js"></script>
-<script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    // 指定图表的配置项和数据
-    var option = {
-        tooltip : {
-            trigger: 'axis',
-            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            }
-        },
-        legend: {
-            data:['金额', '种类', '数量']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis : [
-            {
-                type : 'category',
-                axisTick : {show: false},
-                data : []
-            }
-
-        ],
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'金额',
-                type:'bar',
-                label: {
-                    normal: {
-                        show: true,
-                    }
-                },
-                data:[]
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
             },
-            {
-                name:'种类',
-                type:'bar',
-                label: {
-                    normal: {
-                        show: true
-                    }
-                },
-                data:[]
+            legend: {
+                data:['金额', '种类', '数量']
             },
-            {
-                name:'数量',
-                type:'bar',
-                label: {
-                    normal: {
-                        show: true,
-                    }
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    axisTick : {show: false},
+                    data : []
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'金额',
+                    type:'bar',
+                    label: {
+                        normal: {
+                            show: true,
+                        }
+                    },
+                    data:[]
                 },
-                data:[]
-            }
-        ]
-    };
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-    myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
-
-
-
-
-
-</script>
+                {
+                    name:'种类',
+                    type:'bar',
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                    data:[]
+                },
+                {
+                    name:'数量',
+                    type:'bar',
+                    label: {
+                        normal: {
+                            show: true,
+                        }
+                    },
+                    data:[]
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option,true);
+        myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+    </script>
 </body>
 </html>
