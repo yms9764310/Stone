@@ -51,7 +51,9 @@ layui.config({
                 , {field: 'account_no', title: '账号', width: '8%', templet: '#upc'}
                 , {field: 'payment_voucher_path', title: '凭证', width: '8%', templet: '#upc'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
-            ]]
+            ]], done: function(res, curr, count){
+
+            }
 
         });
 
@@ -62,8 +64,8 @@ layui.config({
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             //区分事件
-            if (layEvent === 'del') { //删除
-
+            if (layEvent === 'shang') {
+                //删除
             } else if (layEvent === 'edit') { //编辑
                 edit(row.id);
             }
@@ -82,6 +84,7 @@ layui.config({
         });
         return false;
     });
+
 
     function edit(id) {
         var index = layui.layer.open({
@@ -103,4 +106,7 @@ layui.config({
         });
         layui.layer.full(index);
     }
+
+
+
 });

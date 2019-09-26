@@ -24,7 +24,7 @@ public class AccountReceiveHandleBillServiceImpl implements AccountReceiveHandle
 
     @Override
     public int countAccountReceiveHandleBill() {
-        return accountReceiveHandleBillMapeer.countAccountHandleBill();
+        return accountReceiveHandleBillMapeer.countAccountReceiveHandleBill();
     }
 
     @Override

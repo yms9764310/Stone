@@ -11,8 +11,11 @@ import java.util.List;
 public interface AccountReceiveHandleBillMapeer {
     List<AccountReceiveHandleBill> selectListReceiveHandleBill(@Param("start") Integer start,
                                                   @Param("end") Integer end);
-    int countAccountHandleBill();
+    int countAccountReceiveHandleBill();
     //创建应付单
-    Integer saveReceiveHandleBill(AccountReceiveHandleBill accountReceiveHandleBill);
-
+    Integer saveAccountReceiveHandleBill(AccountReceiveHandleBill accountReceiveHandleBill);
+    //根据id查询应付单数据
+    AccountHandleBill loadAccountReceiveHandleBill(@Param("id") Integer id);
+    //审核
+    Integer updateAccountReceiveHandleBill(@Param("id")Integer id);
 }
