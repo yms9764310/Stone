@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/HandleBill")
-public class TaccountHandleBillController {
+public class AccountHandleBillController {
      @Autowired
     private AccountHandleBillService taccountHandleBillService;
     @RequestMapping("/listHandleBill")

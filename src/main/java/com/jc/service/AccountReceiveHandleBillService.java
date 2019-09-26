@@ -9,6 +9,6 @@ public interface AccountReceiveHandleBillService {
     List<AccountReceiveHandleBill> listAccountReceiveHandleBill(String page, String limit);
     int countAccountReceiveHandleBill();
     Integer saveAccountReceiveHandleBill(AccountReceiveHandleBill accountReceiveHandleBill);
-    AccountHandleBill loadAccountReceiveHandleBill( Integer id);
+    AccountReceiveHandleBill loadAccountReceiveHandleBill( Integer id);
     Integer updateAccountReceiveHandleBill(Integer id);
 }
