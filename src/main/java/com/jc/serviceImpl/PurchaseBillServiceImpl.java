@@ -356,6 +356,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
             storePutIn.setModify_date(new Date());
             storePutIn.setPut_in_number(Double.valueOf(billDetail.getNumber()));
             storePutIn.setPut_in_user_id(creatorId+"");
+            storePutIn.setPut_id_date(purchaseBill.getPutInDate());
             storePutInMapper.insertStorePutIn(storePutIn);
         }
         purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);

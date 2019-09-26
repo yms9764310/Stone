@@ -64,8 +64,8 @@
 
     <!--添加入库单-->
     <insert id="insertStorePutIn" parameterType="StorePutIn" keyProperty="id" useGeneratedKeys="true">
-    insert into t_store_put_in (product_id,creator,create_date,modifier,modify_date,put_in_number,put_in_user_id,source_type,state)
-    values (#{product_id},#{creator},#{create_date},#{modifier},#{modify_date},#{put_in_number},#{put_in_user_id},#{source_type},3)
+    insert into t_store_put_in (product_id,creator,create_date,modifier,modify_date,put_in_number,put_in_user_id,source_type,state,put_id_date)
+    values (#{product_id},#{creator},#{create_date},#{modifier},#{modify_date},#{put_in_number},#{put_in_user_id},#{source_type},3,#{put_id_date})
     </insert>
 
     <!--出库单-->
