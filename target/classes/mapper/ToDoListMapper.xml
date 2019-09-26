@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.ToDoListMapper">
+    <resultMap id="ToDoList" type="com.jc.model.ToDoList">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="creator" property="creator" jdbcType="INTEGER"/>
+        <result column="create_date" property="create_date" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="INTEGER"/>
+        <result column="modify_date" property="modify_date" jdbcType="TIMESTAMP"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="typename" property="typename" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询待审核-->
+    <select id="listAll" parameterType="ToDoList" resultType="ToDoList">
+    SELECT
+	t.id,
+	users.name as creator,
+	t.create_date,
+	us.name AS modifier,
+	t.modify_date,
+	t.state
+    FROM
+	t_store_check AS t
+    LEFT JOIN t_sys_users AS users ON t.creator = users.id
+    LEFT JOIN t_sys_users AS us on t.modifier = us.id
+    WHERE
+	t.state = 3
+    </select>
+
+
+    <!--盘点任务清单-->
+    <select id="listStoreCheck" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_store_check AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <!--出库单-->
+    <select id="listStoreCheckout" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_store_checkout AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--入库单-->
+    <select id="listStorePutIn" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_store_put_in AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--出库预警单-->
+    <select id="listStoreWarn" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_store_warn AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--退料单-->
+    <select id="listProduceBackMaterial" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_process_back_material AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--物料清单-->
+    <select id="listProduceBom" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_produce_bom AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--加工单-->
+    <select id="listProduceProcess" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_produce_process AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--产生任务单-->
+    <select id="listProduceTask" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_produce_task AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--权限表-->
+    <select id="listSysAuthority" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sys_authority AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--部门-->
+    <select id="listSysDepartment" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sys_department AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--登录表-->
+    <select id="listSysLoginUser" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sys_login_user AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--菜单表-->
+    <select id="listSysMenus" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sys_menus AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--采购商品-->
+    <select id="listSysPurchaseProduct" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sys_purchase_product AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--角色表-->
+    <select id="listSysRole" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sys_role AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--角色/用户表-->
+    <select id="listSysUserRole" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sys_user_role AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--人员表-->
+    <select id="listSysUsers" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sys_users AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+
+    <!--付款单-->
+    <select id="listAccountPayBill" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_account_pay_bill AS t
+        LEFT JOIN
+        t_sys_users as users
+        ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--应付单-->
+    <select id="listAccountPayHandleBill" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_account_pay_handle_bill AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--收款单-->
+    <select id="listAccountReceiveBill" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_account_receive_bill AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--应收单-->
+    <select id="listAccountReceiveHandleBill" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_account_receive_handle_bill AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--采购单-->
+    <select id="listPruchaseBill" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_purchase_bill AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--供应商-->
+    <select id="listPruchaseSupplier" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_purchase_supplier AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--销售单-->
+    <select id="listSaleBill" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sale_bill AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--客户表-->
+    <select id="listSaleCustome" resultType="ToDoList">
+        SELECT
+        t.id,
+        users.name as creator,
+        t.create_date,
+        us.name AS modifier,
+        t.modify_date,
+        t.state
+        FROM
+        t_sale_custome AS t
+        LEFT JOIN t_sys_users AS users ON t.creator = users.id
+        LEFT JOIN t_sys_users AS us on t.modifier = us.id
+        WHERE
+        t.state = 3
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="countGetAll" parameterType="map" resultType="Integer">
+         select count(1) from t_produce_task AS t
+     LEFT JOIN t_produce_process AS pro ON t.id = pro.produce_id
+	 LEFT JOIN t_sys_users AS us on pro.process_user_id = us.id
+    </select>
+
+    <update id="updateMessage" parameterType="SysUsers">
+        UPDATE t_sys_users SET `name`=#{name},sex=#{sex},age=#{age},phone=#{phone}
+        WHERE  id=#{id}
+    </update>
+
+    <select id="loadById" parameterType="java.lang.Integer" resultType="SysUsersBeans">
+        SELECT
+        t_sys_users.name as user_name,
+        t_sys_role.name,
+        t_sys_role.department_id,
+        t_sys_user_role.role_id,
+        t_sys_department.name as depart_id
+        FROM
+        t_sys_users
+        LEFT JOIN
+        t_sys_user_role
+        ON t_sys_users.depart_role_id = t_sys_user_role.role_id
+        LEFT JOIN
+        t_sys_role
+        ON
+        t_sys_user_role.role_id = t_sys_role.id
+        LEFT JOIN
+        t_sys_department
+        ON
+        t_sys_users.depart_id = t_sys_department.id
+        WHERE
+        t_sys_users.id=#{0}
+    </select>
+
+    <select id="loadByProcessId" parameterType="java.lang.Integer" resultType="ProduceTaskDetail">
+        SELECT
+        t_produce_process.id,
+        process_id,
+        us.name AS process_user_id,
+        t_produce_task.begin_date as begin_date,
+        t_produce_task.end_date as end_date,
+        t_produce_process.process_type as process_type,
+        t_sys_purchase_product.name as product_id,
+        number
+        FROM
+        t_produce_process
+        LEFT JOIN t_sys_users AS us
+        on t_produce_process.process_user_id = us.id
+        LEFT JOIN
+        t_produce_process_detail
+        ON
+        t_produce_process.id = t_produce_process_detail.process_id
+        LEFT JOIN
+        t_produce_task
+        ON
+        t_produce_task.id = t_produce_process.id
+        LEFT JOIN t_sys_purchase_product
+        ON
+        t_produce_process_detail.product_id = t_sys_purchase_product.id
+        WHERE
+        t_produce_task.id=#{0}
+    </select>
+
+
+    <select id="listProcessAll" parameterType="java.lang.Object" resultType="ProduceTask">
+     SELECT
+	pro.id,
+    product.name as bom_id,
+	us.name AS process_user_id,
+	res.display_name as state,
+    t.begin_date,
+	t.end_date,
+	pro.process_type
+    FROM
+	t_produce_task AS t
+    LEFT JOIN t_produce_process AS pro ON t.id = pro.produce_id
+	LEFT JOIN t_sys_users AS us on pro.process_user_id = us.id
+    LEFT JOIN t_produce_bom as bom on bom.id = t.bom_id
+    LEFT JOIN t_sys_resource AS res on pro.state = res.id
+    LEFT JOIN t_sys_purchase_product as product on product.id = bom.product_id
+    WHERE
+	us.name = #{name} and t.state=5
+	 limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+        <!--工作流记录-->
+    <select id="listWorkflowHistory" parameterType="java.lang.Object" resultType="ProduceTask">
+        SELECT
+        t_produce_task.end_date,
+        us.name AS process_user_id,
+         res.display_name as state,
+        t_produce_process.process_type as process_type
+        FROM
+        t_produce_task
+        LEFT JOIN
+        t_produce_process
+        ON
+        t_produce_task.id = t_produce_process.produce_id
+        LEFT JOIN t_sys_users AS us
+        on t_produce_process.process_user_id = us.id
+        LEFT JOIN t_sys_resource AS res
+        on t_produce_process.state = res.id
+        WHERE
+        t_produce_task.id =#{0}
+    </select>
+
+    <!--工作进度-->
+    <select id="listWorkSpeed" parameterType="java.lang.Object" resultType="ProduceTask">
+        SELECT
+        t_produce_task.end_date,
+        us.name AS process_user_id,
+         res.display_name as state,
+        t_produce_process.process_type as process_type
+        FROM
+        t_produce_task
+        LEFT JOIN
+        t_produce_process
+        ON
+        t_produce_task.id = t_produce_process.produce_id
+        LEFT JOIN t_sys_users AS us
+        on t_produce_process.process_user_id = us.id
+        LEFT JOIN t_sys_resource AS res
+        on t_produce_process.state = res.id
+        WHERE
+        t_produce_process.id =#{0}
+    </select>
+
+    <select id="listWorkAll" parameterType="java.lang.Object" resultType="ProduceTask">
+      SELECT
+	pro.id,
+    product.name as bom_id,
+	us.name AS process_user_id,
+	 res.display_name as state,
+    t.begin_date,
+	t.end_date,
+	pro.process_type
+    FROM
+	t_produce_task AS t
+    LEFT JOIN t_produce_process AS pro ON t.id = pro.produce_id
+	LEFT JOIN t_sys_users AS us on pro.process_user_id = us.id
+    LEFT JOIN t_produce_bom as bom on bom.id = t.bom_id
+    LEFT JOIN t_sys_resource AS res on pro.state = res.id
+    LEFT JOIN t_sys_purchase_product as product on product.id = bom.product_id
+    WHERE
+	us.name = #{name} and t.state=5
+
+	 limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <select id="listWorkflow" parameterType="java.lang.Object" resultType="ProduceTask">
+      SELECT
+	pro.id,
+    product.name as bom_id,
+	us.name AS process_user_id,
+	res.display_name as state,
+    t.begin_date,
+	t.end_date,
+	pro.process_type
+    FROM
+	t_produce_task AS t
+    LEFT JOIN t_produce_process AS pro ON t.id = pro.produce_id
+	LEFT JOIN t_sys_users AS us on pro.process_user_id = us.id
+    LEFT JOIN t_produce_bom as bom on bom.id = t.bom_id
+    LEFT JOIN t_sys_resource AS res on pro.state = res.id
+    LEFT JOIN t_sys_purchase_product as product on product.id = bom.product_id
+    WHERE
+	us.name = #{name} and t.state=6
+	 limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+</mapper>

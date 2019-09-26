@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.TysProduceBomMapper">
+    <resultMap id="TysProduceBom" type="com.jc.model.TysProduceBom">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+            <result column="kind" property="kind" jdbcType="VARCHAR"/>
+            <result column="model_type" property="model_type" jdbcType="VARCHAR"/>
+            <result column="standard" property="standard" jdbcType="VARCHAR"/>
+            <result column="state" property="state" jdbcType="VARCHAR"/>
+            <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--查询全部-->
+    <select id="listTysProductBom" resultMap="TysProduceBom" parameterType="INTEGER">
+        SELECT tpb.id as id ,
+        tpb.state as state,
+        tspp.name as name,
+        tspp.kind as kind,
+        tspp.model_type as model_type,
+        tspp.standard as standard,
+        tspp.description as description
+        FROM
+        t_produce_bom as tpb  left join t_sys_purchase_product as tspp
+        on tspp.id=tpb.product_id
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <select id="countTysProduceBom" parameterType="map" resultType="Integer">
+         select count(1) from t_produce_bom
+    </select>
+<!--sql语句删除-->
+    <delete id="removeTysProductBom" parameterType="INTEGER">
+        delete from t_produce_bom where id=#{0}
+    </delete>
+<!--添加一条记录-->
+    <insert id="saveTysProductBom" parameterType="com.jc.model.TysProduceBom" useGeneratedKeys="true" keyProperty="id">
+        insert into t_produce_bom (creator,create_date,modifier,modify_date,state,product_id,number)
+         values (#{creator},#{create_date},#{modifier},#{modify_date},#{state},#{product_id,jdbcType=INTEGER},#{number,jdbcType=INTEGER})
+    </insert>
+<!--查询一条记录    -->
+    <select id="loadTysProductBom" parameterType="INTEGER" resultType="com.jc.model.TysProduceBom">
+        select tpb.id,tpb.product_id,tpb.number,tspp.name from t_produce_bom as tpb,t_sys_purchase_product as tspp
+        where tpb.product_id=tspp.id and tpb.id=#{id}
+    </select>
+    <select id="loadTysProductBomByProductId" parameterType="INTEGER" resultType="com.jc.model.TysProduceBom">
+        select tpb.id,tpb.product_id,tpb.number,tspp.name from t_produce_bom as tpb,t_sys_purchase_product as tspp
+        where tpb.product_id=tspp.id and tpb.product_id=#{product_id}
+    </select>
+<!--修改一条记录    -->
+    <update id="updateTysProductBom" parameterType="com.jc.model.TysProduceBom">
+        update t_produce_bom set number=#{number,jdbcType=INTEGER},
+       modifier=#{modifier},modify_date=#{modify_date} where
+       id=#{id,jdbcType=INTEGER}
+    </update>
+    <select id="listTysProductBomName" resultType="com.jc.model.TysProduceBom">
+        SELECT tpb.id as id ,
+        tpb.product_id,
+        tpb.state as state,
+        tspp.name as name,
+        tspp.description as description
+        FROM
+        t_produce_bom as tpb  left join t_sys_purchase_product as tspp
+        on tspp.id=tpb.product_id
+    </select>
+<!--    <insert id="addBatchMembers"  parameterType="java.util.List">-->
+
+<!--        INSERT INTO t_sys_purchase_product (-->
+<!--        <trim suffix="" suffixOverrides=",">-->
+<!--            creator,create_date,modifier,modify_date,state,name,kind,model_type,standard,description-->
+<!--        </trim>-->
+<!--        ) VALUES-->
+<!--        <foreach collection="list" item="item" index="index" separator=",">-->
+<!--            (-->
+<!--            #{item.creator} ,-->
+<!--            #{item.create_date} ,-->
+<!--            #{item.modifier} ,-->
+<!--            #{item.modify_date} ,-->
+<!--            #{item.state},-->
+<!--            #{item.name},-->
+<!--            #{item.kind},-->
+<!--            #{item.model_type},-->
+<!--            #{item.standard},-->
+<!--            #{item.description},-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+</mapper>

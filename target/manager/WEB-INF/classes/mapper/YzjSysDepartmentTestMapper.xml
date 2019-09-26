@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jc.mapper.YzjSysDepartmentTestMapper">
+    <resultMap id="SysDepartmentTest" type="com.jc.model.YzjSysDepartmentTest">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="creator" property="creator" jdbcType="INTEGER"/>
+        <result column="create_date" property="create_date" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="INTEGER"/>
+        <result column="modify_date" property="modify_date" jdbcType="TIMESTAMP"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parent_id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="parent_rew" property="parent_rew" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="modefier_name" property="modefier_name" jdbcType="VARCHAR"/>
+    </resultMap>
+<!--查询全部-->
+    <select id="listDepartmet" resultType="YzjSysDepartmentTest">
+        SELECT
+        d.id,
+        e.id,
+        l.account_name creator_name,
+        l.account_name modefier_name,
+        d.creator,
+        d.modifier,
+        d.create_date,
+        d.modify_date,
+        d.state,
+        d.parent_id,
+        d.name,
+        e.name parent_rew
+        FROM
+        t_sys_department as d  LEFT JOIN  t_sys_login_user as l on
+        d.creator=l.creator LEFT JOIN t_sys_department as e on e.id=d.parent_id
+        <where>
+            <if test="name !=null and name !=''">
+                and d.name = #{name,jdbcType=VARCHAR}
+            </if>
+        </where>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+<!--下拉查询-->
+    <select id="listDepartmetName" resultType="YzjSysDepartmentTest">
+        SELECT
+        d.id,
+        d.parent_id,
+        d.name,
+        e.name parent_rew
+         FROM
+        t_sys_department as d  LEFT JOIN t_sys_department as e on e.id=d.parent_id
+    </select>
+
+<!--统计全部个数-->
+    <select id="countDepartmet" parameterType="map" resultType="Integer">
+         select count(1) from t_sys_department
+    </select>
+
+<!--删除-->
+    <delete id="deleteDepartment" parameterType="int">
+        DELETE  FROM  t_sys_department WHERE id=#{0}
+    </delete>
+
+<!--修改-->
+    <update id="updateDepartment" parameterType="YzjSysDepartmentTest">
+
+        UPDATE t_sys_department SET creator=#{creator},create_date=#{create_date},modifier=#{modifier},modify_date=#{modify_date},
+        state=#{state},parent_id=#{parent_id},name=#{name}
+        WHERE  id=#{id}
+    </update>
+<!--根据id查询-->
+    <select id="loadDepartmentById" parameterType="java.lang.Integer" resultType="YzjSysDepartmentTest">
+        SELECT * FROM  t_sys_department WHERE id=#{0}
+    </select>
+<!--添加-->
+    <insert id="saveDepartmentTest" parameterType="YzjSysDepartmentTest" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_sys_department(creator,create_date,modifier,modify_date,parent_id,state,name)
+        VALUES (#{creator},#{create_date},#{modifier},#{modify_date},#{parent_id},#{state},#{name})
+    </insert>
+<!-- 查询是否有相同上级部门-->
+    <select id="listDepartmentParent_Id" parameterType="java.lang.Integer" resultType="YzjSysDepartmentTest">
+        SELECT * FROM  t_sys_department WHERE id= #{id,jdbcType=INTEGER}
+    </select>
+
+<!--    添加查询是否有相同的下级部门-->
+    <select id="listDepartmentTestName" parameterType="java.lang.String" resultType="YzjSysDepartmentTest">
+        SELECT * FROM  t_sys_department WHERE name= #{name,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--    修改查询是否有相同的下级部门-->
+    <select id="listDepartmentTestByNameAndId"  resultType="YzjSysDepartmentTest">
+        SELECT * FROM  t_sys_department WHERE name= #{name,jdbcType=VARCHAR} and id!=#{id,jdbcType=INTEGER}
+    </select>
+<!--是否有相同-->
+    <select id="listDepartmentTestByNameAndParent_id"  resultType="YzjSysDepartmentTest">
+        SELECT * FROM  t_sys_department WHERE name= #{name,jdbcType=VARCHAR} and parent_id=#{parent_id,jdbcType=INTEGER}
+    </select>
+
+
+<!--更新下拉框-->
+    <select id="listDepartmetById" parameterType="java.lang.Integer" resultType="YzjSysDepartmentTest">
+        SELECT id,
+        parent_id,
+        name
+        FROM
+        t_sys_department
+        WHERE
+        id!= #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getById" parameterType="java.lang.Integer" resultType="YzjSysDepartmentTest">
+        SELECT id,
+        parent_id,
+        name
+        FROM
+        t_sys_department
+        WHERE
+        id= #{id,jdbcType=VARCHAR}
+    </select>
+<!--    树形-->
+    <select id="listDepartmentParentId"  resultType="YzjSysDepartmentTest">
+         SELECT
+        d.id,
+        d.parent_id,
+        d.name,
+        e.name parent_rew
+         FROM
+        t_sys_department as d  LEFT JOIN t_sys_department as e on e.id=d.parent_id
+    </select>
+
+    <select id="childrenDepartmentName"  resultType="YzjSysDepartmentTest">
+        SELECT name FROM  t_sys_department where parent_id
+    </select>
+</mapper>
