@@ -62,23 +62,6 @@
 </script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#upfile").click(function () {
-            var file = $("#FileUpload1").val();
-            if (file == "") {
-                alert("请选择要上传的文件");
-                return false
-            } else {
-                //检验文件类型是否正确
-                var exec = (/[.]/.exec(file)) ? /[^.]+$/.exec(file.toLowerCase()) : '';
-                if (exec != "xlsx") {
-                    alert("文件格式不对，请上传Excel文件!");
-                    return false;
-                }
-            }
-            return true;
-        });
-    });
 
 </script>
 

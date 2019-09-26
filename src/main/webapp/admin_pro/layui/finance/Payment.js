@@ -32,7 +32,7 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'HandleBill/listHandleBill.do' //数据接口
+            , url: $tool.getContext() + 'PayBill/listPayBill.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
@@ -49,8 +49,11 @@ layui.config({
                 , {field: 'source_type', title: '来源但类型', width: '8%', templet: '#upc'}
                 , {field: 'pay_date', title: '应付日期', width: '8%', templet: '#upc'}
                 , {field: 'account_no', title: '账号', width: '8%', templet: '#upc'}
+                , {field: 'payment_voucher_path', title: '凭证', width: '8%', templet: '#upc'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
-            ]]
+            ]], done: function(res, curr, count){
+
+            }
 
         });
 
@@ -61,10 +64,10 @@ layui.config({
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             //区分事件
-            if (layEvent === 'del') { //删除
-
+            if (layEvent === 'shang') {
+                //删除
             } else if (layEvent === 'edit') { //编辑
-                editProu(row.id);
+                edit(row.id);
             }
         });
     }
@@ -81,35 +84,13 @@ layui.config({
         });
         return false;
     });
-    //创建应付单
-    $(".add_handle").click(function () {
-        var index = layui.layer.open({
-            title: "添加商品",
-            type: 2,
-            content: "addPay.html",
-            success: function (layero, index) {
-                setTimeout(function () {
-                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                }, 500)
-            }
-        });
-        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-        $(window).resize(function () {
-            layui.layer.full(index);
-        });
-        layui.layer.full(index);
-    });
 
 
-
-    //审核
-    function editProu(id) {
+    function edit(id) {
         var index = layui.layer.open({
             title: "审核",
             type: 2,
-            content: "auditPay.html?id=" + id,
+            content: "Pay.html?id=" + id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -125,52 +106,7 @@ layui.config({
         });
         layui.layer.full(index);
     }
-    //批量导入
-    layui.use('upload', function () {
-        var $ = layui.jquery
-            , upload = layui.upload;
-        var uploadInst = upload.render({
 
-            elem: '#upfile'
-            , url: '/Stone/prou/fileUploadprou.do'
-            , auto: false
-            , accept: 'file'
-            //,multiple: true
-            , choose: function (obj) {
-                layer.confirm('确认导入吗？', function (confirmIndex) {
-                    obj.preview(function (index, file, result) {
-                        var formData = new FormData();
-                        //# 给formData对象添加<input>标签,注意与input标签的ID一致
-                        formData.append('upfile', file);
-                        $.ajax({
-                            url: '/Stone/prou/fileUploadprou.do',//这里写你的url
-                            type: 'POST',
-                            data: formData,
-                            contentType: false,// 当有文件要上传时，此项是必须的，否则后台无法识别文件流的起始位置
-                            processData: false,// 是否序列化data属性，默认true(注意：false时type必须是post)
-                            //dataType: 'json',//这里是返回类型，一般是json,text等
-                            //clearForm: true,//提交后是否清空表单数据
-                            success: function (data) {
-                                //提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
-                                    layer.msg("导入成功", {time: 1000}, function () {
-                                        //重新加载表格
-                                        location.reload()
-                                    });
-                            },
-                            error: function (data, status, e) {  //提交失败自动执行的处理函数。
-                                console.error(e);
-                            }
-                        });
-                    });
-
-
-                });
-            }
-            , done: function (res) {
-                console.log(res)
-            }
-        });
-    });
 
 
 });

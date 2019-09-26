@@ -50,11 +50,16 @@ public class PurchaseBill implements Serializable {
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date expectDate;
     //银行卡号
-    private String AccountNo;
+    private String accountno;
     //关联表人员表
     private SysUsers sysUsers;
     //关联资源表
     private SysResource sysResource;
     //关联采购单表
     private List<PurchaseBillDetail> purchaseBillDetailList;
+    private AccountHandleBill accountHandleBill;
+
+    public String getAccountNo() {
+        return accountno;
+    }
 }

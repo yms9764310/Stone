@@ -31,6 +31,7 @@
 <!--                /login=anon-->
 <!--                /login.do=anon-->
 <!--                /logout.do=anon-->
+                /Customer/chooseCus.do=anon
                 /login.do=anon
                 /admin_pro/layui/login.html = anon
                 /admin_pro/layui/assets/** = anon
