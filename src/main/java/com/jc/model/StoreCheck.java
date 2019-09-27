@@ -41,6 +41,7 @@ public class StoreCheck {
     private Date endTime;
     private Integer number;
     private List<StoreCheckTaskDetail> storeCheckTaskDetailList;
+    private Store store;
 
     public StoreCheck(String creator, Date create_date, String check_user_id,String state ,Date begin_date, Date end_date) {
         this.creator = creator;

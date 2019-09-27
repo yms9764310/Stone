@@ -8,6 +8,7 @@ import com.jc.mapper.ToDoListMapper;
 import com.jc.model.*;
 import com.jc.service.AssignmentWorkService;
 import com.jc.service.ToDoListService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +54,8 @@ public class ToDoListServiceImpl implements ToDoListService {
     public List<ToDoList> listAll(String page, String limit, String name) {
         PageRange pageRange = new PageRange(page, limit);
         //先获取当前账号的ID,判断是否是主管
-        int id = 3;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         List<ToDoList> resultData = new ArrayList<ToDoList>();
         SysUsersBeans sysUsersBeans = toDoListMapper.loadById(id);
         if (sysUsersBeans.getName().equals("主管")) {
@@ -196,11 +198,12 @@ public class ToDoListServiceImpl implements ToDoListService {
 
     public List<ProduceTask> listProcessAll(String page, String limit, String name){
         PageRange pageRange = new PageRange(page, limit);
-        //先获取当前账号的ID,判断是否是生产部
-        int id = 1;
+        //先获取当前账号的ID,判断是否是销售部
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         List<ProduceTask> resultData = new ArrayList<ProduceTask>();
         SysUsersBeans sysUsersBeans = toDoListMapper.loadById(id);
-        if (sysUsersBeans.getDepart_id().equals("财务部")) {
+        if (sysUsersBeans.getDepart_id().equals("销售部")) {
             String user_name =  sysUsersBeans.getUser_name();
             sysUsersBeans.getDepart_id();
             resultData = toDoListMapper.listProcessAll(pageRange.getStart(), pageRange.getEnd(),user_name);
@@ -216,10 +219,11 @@ public class ToDoListServiceImpl implements ToDoListService {
     public List<ProduceTask> listWorkAll(String page, String limit, String name) {
         PageRange pageRange = new PageRange(page, limit);
         //先获取当前账号的ID,判断是否是生产部
-        int id = 1;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         List<ProduceTask> resultData = new ArrayList<ProduceTask>();
         SysUsersBeans sysUsersBeans = toDoListMapper.loadById(id);
-        if (sysUsersBeans.getDepart_id().equals("财务部")) {
+        if (sysUsersBeans.getDepart_id().equals("生产部")) {
             String user_name =  sysUsersBeans.getUser_name();
             resultData = toDoListMapper.listWorkAll(pageRange.getStart(), pageRange.getEnd(),user_name);
             return resultData;
@@ -257,11 +261,12 @@ public class ToDoListServiceImpl implements ToDoListService {
     public List<ProduceTask> listWorkflow(String page, String limit, String name) {
         PageRange pageRange = new PageRange(page, limit);
         //先获取当前账号的ID,判断是否是生产部
-        int id = 1;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         List<ProduceTask> resultData = new ArrayList<ProduceTask>();
         SysUsersBeans sysUsersBeans = toDoListMapper.loadById(id);
 //        long current_date = new Date().getTime();
-        if (sysUsersBeans.getDepart_id().equals("财务部")) {
+        if (sysUsersBeans.getDepart_id().equals("生产部")) {
             String user_name =  sysUsersBeans.getUser_name();
             resultData = toDoListMapper.listWorkflow(pageRange.getStart(), pageRange.getEnd(),user_name);
 //            for (ProduceTask resultDatum : resultData) {

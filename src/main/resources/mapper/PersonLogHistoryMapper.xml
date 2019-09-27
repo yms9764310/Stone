@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.PersonLogHistoryMapper">
+    <resultMap id="UserHistory" type="com.jc.model.UserHistory">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="creator" property="creator_id" jdbcType="INTEGER"/>
+        <result column="create_date" property="create_date" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier_id" jdbcType="INTEGER"/>
+        <result column="modify_date" property="modify_date" jdbcType="TIMESTAMP"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="user_id" property="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="listUserHistoryAll" parameterType="UserHistory" resultType="UserHistory">
+       SELECT
+    t.id,
+	t.modify_date,
+	t.description,
+	t.user_id,
+	u.name as user_name
+    FROM
+	t_user_history AS t
+    LEFT JOIN
+    t_sys_users as u
+    ON
+    u.id = t.user_id
+    <where>
+        <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
+            AND t.modify_date between #{startTime} and #{endTime}
+        </if>
+        <if test="name !=null and name!=''">
+            AND u.name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="description !=null and description !=''">
+            AND t.description = #{description,jdbcType=VARCHAR}
+        </if>
+    </where>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+<!--统计日志条数-->
+    <select id="countGetAll" parameterType="map" resultType="Integer">
+         select count(1) from t_sys_users
+    </select>
+<!--删除日志记录-->
+    <delete id="deleteLogHistory" parameterType="Integer">
+     DELETE
+        FROM
+        t_user_history
+        WHERE
+        t_user_history.id=#{id}
+    </delete>
+
+
+
+
+</mapper>

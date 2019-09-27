@@ -1,7 +1,6 @@
 package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
-import com.jc.mapper.AccountHandleBillMapper;
 import com.jc.mapper.PurchaseBillMapper;
 import com.jc.mapper.SysUsersMapper;
 import com.jc.mapper.YzjRoleMapper;
@@ -33,8 +32,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     @Autowired
     YzjRoleMapper yzjRoleMapper;
 
-    @Autowired
-    private AccountHandleBillMapper taccountHandleBillMapper;
+
     //查询全部采办事项
     @Override
     public List<PurchaseBill> listPurchaseBill(String page, String limit,Integer creator,String creatorName) {
@@ -348,21 +346,6 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
             purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
         }
         purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
-        AccountHandleBill accountHandleBill = new AccountHandleBill();
-        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
-        int id = user.getId();
-        accountHandleBill.setCreator(id);
-        accountHandleBill.setCreate_date(new Date());
-        accountHandleBill.setModifier(id);
-        accountHandleBill.setModify_date(new Date());
-        accountHandleBill.setState("3");
-        accountHandleBill.setCommit_user_id(id);
-        accountHandleBill.setSum_money(purchaseBill.getSumMoney());
-        accountHandleBill.setSource_id(purchaseBill.getId());
-        accountHandleBill.setSource_type("采购单");
-        accountHandleBill.setPay_date(purchaseBill.getExpectDate());
-        accountHandleBill.setAccount_no(purchaseBill.getAccountNo());
-        taccountHandleBillMapper.saveAccountHandleBill(accountHandleBill);
         return true;
     }
 

@@ -99,6 +99,8 @@ public interface StoreManagementMapper {
     void updateCheckTask(StoreCheck storeCheck);
     //添加盘点明细
     void insertCheckTaskDetail(StoreCheckTaskDetail storeCheckTaskDetail);
+    //POI导入用
+    void insertCheckTaskDetailPoi(StoreCheckTaskDetail storeCheckTaskDetail);
     //查询人员表
     List<SysUsers> listUserAll();
     //查询商品表

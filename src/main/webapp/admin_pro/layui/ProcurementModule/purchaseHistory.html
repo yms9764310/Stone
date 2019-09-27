@@ -14,6 +14,11 @@
             bottom: 40px;
             width: 180px;
         }
+        #Text{
+            width: 15px;
+            position: relative;
+            top: 7px;
+        }
     </style>
     <title>管理后台</title>
 </head>
@@ -45,9 +50,17 @@
                                 <input type="text" autocomplete="off" name="kind" class="layui-input">
                             </div>
 
-                            <div class="layui-form-mid">时间:</div>
-                            <div class="layui-input-inline" style="width: 100px;">
-                                <input type="text" autocomplete="off" name="kind" class="layui-input">
+                            <label class="layui-form-label">开始时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="start_time" name="start_time" autocomplete="off"
+                                       placeholder="请输入开始时间" class="layui-input">
+                            </div>
+                            <div class="layui-input-inline" id="Text">
+                                至
+                            </div>
+                            <div class="layui-input-inline">
+                                <input type="text" id="end_time" name="end_time" autocomplete="off"
+                                       placeholder="请输入结束时间" class="layui-input">
                             </div>
 
                             <a class="layui-btn search_btn" lay-submit="" lay-filter="findProduct">查询</a>
@@ -66,5 +79,37 @@
 <script src="../assets/layui.js"></script>
 <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
 <script type="text/javascript" src="purchaseHistory.js"></script>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        var endDate = laydate.render({
+            elem: '#end_time',//选择器结束时间
+            type: 'datetime',
+            min: "1970-1-1",//设置min默认最小值
+            done: function (value, date) {
+                startDate.config.max = {
+                    year: date.year,
+                    month: date.month - 1,//关键
+                    date: date.date
+
+                }
+            }
+        });
+        //日期范围
+        var startDate = laydate.render({
+            elem: '#start_time',
+            type: 'datetime',
+            max: "2099-12-31",//设置一个默认最大值
+            done: function (value, date) {
+                endDate.config.min = {
+                    year: date.year,
+                    month: date.month - 1, //关键
+                    date: date.date
+                };
+            }
+        });
+
+    });
+</script>
 </body>
 </html>

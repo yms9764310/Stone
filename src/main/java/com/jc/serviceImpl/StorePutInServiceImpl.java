@@ -5,6 +5,7 @@ import com.jc.mapper.StoreManagementMapper;
 import com.jc.mapper.StorePutInMapper;
 import com.jc.model.*;
 import com.jc.service.StorePutInService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +38,8 @@ public class StorePutInServiceImpl implements StorePutInService {
     public List<ToDoList> listAll(String page, String limit, String name, String startTime, String endTime, String typename) {
         PageRange pageRange = new PageRange(page, limit);
         //先获取当前账号的ID,判断是否是主管
-        int id = 3;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         List<ToDoList> resultData = new ArrayList<ToDoList>();
         SysUsersBeans sysUsersBeans = storePutInMapper.loadById(id);
         if (sysUsersBeans.getName().equals("主管")) {
@@ -98,13 +100,13 @@ public class StorePutInServiceImpl implements StorePutInService {
 
     @Override
     public String updatePutInSuccess(StorePutIn storePutIn) {
-
         l.lock();//加锁
         try {
             //先获取当前账号的ID,判断是否是主管
-            int id = 3;
+            SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+            int id = user.getId();
             SysUsersBeans sysUsersBeans = storePutInMapper.loadById(id);
-            if (sysUsersBeans.getName().equals("主管") && sysUsersBeans.getRole_id().equals("1")) {
+            if (sysUsersBeans.getName().equals("主管")) {
                 //判断是否是仓库管理
                 if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                     //调用存储过程
@@ -122,9 +124,10 @@ public class StorePutInServiceImpl implements StorePutInService {
     @Override
     public String updatePutInReject(StorePutIn storePutIn) {
         //先获取当前账号的ID,判断是否是主管
-        int id = 3;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         SysUsersBeans sysUsersBeans = storePutInMapper.loadById(id);
-        if (sysUsersBeans.getName().equals("主管") && sysUsersBeans.getRole_id().equals("1")) {
+        if (sysUsersBeans.getName().equals("主管")) {
             //判断是否是仓库管理
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                 storePutInMapper.updatePutInReject(storePutIn);
@@ -141,9 +144,10 @@ public class StorePutInServiceImpl implements StorePutInService {
         l.lock();//加锁
         try {
             //先获取当前账号的ID,判断是否是主管
-            int id = 3;
+            SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+            int id = user.getId();
             SysUsersBeans sysUsersBeans = storePutInMapper.loadById(id);
-            if (sysUsersBeans.getName().equals("主管") && sysUsersBeans.getRole_id().equals("1")) {
+            if (sysUsersBeans.getName().equals("主管")) {
                 //判断是否是仓库管理
                 if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                     Store store = storePutInMapper.loadByProductId(storeCheckOut.getProduct_id());
@@ -168,9 +172,10 @@ public class StorePutInServiceImpl implements StorePutInService {
     @Override
     public String updateCheckOutReject(StoreCheckOut storeCheckOut) {
         //先获取当前账号的ID,判断是否是主管
-        int id = 3;
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
         SysUsersBeans sysUsersBeans = storePutInMapper.loadById(id);
-        if (sysUsersBeans.getName().equals("主管") && sysUsersBeans.getRole_id().equals("1")) {
+        if (sysUsersBeans.getName().equals("主管")) {
             //判断是否是仓库管理
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                 storePutInMapper.updateCheckOutReject(storeCheckOut);

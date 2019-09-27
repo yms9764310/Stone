@@ -26,6 +26,9 @@ public class StoreBeans {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     @ExcelVOAttribute(name = "结束时间", column = "C")
     private Date end_date;
+    private String product_name;
+    private Double check_number;
+    private Double number;
     private List<ProductNumberBeans> productNumberBeansList;
 
 }
