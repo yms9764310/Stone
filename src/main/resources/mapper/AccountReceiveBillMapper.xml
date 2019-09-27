@@ -24,7 +24,7 @@
         <result column="effect_user_name" property="effect_user_name" jdbcType="VARCHAR"/>
         <result column="commit_user_name" property="commit_user_name" jdbcType="VARCHAR"/>
     </resultMap>
-    <select id="selectListPayBill"  resultType="AccountReceiveBill">
+    <select id="listAccountReceiveBill"  resultType="AccountReceiveBill">
 SELECT
 handle.id,
 l.account_name creator_name,

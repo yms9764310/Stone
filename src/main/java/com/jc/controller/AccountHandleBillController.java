@@ -35,7 +35,7 @@ public class AccountHandleBillController {
      */
     @RequestMapping("/saveHandleBill")
     @ResponseBody
-    public IResult saveaccountHandleBill(@RequestBody AccountHandleBill accountHandleBill){
+    public IResult saveAccountHandleBill(@RequestBody AccountHandleBill accountHandleBill){
      return new ResultBean<Integer>(taccountHandleBillService.saveAccountHandleBill(accountHandleBill));
     }
     /*
@@ -43,7 +43,7 @@ public class AccountHandleBillController {
      */
     @RequestMapping("/loadHandleBill")
     @ResponseBody
-    public IResult loadaccountHandleBill(Integer id){
+    public IResult loadAccountHandleBill(Integer id){
      return new ResultBean<AccountHandleBill>(taccountHandleBillService.loadAccountHandleBill(id));
     }
  /*

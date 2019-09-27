@@ -31,7 +31,7 @@ layui.config({
     var imgUrl = [];
 
 
-    function uploadRender(target) {
+
         $tool = layui.$tool,
         layui.use(['upload', '$tool'], function () {
             var $ = layui.jquery
@@ -40,44 +40,44 @@ layui.config({
 
             //凭证上传
             var uploadInst = upload.render({
-                elem: target
+                elem: '#preview_img'
                 , url: $tool.getContext()+'PayBill/upload.do'
-                , multiple: true
-                , auto: true
-                ,accept:'images'
-                // ,data:{type:'UploadImg'}//上传业务类型，后台会根据这个值将文件放入相应文件夹下
+                ,accept:'file'
+                , auto: false //不自动上传
+                , bindAction: '#upload_img' //上传绑定到隐藏按钮
                 , choose: function (obj) {
-                    //预读本地文件示例，不支持ie8
+                    //预读本地文件
                     obj.preview(function (index, file, result) {
-                    });
-                }
-                ,before : function () {
-                    console.log("123");
-                    $('#' + $(target).attr('data-id')).empty();
+                        $('#fileName').val(file.name);  //展示文件名
+                    })
                 }
                 , done: function (res) {
-                    //上传完毕
-                    imgUrl.push(res.data);
-
+                    $('#credential_hide').val(res.msg); //隐藏输入框赋值
+                    $('#submitForm').click(); //上传成功后单击隐藏的提交按钮
                 }
-                ,allDone: function(obj){ //当文件全部被提交后，才触发
-                    console.log(imgUrl);
-                    for (var a=0; a<imgUrl.length;a++){
-                        $('#' + $(target).attr('data-id')).append('<img width="200px" height="200px" src="'+ imgUrl[a] + '" class="layui-upload-img">')
-                    }
-                    imgUrl = [];
+                , error: function (index, upload) {
+                    layer.msg('上传失败！' + index, {icon: 5});
                 }
+            });
 
+            //确定按钮点击事件
+            $('#fake').click(function () {
+                $(this).attr({'disabled': 'disabled'});
+                $('#upload_img').click();//单击隐藏的上传按钮
+            });
 
-                // , success: function (data) {
-                //     console.log(data)
-                // }
+            /*监听提交*/
+            form.on('submit(add_recharge_submit)', function (data) {
+                addRecharge(data.field);
+                return false;
+            });
+
             });
 
 
-        });
-    }
-    uploadRender('#test');
+
+
+
 
     function edit(id) {
         var index = layui.layer.open({
