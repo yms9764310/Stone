@@ -60,6 +60,8 @@ layui.config({
                 editOrders(row.id);
             }else if (layEvent==='auditOrders') {//审核
                 auditOrders(row.id);
+            }else if(layEvent==='close'){//是否关闭
+                close(row.id);
             }
         });
     }
@@ -129,5 +131,19 @@ layui.config({
         layui.layer.full(index);
     }
 
+    //是否关闭
+    function close(id) {
+        layer.open({
+            type:2,
+            title:"请填写关闭订单的备注和理由!",
+            id:"link",
+            skin:'layui-layer-rim',
+            area:['50%','50%'],
+            fixed: false, //不固定
+            maxmin: true,
+            btn:['确定','取消'],
+            content:'closeOrders.html',
+        })
+    }
 
 });

@@ -3,9 +3,11 @@ package com.jc.service;
 import com.jc.model.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.IntrospectionException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.util.List;
@@ -54,7 +56,7 @@ public interface StoreManagementService {
     String updateCountingTask(StoreCheck storeCheck);
 
     //导入结果单
-    String ajaxUploadExcel(HttpServletRequest request, HttpServletResponse response);
+    String importExcel(InputStream inputStream, String fileName)throws Exception;
 
     //修改盘点任务
     String SureCountingTask(StoreCheck storeCheck);
@@ -79,6 +81,5 @@ public interface StoreManagementService {
     //查询入库记录
     List<StorePutIn> listPutIn(String page, String limit, String startTime, String endTime,String name,String source_type);
 
-    HSSFWorkbook exportExcelInfo(Integer check_id) throws InvocationTargetException,
-            ClassNotFoundException, IntrospectionException, ParseException, IllegalAccessException;
+    String exportExcel(String[] titles, ServletOutputStream outputStream, Integer check_id);
 }

@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Insert;
  * @author 严脱兔
  */
 public interface UserHistoryMapper {
-    @Insert("insert into t_user_history(description) values(#{description})")
+    @Insert("insert into t_user_history(modify_date,description,user_id) values(#{modify_date},#{description},#{user_id})")
     public void save(UserHistory userHistory) throws Exception;
 }

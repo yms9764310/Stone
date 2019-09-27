@@ -9,16 +9,18 @@ import com.jc.service.StoreManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.IntrospectionException;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
@@ -73,7 +75,7 @@ public class StoreManagementController {
     public IResult listCheckAll(String page, String limit, String startTime, String endTime) {
         //返回json至前端的均返回ResultBean或者PageResultBean
         List<StoreCheck> resultData = storeManagementServiceImpl.listCheckAll(page, limit, startTime, endTime);
-        return new PageResultBean<Collection<StoreCheck>>(resultData,resultData.size());
+        return new PageResultBean<Collection<StoreCheck>>(resultData,storeManagementServiceImpl.countGetAll());
     }
 
 
@@ -211,47 +213,26 @@ public class StoreManagementController {
      * */
     @ResponseBody
     @RequestMapping(value="/fileUpload")
-    public IResult uploadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return new ResultBean<String>(storeManagementServiceImpl.ajaxUploadExcel(request, response));
+    public IResult uploadExcel(MultipartFile upfile) throws Exception {
+        // file.getOriginalFilename();   获取文件名
+        return new ResultBean<String>(storeManagementServiceImpl.importExcel(upfile.getInputStream(), upfile.getOriginalFilename()));
     }
-
 
     //导出盘点任务单
     @RequestMapping("/exportExcel")
     @ResponseBody
-    public void export(String check_id, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IllegalAccessException{
-        if (check_id != null) {
-            response.reset(); //清除buffer缓存
-            Map<String, Object> map = new HashMap<String, Object>();
-            System.out.println("文件名：");
-            // 指定下载的文件名
-            response.setHeader("Content-Disposition", "attachment;filename=" + check_id + ".xlsx");
-            response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setDateHeader("Expires", 0);
-            HSSFWorkbook workbook = null;
-            //导出Excel对象
-            try {
-                workbook = storeManagementServiceImpl.exportExcelInfo(Integer.valueOf(check_id));
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IntrospectionException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            OutputStream output;
-            try {
-                output = response.getOutputStream();
-                BufferedOutputStream bufferedOutPut = new BufferedOutputStream(output);
-                bufferedOutPut.flush();
-                workbook.write(bufferedOutPut);
-                bufferedOutPut.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public String exportExcel(HttpServletResponse response,String check_id) {
+        response.setContentType("application/binary;charset=utf-8");
+        try {
+            ServletOutputStream outputStream = response.getOutputStream();
+            String fileName = new String(("导出excel例子").getBytes(), "utf-8");
+            response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xlsx");// 组装附件名称和格式
+            String[] titles = { "盘点人", "开始时间", "结束时间" , "商品名称","库存数量","盘点数量"};
+            storeManagementServiceImpl.exportExcel(titles, outputStream,Integer.valueOf(check_id));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return "success";
     }
     /**
      * 统计库存损耗

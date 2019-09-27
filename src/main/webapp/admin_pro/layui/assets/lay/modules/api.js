@@ -83,6 +83,9 @@ layui.define(['$tool','jquery'], function (exports) {
         DeleteStudent:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'Student/delete.do',req,config,successCallback,errorCallback);
         },
+        DeleteHistory:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'PersonLogHistory/delete.do',req,config,successCallback,errorCallback);
+        },
         DeleteDemp:function(req,config,successCallback,errorCallback){
             doPost($tool.getContext() + 'demp/deletedemp.do',req,config,successCallback,errorCallback);
         },
@@ -119,6 +122,19 @@ layui.define(['$tool','jquery'], function (exports) {
         },
         AddProu:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'prou/saveprou.do',req,config,successCallback,errorCallback);
+        },
+        //根据id查询审核内容
+        loadPay:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'HandleBill/loadHandleBill.do',req,successCallback,errorCallback);
+        },
+
+        //创建应付单
+        AddPay:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'HandleBill/saveHandleBill.do',req,config,successCallback,errorCallback);
+        },
+        //应付审核通过update
+        HandleBillPass:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'HandleBill/updateHandleBill.do',req,successCallback,errorCallback);
         },
         AddRole:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'role/saverole.do',req,config,successCallback,errorCallback);
@@ -313,6 +329,38 @@ layui.define(['$tool','jquery'], function (exports) {
         updateCheckState:function(req,config,successCallback,errorCallback){
         doComplexPost($tool.getContext()+'StoreManagement/updateCheckState.do',req,config,successCallback,errorCallback);
          },
+        //选择客户添加
+        GetCusChoose:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/chooseCus.do',req,config,successCallback,errorCallback);
+        },
+        //选择商品
+        GetSaleBillName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SaleBill/listProduct.do',req,config,successCallback,errorCallback);
+        },
+        //编辑订单
+        UpdateSaleBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'SaleBill/updateSaleBill.do',req,config,successCallback,errorCallback);
+        },
+        //审核订单
+        Pass:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SaleBill/success.do',req,successCallback,errorCallback);
+        },
+        Defeat:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SaleBill/defeat.do',req,successCallback,errorCallback);
+        },
+        //获取订单ID
+        GetBill:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SaleBill/loadById.do',req,config,successCallback,errorCallback);
+        },
+        //创建新的订单
+        InsertSaleBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'SaleBill/insertSaleBill.do',req,config,successCallback,errorCallback);
+        },
+
+        //获取客户赋值下拉框
+        GetFirstClassMenus:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/chooseCus.do',req,successCallback,errorCallback);
+        },
     };
 
     //输出扩展模块

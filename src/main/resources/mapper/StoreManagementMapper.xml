@@ -231,7 +231,7 @@
 
     <!--统计条数-->
     <select id="countGetAll" parameterType="map" resultType="Integer">
-         select count(1) from t_store
+         select count(1) from t_store_check
     </select>
 
     <select id="countGetCheckAll" parameterType="map" resultType="Integer">
@@ -324,6 +324,11 @@
     <insert id="insertCheckTaskDetail" parameterType="StoreCheckTaskDetail">
         INSERT INTO t_store_check_task_detail(id,product_id,check_id)
         VALUES (#{id},#{value},#{check_id})
+    </insert>
+<!--POI导入用的-->
+    <insert id="insertCheckTaskDetailPoi" parameterType="StoreCheckTaskDetail">
+        INSERT INTO t_store_check_task_detail(product_id,check_id,check_number)
+        VALUES (#{product_id},#{check_id},#{check_number})
     </insert>
 <!--根据主键删除盘点任务-->
     <delete id="deleteCheckTask" parameterType="java.lang.Integer">
@@ -420,26 +425,26 @@
 
     <!--查询损耗-->
     <select id="countStoreLoss" resultType="LossBeans">
-   SELECT
-    t.id,
-    t.modify_date,
-	t.state,
-    p.name product_name,
-    d.stock_number,
-	d.check_number
-    FROM
-    t_store_check as t
-    LEFT JOIN
-    t_store_check_task_detail as d
-    ON d.check_id = t.id
-	LEFT JOIN
-    t_sys_purchase_product as p
-    ON d.product_id = p.id
-    <where>
+        SELECT
+        sum(stock_number) as stock_number,
+        sum(check_number) as check_number,
+        t.id,
+        t.modify_date,
+        t.state,
+        p.name product_name
+        FROM
+        t_store_check as t
+        LEFT JOIN
+        t_store_check_task_detail as d
+        ON d.check_id = t.id
+        LEFT JOIN
+        t_sys_purchase_product as p
+        ON d.product_id = p.id
+        where t.state =6
         <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
             AND modify_date between #{startTime} and #{endTime}
         </if>
-    </where>
+
     </select>
 
 </mapper>

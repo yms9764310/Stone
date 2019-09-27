@@ -31,6 +31,7 @@
 <!--                /login=anon-->
 <!--                /login.do=anon-->
 <!--                /logout.do=anon-->
+                /Customer/chooseCus.do=anon
                 /login.do=anon
                 /admin_pro/layui/login.html = anon
                 /admin_pro/layui/assets/** = anon
@@ -89,7 +90,12 @@
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <property name="sessionDAO" ref="sessionDAO"/>
         <property name="sessionIdCookieEnabled" value="true"/>
-        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionIdCookie" ref="simpleCookie"/>
+    </bean>
+
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="shiro.sesssion"/>
+        <property name="path" value="/"/>
     </bean>
 
     <!-- 相当于调用 SecurityUtils.setSecurityManager(securityManager) -->

@@ -71,7 +71,7 @@ layui.config({
             check_id: id,
            };
         $api.ExportCountingTask(req, {contentType: 'application/json;charset=utf-8'}, function (data) {
-            if (data.data == xssfWorkbook) {
+            if (data.data == "success") {
                 layer.msg("导出成功！", {time: 1000}, function () {
                     layer.closeAll("iframe");
                     //刷新父页面

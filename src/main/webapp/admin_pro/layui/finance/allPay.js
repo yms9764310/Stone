@@ -32,7 +32,7 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'prou/listprou.do' //数据接口
+            , url: $tool.getContext() + 'HandleBill/listHandleBill.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
@@ -41,14 +41,14 @@ layui.config({
                 {type: 'numbers', title: '', fixed: 'left'}
                 , {field: 'creator_name', title: '创建人', width: '8%'}
                 , {field: 'create_date', title: '创建时间', width: '8%'}
-                , {field: 'modefier_name', title: '修改人', width: '8%', templet: '#upc'}
+                , {field: 'modify_name', title: '修改人', width: '8%', templet: '#upc'}
                 , {field: 'modify_date', title: '修改时间', width: '8%', templet: '#upc'}
                 , {field: 'state', title: '状态', width: '8%', templet: '#upc'}
-                , {field: 'name', title: '商品名称', width: '8%', templet: '#upc'}
-                , {field: 'kind', title: '商品类型', width: '8%', templet: '#upc'}
-                , {field: 'model_type', title: '商品型号', width: '8%', templet: '#upc'}
-                , {field: 'standard', title: '规格', width: '8%', templet: '#upc'}
-                , {field: 'description', title: '描述', width: '8%', templet: '#upc'}
+                , {field: 'commit_user_name', title: '提交人姓名', width: '8%', templet: '#upc'}
+                , {field: 'effect_user_name', title: '审核人姓名', width: '8%', templet: '#upc'}
+                , {field: 'source_type', title: '来源但类型', width: '8%', templet: '#upc'}
+                , {field: 'pay_date', title: '应付日期', width: '8%', templet: '#upc'}
+                , {field: 'account_no', title: '账号', width: '8%', templet: '#upc'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
             ]]
 
@@ -62,9 +62,9 @@ layui.config({
 
             //区分事件
             if (layEvent === 'del') { //删除
-                deleteProu(row.id);
+
             } else if (layEvent === 'edit') { //编辑
-                editProu(row.id,row.create_date,row.standard);
+                editProu(row.id);
             }
         });
     }
@@ -81,12 +81,12 @@ layui.config({
         });
         return false;
     });
-    //添加学生
-    $(".add_btn").click(function () {
+    //创建应付单
+    $(".add_handle").click(function () {
         var index = layui.layer.open({
             title: "添加商品",
             type: 2,
-            content: "addProu.html",
+            content: "addPay.html",
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -103,31 +103,13 @@ layui.config({
     });
 
 
-    //删除
-    function deleteProu(id) {
-        layer.confirm('确认删除吗？', function (confirmIndex) {
-            layer.close(confirmIndex);//关闭confirm
-            //向服务端发送删除指令
-            var req = {
-                id: id
-            };
-            $api.DeleteProu(req, function (data) {
-                layer.msg("删除成功", {time: 1000}, function () {
-                    //obj.del(); //删除对应行（tr）的DOM结构
-                    //重新加载表格
-                    tableIns.reload();
-                });
-            });
-        });
-    }
 
-    //修改
-    function editProu(id,create_date,standard) {
-        var newstr=create_date.replace(" ","_");
+    //审核
+    function editProu(id) {
         var index = layui.layer.open({
-            title: "修改学生",
+            title: "审核",
             type: 2,
-            content: "editProu.html?id=" + id+"&newstr="+newstr+"&standard="+standard,
+            content: "auditPay.html?id=" + id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {

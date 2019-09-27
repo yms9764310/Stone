@@ -5,6 +5,7 @@ import com.jc.beans.response.ResultBean;
 import com.jc.model.SysLoginUser;
 import com.jc.service.SysLoginUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,9 @@ public class SysLoginUserController {
     @ResponseBody
     public IResult updatePassword(@RequestBody SysLoginUser sysLoginUser){
         //需要去查询当前用户ID
-        sysLoginUser.setId(1);
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();//获取当前登录用户id
+        int id = user.getId();
+        sysLoginUser.setId(id);
         SysLoginUser sysLoginUser1 =sysLoginUserServiceImpl.loadById(sysLoginUser.getId());
         //获取页面上的密码与数据库里的旧密码比较，一致的话修改。
         if(sysLoginUser.getOldPwd().equals(sysLoginUser1.getPsd())){

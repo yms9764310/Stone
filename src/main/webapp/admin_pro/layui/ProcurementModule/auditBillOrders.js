@@ -175,16 +175,17 @@ layui.config({
 
     form.on("submit(updateBill)",function (data) {
         layer.prompt({title:'请输入银行卡号！',formType:3},function (value,index) {
-            if (value==null||value==""){
+            var accountno=value;
+            if (accountno==null||accountno==""){
                 layer.msg("请填写银行卡号",{time:1300,icon:5});
                 return false;
             }
-            if(value.length < 16 || value.length > 19) {
+            if(accountno.length < 16 || accountno.length > 19) {
                 layer.msg("银行卡号长度必须在16到19之间",{time:1300,icon:5});
                 return false;
             }
             var num = /^\d*$/; //全数字
-            if(!num.exec(value)) {
+            if(!num.exec(accountno)) {
                 layer.msg("银行卡号必须全为数字",{time:1300,icon:5});
                 return false;
             }
@@ -216,6 +217,7 @@ layui.config({
         var sum=$("#txtTotal").val();
         var req={
             id:id,
+            accountno:accountno,
             creator:creator,
             putInDate:putInDate,
             emergent:emergent,
@@ -225,7 +227,7 @@ layui.config({
             purchaseBillDetailList:purchaseBillDetailList
         };
         console.log(req);
-        //alert(JSON.stringify(req))
+        alert(JSON.stringify(req))
         layer.confirm("确定订单通过审核吗?",function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
             $api.AuditBillOrders(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {

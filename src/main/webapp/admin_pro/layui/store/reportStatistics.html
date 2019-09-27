@@ -65,12 +65,12 @@
     </div>
 
     <script src="../assets/lay/modules/config.js"></script>
-    <script src="../assets/lay/modules/echarts.min.js"></script>
     <script src="../assets/layui.js"></script>
     <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
     <script type="text/javascript" src="reportStatistics.js"></script>
-
+    <script src="../assets/lay/modules/echarts.min.js"></script>
     <script type="text/javascript">
+
 
         var myChart = echarts.init(document.getElementById('main'));
         // 显示标题，图例和空的坐标轴
@@ -142,7 +142,7 @@
             var laydate = layui.laydate;
             var endDate = laydate.render({
                 elem: '#end_time',//选择器结束时间
-                type: 'year',
+                type: 'date',
                 min: "1970-1-1",//设置min默认最小值
                 done: function (value, date) {
                     startDate.config.max = {
@@ -156,7 +156,7 @@
             //日期范围
             var startDate = laydate.render({
                 elem: '#start_time',
-                type: 'year',
+                type: 'date',
                 max: "2099-12-31",//设置一个默认最大值
                 done: function (value, date) {
                     endDate.config.min = {
