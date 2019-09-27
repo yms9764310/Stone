@@ -27,7 +27,7 @@
                     <div class="form-box">
                         <div style="float: left">
                         <div style="float: left">
-                        <button class="layui-btn layui-btn-blue add_btn"><i class="layui-icon">&#xe654;</i>新增</button>
+                        <button class="layui-btn layui-btn-blue add_handle"><i class="layui-icon">&#xe654;</i>新增</button>
                         </div>
                         <div class="layui-upload" style="float: left">
                             <button type="button" class="layui-btn layui-btn-normal" id="upfile" name="upfile" accept=".xls,.xlsx">
@@ -43,8 +43,11 @@
     </div>
 
     <script type="text/html" id="barDemo">
-        <a style="color: #007DDB;cursor: pointer" lay-event="del">删除</a>&nbsp;
-        <a style="color: #007DDB;cursor: pointer" lay-event="edit">编辑</a>&nbsp;
+        {{# if(d.state=="待审核"){ }}
+        <a style="color: #007DDB;cursor: pointer" lay-event="edit">审核</a>&nbsp;
+        {{# } else if(d.state=="已完成"){ }}
+        <a style="color: #007DDB;cursor: pointer" lay-event="">查看</a>&nbsp;
+        {{# } }}
     </script>
     <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
     <script src="../assets/layui.js"></script>

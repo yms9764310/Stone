@@ -442,9 +442,9 @@
         ON d.product_id = p.id
         where t.state =6
         <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
-            AND t.modify_date between #{startTime} and #{endTime}
+            AND modify_date between #{startTime} and #{endTime}
         </if>
-        GROUP BY product_id
+
     </select>
 
 </mapper>

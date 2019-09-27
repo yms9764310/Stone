@@ -13,4 +13,8 @@ public interface AccountHandleBillMapper {
     int countAccountHandleBill();
     //创建应付单
     Integer saveAccountHandleBill(AccountHandleBill accountHandleBill);
+    //根据id查询应付单数据
+    AccountHandleBill loadAccountHandleBill(@Param("id") Integer id);
+    //审核
+    Integer updateAccountHandleBill(@Param("id")Integer id);
 }

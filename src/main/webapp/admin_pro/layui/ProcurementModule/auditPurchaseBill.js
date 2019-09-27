@@ -43,8 +43,8 @@ layui.config({
             $("input[name='id']").val(data.id);
             $("input[name='creator']").val(data.creator);
             $("input[name='putInDate']").val(data.putInDate);
-            $("input[name='emergent'][value='3']").attr("checked",data.emergent=='3' ? true:false);
-            $("input[name='emergent'][value='4']").attr("checked",data.emergent=='4' ? true:false);
+            $("input[name='emergent'][value='13']").attr("checked",data.emergent=='13' ? true:false);
+            $("input[name='emergent'][value='14']").attr("checked",data.emergent=='14' ? true:false);
             var productDiv='';
             $(data.purchaseBillDetailList).each(function (index,item) {
                 //alert(JSON.stringify(item.sysPurchaseProduct.id));
@@ -62,14 +62,14 @@ layui.config({
                 productDiv+='</select></div>';
                 productDiv+='<label class="layui-form-label la">单价:</label>\n' +
                     '               <div class="layui-input-inline">\n' +
-                    '                   <input type="text" name="price" class="layui-input price"  value="0" readonly >\n' +
+                    '                   <input type="text" name="price" class="layui-input price"  placeholder="0" readonly lay-verify="required" >\n' +
                     '               </div>';
                 productDiv+='<label class="layui-form-label la">数量:</label>' +
                     '               <div class="layui-input-inline">' +
-                    '                  <input  type="text" class="layui-input number" name="number" value="0"  >' +
+                    '                  <input  type="text" class="layui-input number" name="number" placeholder="0" lay-verify="required" >' +
                     '               </div>';
                 productDiv+='<label class="layui-form-label la">金额:</label><div class="layui-input-inline">' +
-                    '<input type="text" class="layui-input" value="0" name="sum_money" readonly></div>';
+                    '<input type="text" class="layui-input" placeholder="0" name="sum_money" lay-verify="required" readonly></div>';
                 productDiv+='</div>';
             });
             $(".product").append(productDiv);
@@ -198,10 +198,10 @@ layui.config({
         };
         console.log(req);
         //alert(JSON.stringify(req))
-        layer.confirm("确定修改吗?",function (confirmIndex) {
+        layer.confirm("审核确定通过吗?",function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
             $api.UpdatePurchaseBillAudit(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {
-                layer.msg("编辑成功！",{time:1000,icon:6},function () {
+                layer.msg("审核成功！",{time:1000,icon:6},function () {
                     layer.closeAll("iframe");
                     //刷新父页面
                     parent.location.reload();

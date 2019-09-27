@@ -19,6 +19,10 @@ public class PurchaseBill implements Serializable {
     private int id;
     //创建人
     private String creator;
+
+    private String creatorName;
+
+    private String creator_id;
     //创建时间
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
@@ -45,11 +49,17 @@ public class PurchaseBill implements Serializable {
     //预期时间
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date expectDate;
-
+    //银行卡号
+    private String accountno;
     //关联表人员表
     private SysUsers sysUsers;
     //关联资源表
     private SysResource sysResource;
     //关联采购单表
     private List<PurchaseBillDetail> purchaseBillDetailList;
+    private AccountHandleBill accountHandleBill;
+
+    public String getAccountNo() {
+        return accountno;
+    }
 }

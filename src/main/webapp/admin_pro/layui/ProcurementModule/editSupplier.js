@@ -153,6 +153,7 @@ layui.config({
 
         var id=$("input[name='id']").val();
         var arrName=new Array();
+
         var txt=$(".shop").find($("input[name='productName']"));//获取所有的文本框
         for (var i=0;i<txt.length;i++){
             arrName.push(txt.eq(i).val())//将文本框的值添加到数组中
@@ -172,19 +173,17 @@ layui.config({
         //联系电话
         var contactPhone=$("input[name='contact_phone']").val();
         //联系电话的校验
-        var phone=document.getElementById("contact").value;
-        if (!(/^1[3456789]\d{9}$/.test(phone))) {
+        var reg=new RegExp(/^1\d{10}$/);
+        if (!reg.test(contactPhone)) {
             layer.msg("手机号码格式有误,请重填!",{time:1500,icon:5});
             return false;
         }
         var address=$("input[name='address']").val();
 
 
-
         //提交的信息是否正确
         var req={
             id:id,
-            arrName:arrName,
             supplierProductList:supplierProductList,
             name:name,
             companyName:companyName,

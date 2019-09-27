@@ -13,17 +13,12 @@ layui.config({
         $tool = layui.$tool,
         table = layui.table,
         $api = layui.$api;
+
     layer = layui.layer;
     layuiTable = layui.table;
     var tableIns;//表格实例
 
-    /**
-     * 页面初始化
-     * */
-    function init() {
-    }
 
-    init();
 
     /**
      * 定义表格
@@ -31,12 +26,12 @@ layui.config({
     function defineTable() {
         tableIns = table.render({
             elem: '#demo'
-            , height: 315
+            , height: 415
             , url: $tool.getContext() + 'purchaseSupplier/listSupplier.do' //数据接口
             , method: 'post'
             , page: true //开启分页
-            , limit:10
-            , limits:[10,20,30,40,50,60,70]
+            , limit:20
+            , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
                 , {field: 'creator', title: '创建人', width: '5%',align:'center'}
@@ -71,6 +66,8 @@ layui.config({
         });
     }
     defineTable();
+
+
     //查询
     form.on("submit(findLike)", function (data) {
         //查询的校验

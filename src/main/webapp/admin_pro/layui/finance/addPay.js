@@ -29,30 +29,30 @@ layui.config({
     /**
      * 表单提交
      * */
-    form.on("submit(addProu)", function (data) {
-        var name = data.field.name;
-        var kind = data.field.kind;
-        var model_type = data.field.model_type;
-        var standard = data.field.standard;
-        var description = data.field.description;
+    form.on("submit(addPay)", function (data) {
+        var sum_money = data.field.sum_money;
+        var pay_date = data.field.pay_date;
+        var account_no = data.field.account_no;
+        var source_type = data.field.source_type;
+
         //请求
         var req = {
-            name:name,
-            kind:kind,
-            model_type:model_type,
-            standard:standard,
-            description:description
-        };
+            sum_money:sum_money,
+            pay_date:pay_date,
+            account_no:account_no,
+            source_type:source_type
 
-        $api.AddProu(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
+        };
+        alert(JSON.stringify(req))
+        $api.AddPay(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
             console.log(data.data)
-               if(data.data=1){
+            if(data.data==1){
                 layer.msg("添加成功！",{time:1000},function () {
-                    layer.closeAll("iframe");
+                    layer.closeAll("iframe");//疯狂模式，关闭所有层
                     //刷新父页面
                     parent.location.reload();
                 });
-               }
+            }
         });
         return false;
 })

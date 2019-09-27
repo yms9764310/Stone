@@ -113,7 +113,6 @@ layui.config({
                 }, 500)
             }
         });
-
         //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
         $(window).resize(function () {
             layui.layer.full(index);
@@ -121,4 +120,24 @@ layui.config({
         layui.layer.full(index);
     }
 
+    //创建采办事项
+    function Acquisition(product_id) {
+        var index = layui.layer.open({
+            title: "创建采办事项信息",
+            type: 2,
+            content: "../ProcurementModule/insertBill.html",
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                }, 500)
+            }
+        });
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
 });

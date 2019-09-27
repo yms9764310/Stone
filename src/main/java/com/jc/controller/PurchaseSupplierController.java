@@ -9,13 +9,14 @@ import com.jc.service.PurchaseSupplierService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,8 +33,8 @@ public class PurchaseSupplierController {
     //查询全部供应商记录以及搜索的功能
     @RequestMapping(value = "/listSupplier",method = RequestMethod.POST)
     @ResponseBody
-    public IResult listPurchase(String page,String limit,String SysProductName,String name){
-        List<PurchaseSupplier> list=purchaseSupplierService.listSupplier(page,limit,SysProductName,name);
+    public IResult listPurchase(String page,String limit,String SysProductName,String name,Integer id){
+        List<PurchaseSupplier> list=purchaseSupplierService.listSupplier(page,limit,SysProductName,name,id);
         return new PageResultBean<Collection<PurchaseSupplier>>(list,purchaseSupplierService.countGetAll());
     }
 
