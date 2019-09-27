@@ -39,8 +39,8 @@ layui.config({
             $("input[name='id']").val(data.id);
             $("input[name='creator']").val(data.creator);
             $("input[name='putInDate']").val(data.putInDate);
-            $("input[name='emergent'][value='3']").attr("checked",data.emergent=='3' ? true:false);
-            $("input[name='emergent'][value='4']").attr("checked",data.emergent=='4' ? true:false);
+            $("input[name='emergent'][value='13']").attr("checked",data.emergent=='13' ? true:false);
+            $("input[name='emergent'][value='14']").attr("checked",data.emergent=='14' ? true:false);
             $(data.purchaseBillDetailList).each(function (index,item) {
                 //alert(item.sysPurchaseProduct.name);
                 layui.formSelects.value('select1',[item.sysPurchaseProduct.id],true);
@@ -71,20 +71,6 @@ layui.config({
     });
     formSelects.render('select');//需要渲染一下
 
-    //追加采办商品
-    // $("#parentDiv").click(function () {
-    //     var show='<div class="layui-form-item parent-menu" ><label class="layui-form-label">采办商品:</label>' +
-    //         '<div class="layui-input-inline"><select name="productId" id="productValue" lay-verify="required" required>';
-    //     var htmls = '<option value="" selected="selected">请选择商品</option>'
-    //     for (var x in productSupplier) {
-    //         htmls += '<option value="' + productSupplier[x].id + '">' + productSupplier[x].name + '</option>';
-    //     }
-    //     show+=htmls;
-    //     show+='</select></div>';
-    //     show+='</div>';
-    //     $("#insert").append(show);
-    //     layui.form.render("select");
-    // });
 
 
     form.on("submit(updateBill)",function (data) {
@@ -97,17 +83,6 @@ layui.config({
             return false;
         }
         var purchaseBillDetailList=formSelects.value('select1');
-        //获取select父类长度
-        // var productId=$('.insert').children('.parent-menu');
-        //alert(productId.length);
-        //遍历获取select选中的值
-        // var purchaseBillDetailList=[];
-        // for (var i=0;i<productId.length;i++){
-        //     var productName=$($(productId[i]).children('.layui-input-inline')[0]).children('select').find("option:selected").val();
-        //     //alert(productName);
-        //     purchaseBillDetailList.push({productId:productName});
-        // }
-        //alert(JSON.stringify(purchaseBillDetailList));
         var req={
             id:id,
             creator:creator,

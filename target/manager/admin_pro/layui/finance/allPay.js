@@ -62,9 +62,9 @@ layui.config({
 
             //区分事件
             if (layEvent === 'del') { //删除
-                deleteProu(row.id);
+
             } else if (layEvent === 'edit') { //编辑
-                editProu(row.id,row.create_date,row.standard);
+                editProu(row.id);
             }
         });
     }
@@ -81,12 +81,12 @@ layui.config({
         });
         return false;
     });
-    //添加学生
-    $(".add_btn").click(function () {
+    //创建应付单
+    $(".add_handle").click(function () {
         var index = layui.layer.open({
             title: "添加商品",
             type: 2,
-            content: "addProu.html",
+            content: "addPay.html",
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -103,31 +103,13 @@ layui.config({
     });
 
 
-    //删除
-    function deleteProu(id) {
-        layer.confirm('确认删除吗？', function (confirmIndex) {
-            layer.close(confirmIndex);//关闭confirm
-            //向服务端发送删除指令
-            var req = {
-                id: id
-            };
-            $api.DeleteProu(req, function (data) {
-                layer.msg("删除成功", {time: 1000}, function () {
-                    //obj.del(); //删除对应行（tr）的DOM结构
-                    //重新加载表格
-                    tableIns.reload();
-                });
-            });
-        });
-    }
 
-    //修改
-    function editProu(id,create_date,standard) {
-        var newstr=create_date.replace(" ","_");
+    //审核
+    function editProu(id) {
         var index = layui.layer.open({
-            title: "修改学生",
+            title: "审核",
             type: 2,
-            content: "editProu.html?id=" + id+"&newstr="+newstr+"&standard="+standard,
+            content: "auditPay.html?id=" + id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {

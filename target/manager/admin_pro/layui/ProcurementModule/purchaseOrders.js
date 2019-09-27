@@ -54,16 +54,96 @@ layui.config({
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
             //区分事件
-            if (layEvent === 'delCheck') { //删除
-                delCheck(row.id);
-            } else if (layEvent === 'editCheck') { //编辑
-                editCheck(row.id);
-            }else if (layEvent==='audit') {//审核
-                audit(row.id);
+            if (layEvent === 'delOrders') { //删除
+                delOrders(row.id);
+            } else if (layEvent === 'editOrders') { //编辑
+                editOrders(row.id);
+            }else if (layEvent==='auditOrders') {//审核
+                auditOrders(row.id);
+            }else if(layEvent==='close'){//是否关闭
+                close(row.id);
             }
         });
     }
     defineTable();
 
+    //删除
+    function delOrders(id) {
+        layer.confirm('确认删除吗？', function (confirmIndex) {
+            layer.close(confirmIndex);//关闭confirm
+            //向服务端发送删除指令
+            var req = {
+                id: id
+            };
+            $api.DeleteBillOrders(req,function (data) {
+                layer.msg("删除成功", {time: 1000,icon:6}, function () {
+                    //obj.del(); //删除对应行（tr）的DOM结构
+                    //重新加载表格
+                    tableIns.reload();
+                });
+            });
+        });
+    }
+
+    //采购单的编辑
+    function editOrders(id) {
+        var index = layui.layer.open({
+            title: "编辑采购单信息",
+            type: 2,
+            content: "editBillOrders.html?id=" +id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: [1,'#3595CC'],
+                        time:4000
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
+    //采购单的审核
+    function auditOrders(id) {
+        var index = layui.layer.open({
+            title: "审核订单",
+            type: 2,
+            content: "auditBillOrders.html?id=" +id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: [1,'#3595CC'],
+                        time:4000
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
+    //是否关闭
+    function close(id) {
+        layer.open({
+            type:2,
+            title:"请填写关闭订单的备注和理由!",
+            id:"link",
+            skin:'layui-layer-rim',
+            area:['50%','50%'],
+            fixed: false, //不固定
+            maxmin: true,
+            btn:['确定','取消'],
+            content:'closeOrders.html',
+        })
+    }
 
 });

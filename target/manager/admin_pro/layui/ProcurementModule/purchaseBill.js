@@ -33,14 +33,25 @@ layui.config({
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
-                , {field: 'creator', title: '创建人', width: '5%',align:'center'}
+                , {field: 'creatorName', title: '创建人', width: '5%',align:'center'}
                 , {field: 'createDate', title: '创建时间', width: '10%',align:'center'}
                 , {field: 'modifier', title: '修改人', width: '5%', templet: '#upc',align:'center'}
                 , {field: 'modifyDate', title: '修改时间', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'putInDate', title: '入库时间', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'emergent', title: '是否紧急', width: '10%', templet: '#upc',align:'center'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
-            ]]
+            ]],
+            done: function(res, curr, count){
+                $api.LogOut(null,function (data) {
+                    for(var i=0;i<data.data.length;i++){
+                        if(data.data.indexOf("list:select")!=-1){
+                            $('.d1').css("display","block");
+                        } else{
+                            $('.d1').css("display","none");
+                        }
+                    }
+                });
+            }
 
         });
 
@@ -57,6 +68,10 @@ layui.config({
                 editCheck(row.id);
             }else if (layEvent==='audit') {//审核
                 audit(row.id);
+            }else if (layEvent==='completed'){//待完成
+                completed(row.id);
+            }else if (layEvent==='editCompleted'){
+                editCompleted(row.id);//待完成编辑
             }
         });
     }
@@ -64,11 +79,11 @@ layui.config({
 
     //查询事项信息
     form.on("submit(queryUser)",function (data) {
-        var creator=data.field.creator;
+        var creatorName=data.field.creatorName;
         //表格重新加载
         tableIns.reload({
             where: {
-                creator: creator
+                creatorName: creatorName
             }
         });
         return false;
@@ -142,6 +157,52 @@ layui.config({
             title: "审核采办事项信息",
             type: 2,
             content: "auditPurchaseBill.html?id=" +id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: [1,'#3595CC'],
+                        time:4000
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
+    //待完成,采购人员创建订单
+    function completed(id) {
+        var index = layui.layer.open({
+            title: "审核采办事项信息",
+            type: 2,
+            content: "completedBill.html?id=" +id,
+            success: function (layero, index) {
+                setTimeout(function () {
+                    layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: [1,'#3595CC'],
+                        time:4000
+                    });
+                }, 500)
+            }
+        });
+
+        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+        $(window).resize(function () {
+            layui.layer.full(index);
+        });
+        layui.layer.full(index);
+    }
+
+    //待完成编辑
+    function editCompleted(id) {
+        var index = layui.layer.open({
+            title: "编辑采办事项信息",
+            type: 2,
+            content: "editCompletedBill.html?id=" +id,
             success: function (layero, index) {
                 setTimeout(function () {
                     layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {

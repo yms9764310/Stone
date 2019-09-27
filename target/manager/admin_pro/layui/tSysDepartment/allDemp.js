@@ -72,17 +72,17 @@ layui.config({
         });
         return false;
     });
-    $api.LogOut(null,function (data) {
-        for(var i=0;i<data.data.length;i++){
-            if(data.data[i]=="admin"){
-                $(".add_btn").css("display","block");
-            }
-
-        else{
-                $(".add_btn").css("display","none");
-        }
-        }
-    });
+    // $api.LogOut(null,function (data) {
+    //     for(var i=0;i<data.data.length;i++){
+    //         if(data.data[i]=="admin"){
+    //             $(".add_btn").css("display","block");
+    //         }
+    //
+    //     else{
+    //             $(".add_btn").css("display","none");
+    //     }
+    //     }
+    // });
     //添加学生
     $(".add_btn").click(function () {
         var index = layui.layer.open({

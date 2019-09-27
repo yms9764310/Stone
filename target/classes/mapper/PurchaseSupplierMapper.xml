@@ -28,11 +28,11 @@
             <result column="SysProductName" property="name" jdbcType="VARCHAR"></result>
         </collection>
     </resultMap>
-<!--    查询全部-->
+<!--    员工查询自己的信息-->
     <select id="listSupplier" resultMap="SupplierResultMap">
         SELECT
-        purchase.id, purchase.creator, purchase.create_date, purchase.name name,
-        purchase.modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
+        purchase.id, users.name creator, purchase.create_date, purchase.name name,
+        users.name modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
         res.id sid, res.display_name state,purchase.company_name,
         purchase.contact_name,purchase.contact_phone,
         purchase.address
@@ -50,19 +50,68 @@
         t_sys_resource as res
         ON
         purchase.state=res.id
-        <where>
+        LEFT JOIN
+        t_sys_login_user AS login
+        ON
+        login.user_id=purchase.creator
+        LEFT JOIN
+        t_sys_users AS users
+        ON
+        users.id=purchase.creator
+        where
+        purchase.creator=#{id}
         <if test="name!=null and name!=''">
         and purchase.name like concat('%',#{name},'%')
         </if>
         <if test="SysProductName!=null and SysProductName!=''">
             and syspro.name like concat('%',#{SysProductName},'%')
         </if>
-        </where>
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 <!--    获取菜单大小-->
     <select id="countGetAll" resultType="Integer" parameterType="map">
         select count(0) from t_purchase_supplier
+    </select>
+
+<!--    主管查看全部信息-->
+    <select id="listSupplierUser" resultMap="SupplierResultMap">
+        SELECT
+        purchase.id, users.name creator, purchase.create_date, purchase.name name,
+        users.name modifier,purchase.modify_date,syspro.id pid,syspro.name SysProductName,
+        res.id sid, res.display_name state,purchase.company_name,
+        purchase.contact_name,purchase.contact_phone,
+        purchase.address
+        FROM
+        t_purchase_supplier AS purchase
+        left join
+        t_pruchase_supplier_product AS product
+        ON
+        purchase.id=product.purchase_supplier_id
+        LEFT JOIN
+        t_sys_purchase_product AS syspro
+        ON
+        syspro.id=product.product_id
+        LEFT JOIN
+        t_sys_resource as res
+        ON
+        purchase.state=res.id
+        LEFT JOIN
+        t_sys_login_user AS login
+        ON
+        login.user_id=purchase.creator
+        LEFT JOIN
+        t_sys_users AS users
+        ON
+        users.id=purchase.creator
+        <where >
+        <if test="name!=null and name!=''">
+            and purchase.name like concat('%',#{name},'%')
+        </if>
+        <if test="SysProductName!=null and SysProductName!=''">
+            and syspro.name like concat('%',#{SysProductName},'%')
+        </if>
+        </where>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 
 <!--    添加供应商-->

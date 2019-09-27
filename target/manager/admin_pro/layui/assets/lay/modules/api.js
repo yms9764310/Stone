@@ -123,6 +123,19 @@ layui.define(['$tool','jquery'], function (exports) {
         AddProu:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'prou/saveprou.do',req,config,successCallback,errorCallback);
         },
+        //根据id查询审核内容
+        loadPay:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'HandleBill/loadHandleBill.do',req,successCallback,errorCallback);
+        },
+
+        //创建应付单
+        AddPay:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'HandleBill/saveHandleBill.do',req,config,successCallback,errorCallback);
+        },
+        //应付审核通过update
+        HandleBillPass:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'HandleBill/updateHandleBill.do',req,successCallback,errorCallback);
+        },
         AddRole:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'role/saverole.do',req,config,successCallback,errorCallback);
         },
@@ -244,9 +257,41 @@ layui.define(['$tool','jquery'], function (exports) {
         UpdatePurchaseBillAudit:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'procurementBill/purchaseBillAudit.do',req,config,successCallback,errorCallback);
         },
-        //删除采办事项
+
         SupplierProductLike:function(req,successCallback,errorCallback){
             doPost($tool.getContext() + 'procurementBill/supplierProduct.do',req,successCallback,errorCallback);
+        },
+        //待完成，根据id获取
+        LoadCompletedBill:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/loadCompletedBill.do',req,successCallback,errorCallback);
+        },
+        //待完成,创建订单
+        UpdateBillComplete:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/updateCompleted.do',req,config,successCallback,errorCallback);
+        },
+        //待完成,编辑操作
+        EditCompletedBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/editCompleted.do',req,config,successCallback,errorCallback);
+        },
+        //删除采购订单
+        DeleteBillOrders:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/deletePurchaseBill.do',req,successCallback,errorCallback);
+        },
+        //采购单，根据id获取信息
+        LoadBillOrders:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/loadBillOrders.do',req,successCallback,errorCallback);
+        },
+        //采购单,编辑操作
+        UpdateBillOrders:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/updateBillOrders.do',req,config,successCallback,errorCallback);
+        },
+        //采购单的审核,根据id获取
+        LoadPurchaseBillOrders:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/loadPurchaseBillOrders.do',req,successCallback,errorCallback);
+        },
+        //采购单审核通过
+        AuditBillOrders:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/updatePurchaseBillOrders.do',req,config,successCallback,errorCallback);
         },
         UpdatePassword:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'SysLoginUser/changePassword.do',req,config,successCallback,errorCallback);
@@ -284,6 +329,38 @@ layui.define(['$tool','jquery'], function (exports) {
         updateCheckState:function(req,config,successCallback,errorCallback){
         doComplexPost($tool.getContext()+'StoreManagement/updateCheckState.do',req,config,successCallback,errorCallback);
          },
+        //选择客户添加
+        GetCusChoose:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/chooseCus.do',req,config,successCallback,errorCallback);
+        },
+        //选择商品
+        GetSaleBillName:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SaleBill/listProduct.do',req,config,successCallback,errorCallback);
+        },
+        //编辑订单
+        UpdateSaleBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext()+'SaleBill/updateSaleBill.do',req,config,successCallback,errorCallback);
+        },
+        //审核订单
+        Pass:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SaleBill/success.do',req,successCallback,errorCallback);
+        },
+        Defeat:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SaleBill/defeat.do',req,successCallback,errorCallback);
+        },
+        //获取订单ID
+        GetBill:function(req,config,successCallback,errorCallback){
+            doPost($tool.getContext() + 'SaleBill/loadById.do',req,config,successCallback,errorCallback);
+        },
+        //创建新的订单
+        InsertSaleBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'SaleBill/insertSaleBill.do',req,config,successCallback,errorCallback);
+        },
+
+        //获取客户赋值下拉框
+        GetFirstClassMenus:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'Customer/chooseCus.do',req,successCallback,errorCallback);
+        },
     };
 
     //输出扩展模块

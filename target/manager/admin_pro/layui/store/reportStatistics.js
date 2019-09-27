@@ -4,8 +4,9 @@ layui.config({
     ajaxExtention: 'ajaxExtention',//加载自定义扩展，每个业务js都需要加载这个ajax扩展
     $tool: 'tool',
     $api: 'api',
+    echarts:'echarts.min' //echarts 核心包
 
-}).use(['form', 'layer', '$api', 'jquery', 'table', 'laypage', 'laytpl', 'ajaxExtention', '$tool'], function () {
+}).use(['form', 'layer', '$api', 'jquery', 'table', 'laypage', 'laytpl', 'ajaxExtention', '$tool','echarts'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery,
@@ -15,6 +16,7 @@ layui.config({
         table = layui.table,
         $api = layui.$api;
     layer = layui.layer;
+    echarts = layui.echarts;
     layuiTable = layui.table;
     var tableIns;//表格实例
 
@@ -91,4 +93,4 @@ layui.config({
     });
 
 });
-
+layui.define('echarts.min',function(exports){exports('echarts.min',echarts)});
