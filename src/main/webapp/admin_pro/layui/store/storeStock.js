@@ -62,6 +62,7 @@ layui.config({
             }
         });
     }
+
     defineTable();
     //查询
     form.on("submit(queryUser)", function (data) {
