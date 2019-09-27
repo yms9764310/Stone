@@ -8,7 +8,7 @@
     <resultMap id="PurchaseBillResultMap" type="com.jc.model.PurchaseBill">
         <id column="id" property="id"></id>
         <result column="creator" property="creator"></result>
-        <result column="creatorName" property="creator"></result>
+        <result column="creatorName" property="creatorName"></result>
         <result column="create_date" property="createDate"></result>
         <result column="modifier" property="modifier"></result>
         <result column="modify_date" property="modifyDate"></result>
@@ -63,9 +63,6 @@
         u.id=bill.modifier
         where
         bill.is_bill=11
-        <if test="creatorName!=null and creatorName!=''">
-            and creatorName=#{creatorName}
-        </if>
         order by bill.state=3 desc
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
@@ -110,9 +107,6 @@
         where
         bill.is_bill=11
         and bill.creator=#{creator}
-        <if test="creatorName!=null and creatorName!=''">
-            and creatorName=#{creatorName}
-        </if>
         order by bill.state=3 desc
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
@@ -348,7 +342,7 @@
         u.id=bill.modifier
         WHERE
         bill.is_bill=12
-        order by bill.state=18
+        order by bill.state=5
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 
@@ -503,7 +497,7 @@
         bill.id=#{id}
     </select>
 
-<!--    查询已审核的商品-->
+<!--    查询已完成的商品-->
     <select id="listBillDetailAudited" resultType="com.jc.model.PurchaseBillDetail">
         SELECT
         DISTINCT detail.product_id productId,product.name productName

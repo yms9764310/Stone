@@ -59,13 +59,13 @@
 <!--添加出库单-->
     <insert id="insertCheckOut" parameterType="StoreCheckOut" keyProperty="id" useGeneratedKeys="true">
     insert into t_store_checkout (product_id,creator,create_date,modifier,modify_date,`number`,checkout_user_id,state)
-    values (#{product_id},#{creator},#{create_date},#{modifier},#{number},#{checkout_user_id},#{modify_date},3)
+    values (#{product_id},#{creator},#{create_date},#{modifier},#{modify_date},#{number},#{checkout_user_id},3)
     </insert>
 
     <!--添加入库单-->
     <insert id="insertStorePutIn" parameterType="StorePutIn" keyProperty="id" useGeneratedKeys="true">
-    insert into t_store_put_in (product_id,creator,create_date,modifier,modify_date,put_in_number,put_in_user_id,state)
-    values (#{product_id},#{creator},#{create_date},#{modifier},#{put_in_number},#{put_in_user_id},#{modify_date},3)
+    insert into t_store_put_in (product_id,creator,create_date,modifier,modify_date,put_in_number,put_in_user_id,source_type,state)
+    values (#{product_id},#{creator},#{create_date},#{modifier},#{modify_date},#{put_in_number},#{put_in_user_id},#{source_type},3)
     </insert>
 
     <!--出库单-->
