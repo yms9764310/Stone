@@ -48,6 +48,9 @@ public interface StoreManagementMapper {
     //查询库存量
     Double CheckOutCount_number(Integer product_id);
 
+    //查询仓库管理的主管
+    List<StoreManagementBeans> listStoreManagementSupervisor();
+
     //查询出库记录
     List<StoreCheckOut> listCheckOut(@Param("start") Integer start,
                                      @Param("end") Integer end,
@@ -86,11 +89,15 @@ public interface StoreManagementMapper {
     //修改盘点任务
     void updateCountingTask(StoreCheck storeCheck);
     //确定盘点明细
-    void SureCountingTask(StoreCheckTaskDetail StoreCheckTaskDetail);
+    void SureCountingTask(StoreCheckTaskDetail storeCheckTaskDetail);
     //审核盘点结果单后修改库存量
     void updateStoreNumber(Store Store);
+    //审核盘点结果单后修改明细表里的库存量
+    void updateDetailStoreNumber(StoreCheckTaskDetail storeCheckTaskDetail);
     //驳回盘点结果单后修改状态
     void updateState(StoreCheck storeCheck);
+    //审核通过盘点结果单
+    void reviewState(StoreCheck storeCheck);
     //修改盘点明细
     void updateCountingTaskDetail(StoreCheckTaskDetail storeCheckTaskDetail);
     //添加盘点任务

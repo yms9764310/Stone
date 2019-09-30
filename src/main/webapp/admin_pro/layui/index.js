@@ -5,9 +5,11 @@
  *
 **/
 
+
+
 //退出
 
-(function () {
+$(function () {
 
 
     var entry,
@@ -35,4 +37,4 @@
     layui.config({
         base: 'assets/lay/modules/'
     }).extend(app).use(entry || 'home');
-})();
+});

@@ -7,6 +7,7 @@ import com.jc.model.AccountHandleBill;
 import com.jc.model.AccountPayBill;
 import com.jc.model.SysLoginUser;
 import com.jc.service.AccountHandleBillService;
+import com.jc.socket.SocketHandler;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ import java.util.List;
 @Service
 @Transactional
 public class AccountHandleBillServiceImpl implements AccountHandleBillService {
+    // 注入webSocket的处理类
+    @Autowired
+    private SocketHandler socketHandler;
     @Autowired
     private AccountHandleBillMapper taccountHandleBillMapper;
     @Autowired
@@ -59,6 +63,7 @@ public class AccountHandleBillServiceImpl implements AccountHandleBillService {
         accountPayBill.setAccount_no(accountHandleBill.getAccount_no());
         accountPayBill.setEffect_user_id(lid);
         accountPayBillMapper.saveAccountPayBill(accountPayBill);
+        socketHandler.sendForOne("审核结果通知","你的请求已通过审核",String.valueOf(accountHandleBill.getCommit_user_id()));
         return 0;
     }
 
@@ -74,6 +79,7 @@ public class AccountHandleBillServiceImpl implements AccountHandleBillService {
         accountHandleBill.setState("3");
         accountHandleBill.setCommit_user_id(id);
         taccountHandleBillMapper.saveAccountHandleBill(accountHandleBill);
+        socketHandler.sendForOne("工作分配通知","有工作待完成",String.valueOf(accountHandleBill.getCommit_user_id()));
         return 1;
     }
 

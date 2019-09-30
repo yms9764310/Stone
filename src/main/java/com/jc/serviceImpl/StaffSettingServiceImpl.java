@@ -116,7 +116,7 @@ public class StaffSettingServiceImpl implements StaffSettingService {
         SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
         int id = user.getId();
         SysUsersBeans sysUsersBeans =staffSettingMapper.loadById(id);
-        if(sysUsersBeans.getName().equals("主管")&&sysUsersBeans.getRole_id().equals("1")){
+        if(sysUsersBeans.getName().equals("主管")){
             //判断是否是销售部
             if(sysUsersBeans.getDepart_id().equals("财务部")){
                 //获取本部门人员

@@ -4,6 +4,7 @@ import com.jc.beans.response.PageRange;
 import com.jc.mapper.StoreManagementMapper;
 import com.jc.model.*;
 import com.jc.service.StoreManagementService;
+import com.jc.socket.SocketHandler;
 import com.jc.util.ExcelUtils;
 import com.jc.utils.ExportUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -14,6 +15,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,6 +50,9 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 @Transactional
 public class StoreManagementServiceImpl implements StoreManagementService {
+    // 注入webSocket的处理类
+    @Autowired
+    private SocketHandler socketHandler;
     @Resource
     private StoreManagementMapper storeManagementMapper;
 
@@ -221,6 +226,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
                     storeCheckTaskDetail1.setProduct_id(checkTaskDetail.getValue());
                     storeManagementMapper.updateCountingTaskDetail(storeCheckTaskDetail1);
                 }
+                socketHandler.sendForOne("确定通知","你的任务已确定",storeCheck.getCheck_user_id());
                 return "success";
             }
         }
@@ -304,18 +310,25 @@ public class StoreManagementServiceImpl implements StoreManagementService {
                 }
                 System.out.print("\n");
             }
+            SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+            String id = String.valueOf(user.getId());
             Date date = new Date();//获取时间
-            StoreCheck storeCheck1 = new StoreCheck("3", date,
+            StoreCheck storeCheck1 = new StoreCheck(id, date,
                     storeCheck.getCheck_user_id(), "3", storeCheck.getBegin_date(), storeCheck.getEnd_date());
             storeManagementMapper.insertCheckTask(storeCheck1);
             for (StoreCheckTaskDetail checkTaskDetail : storeCheckTaskDetailList) {
                 checkTaskDetail.setCheck_id(storeCheck1.getId());
                 storeManagementMapper.insertCheckTaskDetailPoi(checkTaskDetail);
             }
+            List<StoreManagementBeans> storeManagementBeans = storeManagementMapper.listStoreManagementSupervisor();
+            for (StoreManagementBeans storeManagementBean : storeManagementBeans) {
+                String user_id = String.valueOf(storeManagementBean.getId());
+                socketHandler.sendForOne("待审核通知","有工作待审核",user_id);
+            }
+
         } catch (Exception ex) {
             message = "Import failed, please check the data in " + rowIndex + " rows ";
         }
-
         return message;
     }
 
@@ -495,11 +508,16 @@ public class StoreManagementServiceImpl implements StoreManagementService {
             for (StoreCheckTaskDetail storeCheckTaskDetail : storeCheckTaskDetailList) {
                 int product_id = storeCheckTaskDetail.getProduct_id();
                 Double number = storeCheckTaskDetail.getCheck_number();
-                Store newstore = new Store(product_id, number);
-                storeManagementMapper.updateStoreNumber(newstore);
+                int check_id = storeCheckTaskDetail.getCheck_id();
+                Double stock_number = storeCheckTaskDetail.getCheck_number();
+                StoreCheckTaskDetail newStoreCheckTaskDetail = new StoreCheckTaskDetail(stock_number,product_id,check_id);
+                Store newStore = new Store(product_id, number);
+                storeManagementMapper.updateStoreNumber(newStore);
+                storeManagementMapper.updateDetailStoreNumber(newStoreCheckTaskDetail);
             }
             StoreCheck newstoreCheck = new StoreCheck(storeCheck.getId(), "6");
-            storeManagementMapper.updateState(newstoreCheck);
+            storeManagementMapper.reviewState(newstoreCheck);
+            socketHandler.sendForOne("审核通知","你的请求已通过审核",storeCheck.getCheck_user_id());
 
             return "success";
         }
@@ -516,7 +534,9 @@ public class StoreManagementServiceImpl implements StoreManagementService {
             //判断是否是仓库管理
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                 storeManagementMapper.updateState(storeCheck);
+                socketHandler.sendForOne("驳回通知","你的请求被驳回",storeCheck.getCheck_user_id());
                 return "success";
+
             }
         }
         return "error";
@@ -709,6 +729,7 @@ public class StoreManagementServiceImpl implements StoreManagementService {
             workBook.write(out);
             out.flush();
             out.close();
+            socketHandler.sendForOne("工作分配通知","有工作待完成",storeCheck.getCheck_user_id());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

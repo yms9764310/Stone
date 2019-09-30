@@ -7,6 +7,8 @@ import com.jc.beans.response.PageRange;
 import com.jc.mapper.sale.SaleBillMapper;
 import com.jc.model.sale.SaleBill;
 import com.jc.service.sale.SaleBillService;
+import com.jc.socket.SocketHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,9 @@ import java.util.List;
 @Service
 @Transactional
 public class SaleBillServiceImpl implements SaleBillService {
+    // 注入webSocket的处理类
+    @Autowired
+    private SocketHandler socketHandler;
     @Resource
     private SaleBillMapper saleBillMapper;
     @Override
@@ -66,6 +71,9 @@ public class SaleBillServiceImpl implements SaleBillService {
     @Override
     public int updateStateYes(int id) {
         saleBillMapper.updateStateYes(id);
+        SaleBill saleBill = saleBillMapper.loadByCusId(id);
+        String  sale_id = String.valueOf(saleBill.getSale_id());
+        socketHandler.sendForOne("审核通知","你的请求已通过审核",sale_id);
         return 0;
     }
 

@@ -5,7 +5,9 @@ import com.jc.mapper.StoreManagementMapper;
 import com.jc.mapper.StorePutInMapper;
 import com.jc.model.*;
 import com.jc.service.StorePutInService;
+import com.jc.socket.SocketHandler;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,9 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 @Transactional
 public class StorePutInServiceImpl implements StorePutInService {
+    // 注入webSocket的处理类
+    @Autowired
+    private SocketHandler socketHandler;
     @Resource
     private StorePutInMapper storePutInMapper;
     @Resource
@@ -112,6 +117,7 @@ public class StorePutInServiceImpl implements StorePutInService {
                     //调用存储过程
                     storePutInMapper.updateStore(storePutIn); //修改
                     storePutInMapper.updatePutInSuccess(storePutIn);//修改状态
+                    socketHandler.sendForOne("审核结果通知","你的请求已通过审核",storePutIn.getPut_in_user_id());
                     return "success";
                 }
             }
@@ -131,6 +137,7 @@ public class StorePutInServiceImpl implements StorePutInService {
             //判断是否是仓库管理
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                 storePutInMapper.updatePutInReject(storePutIn);
+                socketHandler.sendForOne("驳回通知","你的请求被驳回",storePutIn.getPut_in_user_id());
                 return "success";
             }
         }
@@ -155,6 +162,7 @@ public class StorePutInServiceImpl implements StorePutInService {
                         //调用存储过程
                         storePutInMapper.updateStoreCheck(storeCheckOut);
                         storePutInMapper.updateCheckOutSuccess(storeCheckOut);//修改状态
+                        socketHandler.sendForOne("审核结果通知","你的请求已通过审核",String.valueOf(storeCheckOut.getCheckout_user_id()));
                         return "success";
                     } else {
                         return "break";
@@ -179,6 +187,7 @@ public class StorePutInServiceImpl implements StorePutInService {
             //判断是否是仓库管理
             if (sysUsersBeans.getDepart_id().equals("仓库管理")) {
                 storePutInMapper.updateCheckOutReject(storeCheckOut);
+                socketHandler.sendForOne("驳回通知","你的请求被驳回",String.valueOf(storeCheckOut.getCheckout_user_id()));
                 return "success";
             }
         }
@@ -188,12 +197,14 @@ public class StorePutInServiceImpl implements StorePutInService {
     @Override
     public String insertCheckOut(StoreCheckOut storeCheckOut) {
         storePutInMapper.insertCheckOut(storeCheckOut);
+       // socketHandler.sendForOne("待审核通知","有工作待审核",String.valueOf(storeCheckOut.getCheckout_user_id()));
         return "success";
     }
 
     @Override
     public String insertStorePutIn(StorePutIn storePutIn) {
         storePutInMapper.insertStorePutIn(storePutIn);
+        //socketHandler.sendForOne("待审核通知","有工作待审核",storePutIn.getPut_in_user_id());
         return "success";
     }
 

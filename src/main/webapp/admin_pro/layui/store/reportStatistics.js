@@ -4,9 +4,8 @@ layui.config({
     ajaxExtention: 'ajaxExtention',//加载自定义扩展，每个业务js都需要加载这个ajax扩展
     $tool: 'tool',
     $api: 'api',
-    echarts:'echarts.min' //echarts 核心包
 
-}).use(['form', 'layer', '$api', 'jquery', 'table', 'laypage', 'laytpl', 'ajaxExtention', '$tool','echarts'], function () {
+}).use(['form', 'layer', '$api', 'jquery', 'table', 'laypage', 'laytpl', 'ajaxExtention', '$tool'], function () {
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         $ = layui.jquery,
@@ -16,7 +15,6 @@ layui.config({
         table = layui.table,
         $api = layui.$api;
     layer = layui.layer;
-    echarts = layui.echarts;
     layuiTable = layui.table;
     var tableIns;//表格实例
 
@@ -49,7 +47,7 @@ layui.config({
             Charts.showLoading();    //数据加载完之前先显示一段简单的loading动画
 
 
-      $.ajax({
+            $.ajax({
                 type : "post",
                 async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
                 url : "/Stone/StoreManagement/countStoreLoss.do",    //请求发送到TestServlet处
@@ -93,4 +91,4 @@ layui.config({
     });
 
 });
-layui.define('echarts.min',function(exports){exports('echarts.min',echarts)});
+

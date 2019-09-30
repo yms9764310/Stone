@@ -20,6 +20,7 @@ public class StoreCheckTaskDetail {
     private String product_name;
     private Integer check_id;
     private Double check_number;
+    private Double stock_number;
     private String name;
     private Integer value;
     private Integer number;
@@ -32,5 +33,12 @@ public class StoreCheckTaskDetail {
     }
 
     public StoreCheckTaskDetail() {
+    }
+
+    public StoreCheckTaskDetail(Double stock_number,Integer product_id, Integer check_id) {
+        this.stock_number = stock_number;
+        this.product_id = product_id;
+        this.check_id = check_id;
+
     }
 }

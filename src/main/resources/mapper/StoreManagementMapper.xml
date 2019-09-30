@@ -245,7 +245,15 @@
     <select id="countGetCheckOutAll" parameterType="map" resultType="Integer">
          select count(1) from t_store_checkout
     </select>
+<!--查询仓库管理的主管ID-->
+    <select id="listStoreManagementSupervisor" resultType="StoreManagementBeans">
 
+    SELECT u.id,u.name,u.depart_role_id,r.name as role_name,u.depart_id,d.name as department_name from t_sys_users as u
+    LEFT JOIN t_sys_role as r ON u.depart_role_id = r.id
+    LEFT JOIN t_sys_department as d ON d.id = u.depart_id
+    WHERE r.name ='主管' and d.name='仓库管理'
+
+    </select>
     <!--根据商品ID查询-->
     <select id="loadByProduct_id" parameterType="java.lang.Integer" resultType="StoreWarn">
         SELECT
@@ -408,9 +416,21 @@
         WHERE  product_id=#{product_id}
     </update>
 
+    <!--审核通过修改明细单里的库存数量-->
+    <update id="updateDetailStoreNumber" parameterType="StoreCheckTaskDetail">
+        UPDATE t_store_check_task_detail SET stock_number=#{stock_number}
+        WHERE  product_id=#{product_id} and check_id=#{check_id}
+    </update>
+
     <!--驳回盘点-->
     <update id="updateState" parameterType="StoreCheck">
         UPDATE t_store_check SET state = 5
+        WHERE  id=#{id}
+    </update>
+
+    <!--审核通过盘点结果单-->
+    <update id="reviewState" parameterType="StoreCheck">
+        UPDATE t_store_check SET state = 6
         WHERE  id=#{id}
     </update>
     <!--确定盘点明细-->
@@ -442,9 +462,10 @@
         ON d.product_id = p.id
         where t.state =6
         <if test="startTime != null and startTime !='' and endTime != null and endTime !=''">
-            AND modify_date between #{startTime} and #{endTime}
+            AND t.modify_date between #{startTime} and #{endTime}
         </if>
-
+        GROUP BY
+        product_id
     </select>
 
 </mapper>

@@ -7,6 +7,7 @@ import com.jc.mapper.ToDoListMapper;
 import com.jc.model.*;
 import com.jc.service.MessageService;
 import com.jc.service.ToDoListService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,8 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<Message> listMessage(String page, String limit, String name, String message_type) {
         PageRange pageRange = new PageRange(page, limit);
-        String id = "3";
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        String id = String.valueOf(user.getId());
         List<Message> messageList = messageMapper.listMessageAll(pageRange.getStart(), pageRange.getEnd(),id, name,message_type);
         //查询所有消息列表，把包含自己ID的那些数据抓取出来。
 //        for (Message message : messageList) {

@@ -8,6 +8,7 @@ import com.jc.mapper.YzjRoleMapper;
 import com.jc.mapper.YzjUserRoleMapper;
 import com.jc.model.*;
 import com.jc.service.PurchaseBillService;
+import com.jc.socket.SocketHandler;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ import java.util.List;
 @Service
 @Transactional
 public class PurchaseBillServiceImpl implements PurchaseBillService {
+    // 注入webSocket的处理类
+    @Autowired
+    private SocketHandler socketHandler;
     @Autowired
     PurchaseBillMapper purchaseBillMapper;
     @Autowired
@@ -105,6 +109,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
             purchaseBillDetail.setValue(billDetail.getValue());
             purchaseBillMapper.insertPurchaseBillDetail(purchaseBillDetail);
         }
+        socketHandler.sendForOne("工作分配通知","你有新的工作",String.valueOf(purchaseBill.getPurchaseId()));
         return true;
     }
 
@@ -225,6 +230,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
             purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
         }
         purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
+        socketHandler.sendForOne("审核结果通知","你的请求已通过审核",String.valueOf(purchaseBill.getPurchaseId()));
         return true;
     }
 
@@ -347,6 +353,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
             purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
         }
         purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
+        socketHandler.sendForOne("审核结果通知","你的请求已通过审核",String.valueOf(purchaseBill.getPurchaseId()));
         return true;
     }
 

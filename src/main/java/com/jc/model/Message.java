@@ -31,4 +31,16 @@ public class Message {
     private Integer from_user_id;
     private String from_user_name;
     private String to_user_ids;
+
+    public Message(Date modify_date,String state,String message_type,String message_content, Integer from_user_id, String to_user_ids) {
+        this.modify_date = modify_date;
+        this.state = state;
+        this.message_type = message_type;
+        this.message_content = message_content;
+        this.from_user_id = from_user_id;
+        this.to_user_ids = to_user_ids;
+    }
+
+    public Message() {
+    }
 }

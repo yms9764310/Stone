@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author 严脱兔
  */
 //带参数
-@ServerEndpoint("/websocket/{uid}")
+//@ServerEndpoint("/websocket/{uid}")
 //不带参数
 //@ServerEndpoint("/websocket")
 public class MyWebSocket {

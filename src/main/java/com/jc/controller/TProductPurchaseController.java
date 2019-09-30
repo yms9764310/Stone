@@ -6,6 +6,7 @@ import com.jc.beans.response.ResultBean;
 import com.jc.model.TProductsyspurchaseproduct;
 import com.jc.service.TProductPurchaseService;
 import com.jc.service.TysProductBomService;
+import com.jc.socket.SocketHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ import java.util.*;
 @Controller
 @RequestMapping("/T_Produce")
 public class TProductPurchaseController {
+    // 注入webSocket的处理类
+    @Autowired
+    private SocketHandler socketHandler;
     @Resource
     TProductPurchaseService
     tProductPurchaseServiceImpl;
@@ -53,6 +57,7 @@ public class TProductPurchaseController {
         Date date1 = new Date();
         tProductsyspurchaseproduct.setModify_date( date1 );
         tProductPurchaseServiceImpl.saveT_Product_sys_purchase_product( tProductsyspurchaseproduct );
+
         return new ResultBean<String>("success");
     }
     @RequestMapping(value = "/loadProduct.do",method = RequestMethod.POST)
