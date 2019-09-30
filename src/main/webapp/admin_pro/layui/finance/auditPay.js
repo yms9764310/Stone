@@ -48,6 +48,7 @@ layui.config({
             $("[name='pay_date']").val(data.pay_date);
             $("[name='account_no']").val(data.account_no);
             $("[name='source_type']").val(data.source_type);
+            $("[name='source_id']").val(data.source_id);
             form.render();//重新绘制表单，让修改生效
         });
     }

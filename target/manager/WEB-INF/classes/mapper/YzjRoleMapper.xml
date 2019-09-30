@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+
+<mapper namespace="com.jc.mapper.YzjRoleMapper">
+    <resultMap id="Test" type="com.jc.model.YzjSysPurchaseProduct">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="creator" property="creator" jdbcType="INTEGER"/>
+        <result column="create_date" property="create_date" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="INTEGER"/>
+        <result column="modify_date" property="modify_date" jdbcType="TIMESTAMP"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="department_id" property="department_id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="department" property="department" jdbcType="VARCHAR"/>
+        <result column="creator_name" property="creator_name" jdbcType="VARCHAR"/>
+        <result column="modefier_name" property="modefier_name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--查询全部-->
+    <select id="listYzjSysRole" resultType="SysRole">
+
+		SELECT
+		d.id,
+        l.account_name as creator_name,
+        l.account_name as modefier_name,
+        d.create_date,
+        d.modify_date,
+        d.state,
+        d.department_id,
+        d.name,
+        d.description,
+		s.name  department
+        FROM
+        t_sys_role as d  LEFT JOIN  t_sys_login_user as l on
+        d.creator=l.creator left JOIN t_sys_department as s on s.id=d.department_id
+        <where>
+            <if test="name !=null and name !=''">
+                and d.name like concat('%',#{name},'%')
+            </if>
+                <if test="department !=null and department !=''">
+                    and s.name like concat('%',#{department},'%')
+                </if>
+        </where>
+
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <!--统计全部个数-->
+    <select id="countYzjSysRole" parameterType="map" resultType="Integer">
+         select count(1) from t_sys_role
+    </select>
+    <select id="selectByPrimaryKeyId" parameterType="java.lang.Integer" resultType="SysRole">
+        SELECT * FROM  t_sys_role WHERE id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByPrimaryKeyName" parameterType="java.lang.String" resultType="SysRole">
+        SELECT * FROM  t_sys_role WHERE name=#{name,jdbcType=INTEGER}
+    </select>
+
+
+<!--    添加-->
+    <insert id="saveYzjSysRole" parameterType="SysRole" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_sys_role(creator,create_date,modifier,modify_date,state,name,department_id,description)
+        VALUES (#{creator},#{create_date},#{modifier},#{modify_date},#{state},#{name},#{department_id},#{description})
+    </insert>
+<!--    删除-->
+    <delete id="deleteSysRole" parameterType="int">
+        DELETE  FROM  t_sys_role WHERE id=#{0}
+    </delete>
+<!--编辑-->
+    <update id="updateSysRole" parameterType="SysRole">
+        UPDATE t_sys_role SET modify_date=#{modify_date},
+        name=#{name},department_id=#{department_id},description=#{description}
+        WHERE id=#{id}
+    </update>
+    <!--根据id查询-->
+    <select id="loadSysRole" parameterType="java.lang.Integer" resultType="SysRole">
+        SELECT * FROM  t_sys_role WHERE id=#{0}
+    </select>
+
+</mapper>

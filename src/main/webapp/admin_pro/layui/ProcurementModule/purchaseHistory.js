@@ -19,24 +19,21 @@ layui.config({
 
     //根据商品名称，商品类型查询出供应商商品列表
     form.on("submit(findProduct)",function (data) {
-        var productName=data.field.productName;
-        var kind=data.field.kind;
+        var purchaseName=data.field.purchaseName;
+        var putInDate=data.field.putInDate;
+        var expectDate=data.field.expectDate;
         var req={
-            productName:productName,
-            kind:kind
+            purchaseName:purchaseName,
+            putInDate:putInDate,
+            expectDate:expectDate
         }
-        if ((productName==null||productName=="")&&(kind==null||kind=="")){
+        if ((purchaseName==null||purchaseName=="")&&(putInDate==null||putInDate=="")&&(expectDate==null||expectDate=="")){
             layer.msg("请输入要查询的内容!",{time:1500,icon:5});
             return false;
         }
-        $api.SupplierProductLike(req,function (data) {
+        $api.BillOrdersLike(req,function (data) {
             var tableIns;//表格实例
-            /**
-             * 页面初始化
-             * */
-            function init() {
-            }
-            init();
+
 
             /**
              * 定义表格
@@ -44,17 +41,24 @@ layui.config({
             function defineTable() {
                 tableIns = table.render({
                     elem: '#demoBill'
-                    , height: 315
-                    ,url:$tool.getContext() + 'procurementBill/supplierProduct.do?productName='+productName+'&kind='+kind
+                    , height: 415
+                    , url: $tool.getContext() + 'procurementBill/listBillOrdersLike.do?purchaseName='+purchaseName+'putInDate='+putInDate+'expectDate='+expectDate //数据接口
                     , method: 'post'
-                    , page: false //开启分页
+                    , page: true //开启分页
+                    , limit: 5
+                    , limits: [5, 6, 7, 8, 9, 10]
                     , cols: [[ //表头
                         {type: 'numbers', title: '序号', fixed: 'left'}
-                        , {field: 'supplierName', title: '供应商', width: '10%', align: 'center'}
-                        , {field: 'productName', title: '商品名称', width: '13%', align: 'center'}
-                        , {field: 'kind', title: '商品类型', width: '13%', align: 'center'}
-                        , {field: 'maxNumber', title: '最大数量', width: '10%', templet: '#upc', align: 'center'}
-                        , {field: 'price', title: '单价', width: '13%', templet: '#upc', align: 'center'}
+                        , {field: 'creator', title: '创建人', width: '10%',align:'center'}
+                        , {field: 'purchaseName', title: '采购人员', width: '15%',align:'center'}
+                        , {field: 'createDate', title: '创建时间', width: '10%',align:'center'}
+                        , {field: 'modifier', title: '修改人', width: '10%', templet: '#upc',align:'center'}
+                        , {field: 'modifyDate', title: '修改时间', width: '10%', templet: '#upc',align:'center'}
+                        , {field: 'putInDate', title: '入库时间', width: '10%', templet: '#upc',align:'center'}
+                        , {field: 'emergent', title: '是否紧急', width: '10%', templet: '#upc',align:'center'}
+                        , {field: 'sumMoney', title: '总金额', width: '10%', templet: '#upc',align:'center'}
+                        , {field: 'expectDate', title: '预期时间', width: '10%', templet: '#upc',align:'center'}
+                        , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
                     ]]
 
                 });
@@ -66,4 +70,11 @@ layui.config({
 
 
 
+    form.on("submit(rest)",function (data) {
+        document.getElementById("billId").value="";
+        document.getElementById("purchaseName").value="";
+        document.getElementById("start_time").value="";
+        document.getElementById("end_time").value="";
+        location.reload();
+    })
 });

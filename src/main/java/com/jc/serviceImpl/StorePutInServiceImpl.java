@@ -1,6 +1,7 @@
 package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
+import com.jc.mapper.PurchaseBillMapper;
 import com.jc.mapper.StoreManagementMapper;
 import com.jc.mapper.StorePutInMapper;
 import com.jc.model.*;
@@ -31,7 +32,10 @@ public class StorePutInServiceImpl implements StorePutInService {
     @Resource
     private StorePutInMapper storePutInMapper;
     @Resource
+    private PurchaseBillMapper purchaseBillMapper;
+    @Resource
     private StoreManagementMapper storeManagementMapper;
+
 
     Lock l = new ReentrantLock();//创建锁对象
 
@@ -98,6 +102,7 @@ public class StorePutInServiceImpl implements StorePutInService {
     }
 
 
+    //入库审核
     @Override
     public String updatePutInSuccess(StorePutIn storePutIn) {
         l.lock();//加锁
@@ -112,6 +117,26 @@ public class StorePutInServiceImpl implements StorePutInService {
                     //调用存储过程
                     storePutInMapper.updateStore(storePutIn); //修改
                     storePutInMapper.updatePutInSuccess(storePutIn);//修改状态
+                    PurchaseBill purchaseBill=new PurchaseBill();
+                    //查询应付单是否通过审核
+                    AccountHandleBill accountHandle = purchaseBillMapper.loadAccountHandleBillAudit(Integer.parseInt(storePutIn.getSource_id()));
+                    //查询入库单的相关商品是否都通过审核
+                    List<StorePutIn> list = purchaseBillMapper.listStorePutInAudit(Integer.parseInt(storePutIn.getSource_id()));
+                    int i=0;
+                    for (StorePutIn putIn : list) {
+                        if (putIn.getState().equals(6+"")){
+                            i+=1;
+                        }
+                    }
+                    if (accountHandle.getState().equals(6+"")&&i==list.size()){
+                        purchaseBill.setId(Integer.parseInt(storePutIn.getSource_id()));
+                        purchaseBill.setState(6+"");
+                        purchaseBillMapper.updateBillAudit(purchaseBill);
+                    }else{
+                        purchaseBill.setState(5+"");
+                        purchaseBill.setId(Integer.parseInt(storePutIn.getSource_id()));
+                        purchaseBillMapper.updateBillAudit(purchaseBill);
+                    }
                     return "success";
                 }
             }

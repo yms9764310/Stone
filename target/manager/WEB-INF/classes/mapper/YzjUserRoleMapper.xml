@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+
+<mapper namespace="com.jc.mapper.YzjUserRoleMapper">
+    <select id="getUserRoleByUID" resultType="SysUserRole">
+      select * from t_sys_user_role WHERE user_id = #{user_id};
+    </select>
+    <select id="loadLoginByName" parameterType="java.lang.Integer" resultType="SysUserRole">
+        SELECT * FROM  t_sys_user_role WHERE user_id=#{user_id,jdbcType=INTEGER}
+    </select>
+</mapper>

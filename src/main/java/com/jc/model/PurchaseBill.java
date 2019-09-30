@@ -32,7 +32,7 @@ public class PurchaseBill implements Serializable {
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifyDate;
     //状态
-    private String State;
+    private String state;
     //采购人
     private String purchaseName;
     //采购人Id
@@ -58,6 +58,8 @@ public class PurchaseBill implements Serializable {
     //关联采购单表
     private List<PurchaseBillDetail> purchaseBillDetailList;
     private AccountHandleBill accountHandleBill;
+    //手动关闭订单的理由
+    private String reason;
 
     public String getAccountNo() {
         return accountno;

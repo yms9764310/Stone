@@ -17,12 +17,12 @@ public interface PurchaseBillMapper {
     //查询采办事项
     List<PurchaseBill> listPurchaseBill(@Param("start")int start,
                                         @Param("end")int end,
-                                        @Param("creatorName")String creatorName);
+                                        @Param("name")String name);
     //查询采办事项
     List<PurchaseBill> listPurchaseBillUser(@Param("start")int start,
                                         @Param("end")int end,
                                         @Param("creator")int creator,
-                                            @Param("creatorName")String creatorName);
+                                            @Param("name")String name);
     //获取采办菜单总数,分页
     int countGet();
     //查询待审核
@@ -54,6 +54,7 @@ public interface PurchaseBillMapper {
     List<SupplierProduct> listPurchaseSupplieLike(int id);
     //查询全部采购单
     List<PurchaseBill> listPurchaseBillOrders(@Param("start")int start,@Param("end")int end);
+    //根据商品名称和商品类型查询供货商商品表
     List<SupplierProduct> listSupplierProduct(@Param("productName")String productName,@Param("kind")String kind);
     //商品价格
     List<SupplierProduct> listSupplierPrice(int purchaseSupplierId,int productId);
@@ -73,4 +74,22 @@ public interface PurchaseBillMapper {
     List<PurchaseBillDetail> countPurchaseYear();
     //根据商品种类年统计金额、数量
     List<PurchaseBillDetail> countPurchaseProductYear(@Param("productId")int productId);
+    //根据来源id查询入库单是否审核了
+    List<StorePutIn> listStorePutInAudit(@Param("sourceId")int sourceId);
+    //根据来源id查询应付单是否审核了
+    AccountHandleBill loadAccountHandleBillAudit(@Param("sourceId")int sourceId);
+    //根据入库单和应付单都通过审核改变状态
+    int updateBillAudit(PurchaseBill purchaseBill);
+    //手动关闭订单
+    int updateCloseBill(PurchaseBill purchaseBill);
+    //订单关闭,入库单相关商品都关闭
+    int updateStorePutInProduct(StorePutIn storePutIn);
+    //订单关闭,应付单相应关闭
+    int updateAccountHandleBill(AccountHandleBill accountHandleBill);
+    //根据id查询关闭订单的原因
+    PurchaseBill loadReasonBill(@Param("id")int id);
+    //查询采购历史记录
+    List<PurchaseBill> listBillOrdersLike(@Param("purchaseName")String purchaseName,
+                                          @Param("putInDate")String putInDate,
+                                          @Param("expectDate")String expectDate);
 }

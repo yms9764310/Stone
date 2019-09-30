@@ -3,9 +3,8 @@ package com.jc.serviceImpl;
 import com.jc.beans.response.PageRange;
 import com.jc.mapper.AccountHandleBillMapper;
 import com.jc.mapper.AccountPayBillMapper;
-import com.jc.model.AccountHandleBill;
-import com.jc.model.AccountPayBill;
-import com.jc.model.SysLoginUser;
+import com.jc.mapper.PurchaseBillMapper;
+import com.jc.model.*;
 import com.jc.service.AccountHandleBillService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,8 @@ public class AccountHandleBillServiceImpl implements AccountHandleBillService {
     private AccountHandleBillMapper taccountHandleBillMapper;
     @Autowired
     private AccountPayBillMapper accountPayBillMapper;
+    @Autowired
+    private PurchaseBillMapper purchaseBillMapper;
     @Override
     public List<AccountHandleBill> listAccountHandleBill(String page, String limit) {
         PageRange paged= new PageRange(page, limit);
@@ -59,6 +60,23 @@ public class AccountHandleBillServiceImpl implements AccountHandleBillService {
         accountPayBill.setAccount_no(accountHandleBill.getAccount_no());
         accountPayBill.setEffect_user_id(lid);
         accountPayBillMapper.saveAccountPayBill(accountPayBill);
+        List<StorePutIn> list = purchaseBillMapper.listStorePutInAudit(accountHandleBill.getSource_id());
+        PurchaseBill purchaseBill=new PurchaseBill();
+        int i=0;
+        for (StorePutIn putIn : list) {
+            if (putIn.getState().equals(6+"")){
+                i+=1;
+            }
+        }
+        if (list.size()==i){
+            purchaseBill.setId(accountHandleBill.getSource_id());
+            purchaseBill.setState(6+"");
+            purchaseBillMapper.updateBillAudit(purchaseBill);
+        }else{
+            purchaseBill.setState(5+"");
+            purchaseBill.setId(accountHandleBill.getSource_id());
+            purchaseBillMapper.updateBillAudit(purchaseBill);
+        }
         return 0;
     }
 
