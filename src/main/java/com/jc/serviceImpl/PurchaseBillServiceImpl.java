@@ -1,11 +1,7 @@
 package com.jc.serviceImpl;
 
 import com.jc.beans.response.PageRange;
-import com.jc.mapper.AccountHandleBillMapper;
-import com.jc.mapper.PurchaseBillMapper;
-import com.jc.mapper.SysUsersMapper;
-import com.jc.mapper.YzjRoleMapper;
-import com.jc.mapper.YzjUserRoleMapper;
+import com.jc.mapper.*;
 import com.jc.model.*;
 import com.jc.service.PurchaseBillService;
 import com.jc.socket.SocketHandler;
@@ -36,25 +32,28 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     YzjUserRoleMapper yzjUserRoleMapper;
     @Autowired
     YzjRoleMapper yzjRoleMapper;
-
+    @Autowired
+    StorePutInMapper storePutInMapper;
+    @Autowired
+    private AccountHandleBillMapper taccountHandleBillMapper;
 
     //查询全部采办事项
     @Override
-    public List<PurchaseBill> listPurchaseBill(String page, String limit,Integer creator,String creatorName) {
+    public List<PurchaseBill> listPurchaseBill(String page, String limit,Integer creator,String name) {
         SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
         int creatorId=sysLoginUser.getId();
-        final List<SysUserRole> userRoleByUID = yzjUserRoleMapper.getUserRoleByUID(creatorId);
+        List<SysUserRole> userRoleByUID = yzjUserRoleMapper.getUserRoleByUID(creatorId);
         SysRole sysRole=new SysRole();
         for (SysUserRole sysUserRole : userRoleByUID) {
             sysRole=yzjRoleMapper.selectByPrimaryKeyId(sysUserRole.getRole_id());
         }
         if (sysRole.getName().equals("主管")){
             PageRange pageRange=new PageRange(page,limit);
-            List<PurchaseBill> purchaseBills = purchaseBillMapper.listPurchaseBill(pageRange.getStart(), pageRange.getEnd(),creatorName);
+            List<PurchaseBill> purchaseBills = purchaseBillMapper.listPurchaseBill(pageRange.getStart(), pageRange.getEnd(),name);
             return purchaseBills;
         }else{
             PageRange pageRange=new PageRange(page,limit);
-            List<PurchaseBill> purchaseBills = purchaseBillMapper.listPurchaseBillUser(pageRange.getStart(), pageRange.getEnd(), creatorId,creatorName);
+            List<PurchaseBill> purchaseBills = purchaseBillMapper.listPurchaseBillUser(pageRange.getStart(), pageRange.getEnd(), creatorId,name);
             return purchaseBills;
         }
     }
@@ -167,8 +166,10 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
 //            int pid=mapRes.get(keyId);
 //            purchaseBillMapper.deletePurchaseBillDetail(pid);
 //        }
+        SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
+        int creatorId=sysLoginUser.getId();
         purchaseBill.setModifyDate(new Date());
-        purchaseBill.setModifier(1+"");
+        purchaseBill.setModifier(creatorId+"");
         purchaseBillMapper.updatePurchaseBill(purchaseBill);
         purchaseBillMapper.deletePurchaseBillDetail(purchaseBill.getId());
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
@@ -215,8 +216,10 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     //审核
     @Override
     public boolean updatePurchaseBillAudit(PurchaseBill purchaseBill) {
+        SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
+        int creatorId=sysLoginUser.getId();
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
-        purchaseBill.setModifier(1+"");
+        purchaseBill.setModifier(creatorId+"");
         purchaseBill.setIsBill(11+"");
         purchaseBill.setModifyDate(new Date());
         purchaseBill.setState(5+"");
@@ -249,8 +252,10 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     //待完成,创建订单
     @Override
     public boolean updateBillComplete(PurchaseBill purchaseBill) {
+        SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
+        int creatorId=sysLoginUser.getId();
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
-        purchaseBill.setModifier(1+"");
+        purchaseBill.setModifier(creatorId+"");
         purchaseBill.setIsBill(12+"");
         purchaseBill.setModifyDate(new Date());
         purchaseBill.setState(3+"");
@@ -270,8 +275,10 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     //待完成的编辑
     @Override
     public boolean updateCompletedBill(PurchaseBill purchaseBill) {
+        SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
+        int creatorId=sysLoginUser.getId();
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
-        purchaseBill.setModifier(1+"");
+        purchaseBill.setModifier(creatorId+"");
         purchaseBill.setIsBill(11+"");
         purchaseBill.setModifyDate(new Date());
         purchaseBill.setState(5+"");
@@ -303,8 +310,10 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     //采购单的编辑
     @Override
     public boolean updateBillOrders(PurchaseBill purchaseBill) {
+        SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
+        int creatorId=sysLoginUser.getId();
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
-        purchaseBill.setModifier(1+"");
+        purchaseBill.setModifier(creatorId+"");
         purchaseBill.setIsBill(12+"");
         purchaseBill.setModifyDate(new Date());
         purchaseBill.setState(3+"");
@@ -336,13 +345,16 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     //采购单审核通过
     @Override
     public boolean updatePurchaseBillOrders(PurchaseBill purchaseBill) {
+        //当前登入人的id
+        SysLoginUser sysLoginUser=(SysLoginUser)SecurityUtils.getSubject().getPrincipal();
+        int creatorId=sysLoginUser.getId();
         PurchaseBillDetail purchaseBillDetail=new PurchaseBillDetail();
-        purchaseBill.setModifier(1+"");
+        purchaseBill.setModifier(creatorId+"");
         //状态12表示是采购单
         purchaseBill.setIsBill(12+"");
         purchaseBill.setModifyDate(new Date());
         //表示已审核
-        purchaseBill.setState(18+"");
+        purchaseBill.setState(5+"");
         for (PurchaseBillDetail billDetail : purchaseBill.getPurchaseBillDetailList()) {
             purchaseBillDetail.setProductId(billDetail.getProductId());
             purchaseBillDetail.setSupplierId(billDetail.getSupplierId());
@@ -351,9 +363,37 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
             purchaseBillDetail.setNumber(billDetail.getNumber());
             purchaseBillDetail.setSumMoney(billDetail.getSumMoney());
             purchaseBillMapper.updatePurchaseBillDetailAudit(purchaseBillDetail);
+            //添加入库单
+            StorePutIn storePutIn=new StorePutIn();
+            storePutIn.setProduct_id(billDetail.getProductId());
+            storePutIn.setCreator(creatorId+"");
+            storePutIn.setCreate_date(new Date());
+            storePutIn.setModifier(creatorId+"");
+            storePutIn.setSource_type("采购单");
+            storePutIn.setModify_date(new Date());
+            storePutIn.setPut_in_number(Double.valueOf(billDetail.getNumber()));
+            storePutIn.setPut_in_user_id(creatorId+"");
+            storePutIn.setPut_id_date(new Date());
+            storePutIn.setSource_id(purchaseBill.getId()+"");
+            storePutInMapper.insertStorePutIn(storePutIn);
         }
         purchaseBillMapper.updatePurchaseBillAudit(purchaseBill);
         socketHandler.sendForOne("审核结果通知","你的请求已通过审核",String.valueOf(purchaseBill.getPurchaseId()));
+        AccountHandleBill accountHandleBill = new AccountHandleBill();
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int id = user.getId();
+        accountHandleBill.setCreator(id);
+        accountHandleBill.setCreate_date(new Date());
+        accountHandleBill.setModifier(id);
+        accountHandleBill.setModify_date(new Date());
+        accountHandleBill.setState("3");
+        accountHandleBill.setCommit_user_id(id);
+        accountHandleBill.setSum_money(purchaseBill.getSumMoney());
+        accountHandleBill.setSource_id(purchaseBill.getId());
+        accountHandleBill.setSource_type("采购单");
+        accountHandleBill.setPay_date(purchaseBill.getExpectDate());
+        accountHandleBill.setAccount_no(purchaseBill.getAccountNo());
+        taccountHandleBillMapper.saveAccountHandleBill(accountHandleBill);
         return true;
     }
 
@@ -371,15 +411,47 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         return purchaseBillDetails;
     }
 
+    //年统计
     @Override
     public List<PurchaseBillDetail> countPurchaseYear() {
         List<PurchaseBillDetail> year = purchaseBillMapper.countPurchaseYear();
         return year;
     }
 
+    //根据商品种类年统计
     @Override
     public List<PurchaseBillDetail> countPurchaseProductYear(Integer productId) {
         List<PurchaseBillDetail> yearProduct = purchaseBillMapper.countPurchaseProductYear(productId);
         return yearProduct;
+    }
+
+    //手动关闭订单
+    @Override
+    public boolean updateCloseBill(PurchaseBill purchaseBill) {
+        //订单关闭,入库单相关商品都关闭
+        StorePutIn storePutIn=new StorePutIn();
+        storePutIn.setSource_id(purchaseBill.getId()+"");
+        storePutIn.setState(22+"");
+        purchaseBillMapper.updateStorePutInProduct(storePutIn);
+        //订单关闭,应付单相应关闭
+        AccountHandleBill accountHandleBill=new AccountHandleBill();
+        accountHandleBill.setSource_id(purchaseBill.getId());
+        accountHandleBill.setState(22+"");
+        purchaseBillMapper.updateAccountHandleBill(accountHandleBill);
+        purchaseBill.setState(22+"");
+        purchaseBillMapper.updateCloseBill(purchaseBill);
+        return true;
+    }
+
+    //根据id查看关闭订单的理由
+    @Override
+    public PurchaseBill loadReasonBill(Integer id) {
+        PurchaseBill purchaseBill = purchaseBillMapper.loadReasonBill(id);
+        return purchaseBill;
+    }
+
+    @Override
+    public List<PurchaseBill> listBillOrdersLike(String purchaseName, String putInDate, String expectDate) {
+        return purchaseBillMapper.listBillOrdersLike(purchaseName,putInDate,expectDate);
     }
 }

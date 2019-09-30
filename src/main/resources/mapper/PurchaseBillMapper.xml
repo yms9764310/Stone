@@ -63,6 +63,9 @@
         u.id=bill.modifier
         where
         bill.is_bill=11
+        <if test="name!=null and name!=''">
+            and us.name like concat('%',#{name},'%')
+        </if>
         order by bill.state=3 desc
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
@@ -107,6 +110,9 @@
         where
         bill.is_bill=11
         and bill.creator=#{creator}
+        <if test="name!=null and name!=''">
+            and us.name like concat('%',#{name},'%')
+        </if>
         order by bill.state=3 desc
         limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
@@ -512,7 +518,7 @@
         ON
         bill.id=detail.bill_id
         WHERE
-        bill.state=18
+        bill.state=6
     </select>
 <!--月统计金额、数量、种类-->
     <resultMap id="CountResultMap" type="com.jc.model.PurchaseBillDetail">
@@ -538,7 +544,7 @@
         ON
         bill.id=detail.bill_id
         WHERE
-        bill.state=18
+        bill.state=6
         AND year(bill.create_date)=#{yearDate}
         GROUP BY createDate
     </select>
@@ -564,7 +570,7 @@
         ON
         bill.id=detail.bill_id
         WHERE
-        bill.state=18
+        bill.state=6
         AND year(bill.create_date)=#{yearDate}
         <if test="productId !=null and productId!=''">
             and detail.product_id=#{productId}
@@ -595,7 +601,7 @@
         ON
         bill.id=detail.bill_id
         WHERE
-        bill.state=18
+        bill.state=6
         GROUP BY createDate
     </select>
 
@@ -621,10 +627,146 @@
         ON
         bill.id=detail.bill_id
         WHERE
-        bill.state=18
+        bill.state=6
         <if test="productId !=null and productId!=''">
             and detail.product_id=#{productId}
         </if>
         GROUP BY createDate
+    </select>
+
+<!--    根据来源id查询入库单是否审核了-->
+    <resultMap id="StorePutInAuditResultMap" type="com.jc.model.StorePutIn">
+        <id column="id" property="id"></id>
+        <result column="state" property="state"></result>
+    </resultMap>
+    <select id="listStorePutInAudit" resultMap="StorePutInAuditResultMap">
+        SELECT
+        put.source_id,put.state
+        FROM
+        t_store_put_in AS put
+        WHERE
+        put.source_id=#{sourceId}
+    </select>
+<!--    根据来源id查询应付单是否审核了-->
+    <resultMap id="AccountHandleBillAudit" type="com.jc.model.AccountHandleBill">
+        <id column="id" property="id"></id>
+        <result column="state" property="state"></result>
+    </resultMap>
+    <select id="loadAccountHandleBillAudit" resultMap="AccountHandleBillAudit">
+        SELECT
+        pay.state
+        FROM
+        t_account_pay_handle_bill AS pay
+        WHERE
+        pay.source_id=#{sourceId}
+    </select>
+<!--    根据入库单和应付单都通过审核改变状态-->
+    <update id="updateBillAudit" parameterType="com.jc.model.PurchaseBill">
+        update t_purchase_bill
+        set t_purchase_bill.state=#{state}
+        where t_purchase_bill.id=#{id}
+    </update>
+<!--    手动关闭订单-->
+    <update id="updateCloseBill" parameterType="com.jc.model.PurchaseBill">
+        update t_purchase_bill
+        set reason=#{reason},state=#{state}
+        where t_purchase_bill.id=#{id}
+    </update>
+<!--    订单关闭,入库单相关商品都关闭-->
+    <update id="updateStorePutInProduct" parameterType="com.jc.model.StorePutIn">
+        update t_store_put_in
+        set
+        state=#{state}
+        where t_store_put_in.source_id=#{source_id}
+    </update>
+<!--    订单关闭,应付单相应关闭-->
+    <update id="updateAccountHandleBill" parameterType="com.jc.model.AccountHandleBill">
+        update t_account_pay_handle_bill
+        set
+        state=#{state}
+        where t_account_pay_handle_bill.source_id=#{source_id}
+    </update>
+<!--    根据id查询关闭订单理由-->
+    <resultMap id="ReasonBillResult" type="com.jc.model.PurchaseBill">
+        <id column="id" property="id"></id>
+        <result column="reason" property="reason"></result>
+    </resultMap>
+    <select id="loadReasonBill" parameterType="Integer" resultMap="ReasonBillResult">
+        select
+        bill.id,bill.reason
+        from
+        t_purchase_bill as bill
+        where
+        bill.id=#{id}
+    </select>
+    <!--    查询采购历史记录-->
+    <resultMap id="BillOrdersLikeResultMap" type="com.jc.model.PurchaseBill">
+        <id column="id" property="id"></id>
+        <result column="creator" property="creator"></result>
+        <result column="create_date" property="createDate"></result>
+        <result column="modifier" property="modifier"></result>
+        <result column="modify_date" property="modifyDate"></result>
+        <result column="state" property="state"></result>
+        <result column="purchase_id" property="purchaseId"></result>
+        <result column="purchaseName" property="purchaseName"></result>
+        <result column="put_in_date" property="putInDate"></result>
+        <result column="emergent" property="emergent"></result>
+        <result column="is_bill" property="isBill"></result>
+        <result column="sum_money" property="sumMoney"></result>
+        <result column="expect_date" property="expectDate"></result>
+        <association property="sysUsers" javaType="com.jc.model.SysUsers">
+            <id column="sid" property="id"></id>
+            <result column="name" property="name"></result>
+        </association>
+        <association property="sysResource" javaType="com.jc.model.SysResource">
+            <id column="id" property="id"></id>
+            <result column="display_name" property="displayName"></result>
+        </association>
+    </resultMap>
+    <select id="listBillOrdersLike" resultMap="BillOrdersLikeResultMap">
+        SELECT
+        bill.id,us.name creator,bill.create_date,u.name modifier,bill.modify_date,
+        re.display_name state,bill.purchase_id,users.name purchaseName,bill.put_in_date,res.display_name emergent,
+        resource.display_name is_bill,bill.sum_money,bill.expect_date
+        FROM
+        t_purchase_bill AS bill
+        LEFT JOIN
+        t_sys_resource AS re
+        ON
+        bill.state=re.id
+        LEFT JOIN
+        t_sys_users AS users
+        ON
+        bill.purchase_id=users.id
+        LEFT JOIN
+        t_sys_resource AS res
+        ON
+        bill.emergent=res.id
+        LEFT JOIN
+        t_sys_resource AS resource
+        ON
+        bill.is_bill=resource.id
+        LEFT JOIN
+        t_sys_users AS us
+        ON
+        us.id=bill.creator
+        LEFT JOIN
+        t_sys_users AS u
+        ON
+        u.id=bill.modifier
+        WHERE
+        bill.is_bill=12
+        and bill.state=6
+        or bill.state=22
+        <if test="purchaseName!=null and purchaseName!=''">
+            and users.name like concat('%',#{purchaseName},'%')
+        </if>
+        <if test="putInDate!=null and putInDate!=''">
+            and bill.put_in_date like concat('%',#{putInDate},'%')
+        </if>
+        <if test="expectDate!=null and expectDate!=''">
+            and bill.expect_date like concat('%',#{expectDate},'%')
+        </if>
+        order by bill.state=5
     </select>
 </mapper>

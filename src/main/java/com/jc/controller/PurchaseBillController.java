@@ -31,8 +31,8 @@ public class PurchaseBillController {
     //查询待采办事项
     @RequestMapping(value = "/listProcurement",method = RequestMethod.POST)
     @ResponseBody
-    public IResult listProcurement(String page,String limit,Integer creator,String creatorName){
-        List<PurchaseBill> list=purchaseBillService.listPurchaseBill(page,limit,creator,creatorName);
+    public IResult listProcurement(String page,String limit,Integer creator,String name){
+        List<PurchaseBill> list=purchaseBillService.listPurchaseBill(page,limit,creator,name);
         return new PageResultBean<Collection<PurchaseBill>>(list,purchaseBillService.countGet());
     }
 
@@ -195,5 +195,26 @@ public class PurchaseBillController {
     @ResponseBody
     public IResult countPurchaseProductYear(@RequestBody PurchaseBillDetail purchaseBillDetail){
         return new ResultBean<Collection<PurchaseBillDetail>>(purchaseBillService.countPurchaseProductYear(Integer.valueOf(purchaseBillDetail.getProductId())));
+    }
+
+    //手动关闭订单
+    @RequestMapping(value = "/updateCloseBill",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult insertCloseBill(@RequestBody PurchaseBill purchaseBill){
+        return new ResultBean<Boolean>(purchaseBillService.updateCloseBill(purchaseBill));
+    }
+
+    //根据id查看关闭订单的理由
+    @RequestMapping(value = "/loadReasonBill",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult loadReasonBill(Integer id){
+        return new ResultBean<PurchaseBill>(purchaseBillService.loadReasonBill(id));
+    }
+
+    //查询采购历史记录
+    @RequestMapping(value = "/listBillOrdersLike",method = RequestMethod.POST)
+    @ResponseBody
+    public IResult listBillOrdersLike(String purchaseName,String putInDate,String expectDate){
+        return new ResultBean<Collection<PurchaseBill>>(purchaseBillService.listBillOrdersLike(purchaseName,putInDate,expectDate));
     }
 }

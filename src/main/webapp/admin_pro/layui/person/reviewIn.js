@@ -43,6 +43,7 @@ layui.config({
             $("[name='kind']").val(data.kind);
             $("[name='model_type']").val(data.model_type);
             $("[name='description']").val(data.description);
+            $("[name='source_id']").val(data.source_id);
             form.render();//重新绘制表单，让修改生效
         });
     }
@@ -59,10 +60,12 @@ layui.config({
         var kind = data.field.kind;
         var model_type = data.field.model_type;
         var description = data.field.description;
-        alert(product_id);
+        var source_id = $("input[name='source_id']").val();
+        alert(source_id)
         var req = {
             id:queryArgs['id'],
             product_id:product_id,
+            source_id:source_id,
             put_in_number: put_in_number,
             standard: standard,
             kind: kind,

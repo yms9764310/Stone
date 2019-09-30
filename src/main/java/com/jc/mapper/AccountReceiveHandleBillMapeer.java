@@ -15,7 +15,7 @@ public interface AccountReceiveHandleBillMapeer {
     //创建应付单
     Integer saveAccountReceiveHandleBill(AccountReceiveHandleBill accountReceiveHandleBill);
     //根据id查询应付单数据
-    AccountHandleBill loadAccountReceiveHandleBill(@Param("id") Integer id);
+    AccountReceiveHandleBill loadAccountReceiveHandleBill(@Param("id") Integer id);
     //审核
     Integer updateAccountReceiveHandleBill(@Param("id")Integer id);
 }

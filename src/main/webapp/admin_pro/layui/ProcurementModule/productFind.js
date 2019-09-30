@@ -17,6 +17,11 @@ layui.config({
     layuiTable = layui.table;
 
 
+    form.on("submit(rest)",function (data) {
+        document.getElementById("productName").value="";
+        document.getElementById("kind").value="";
+        location.reload();
+    });
     //根据商品名称，商品类型查询出供应商商品列表
     form.on("submit(findProduct)",function (data) {
         var productName=data.field.productName;

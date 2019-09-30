@@ -293,6 +293,17 @@ layui.define(['$tool','jquery'], function (exports) {
         AuditBillOrders:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext() + 'procurementBill/updatePurchaseBillOrders.do',req,config,successCallback,errorCallback);
         },
+        //订单手动关闭
+        UpdateCloseBill:function(req,config,successCallback,errorCallback){
+            doComplexPost($tool.getContext() + 'procurementBill/updateCloseBill.do',req,config,successCallback,errorCallback);
+        },
+        //查看关闭订单理由
+        LookReason:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/loadReasonBill.do',req,successCallback,errorCallback);
+        },
+        BillOrdersLike:function(req,successCallback,errorCallback){
+            doPost($tool.getContext() + 'procurementBill/listBillOrdersLike.do',req,successCallback,errorCallback);
+        },
         UpdatePassword:function(req,config,successCallback,errorCallback){
             doComplexPost($tool.getContext()+'SysLoginUser/changePassword.do',req,config,successCallback,errorCallback);
         },

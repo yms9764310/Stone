@@ -47,7 +47,7 @@ public class AccountReceiveHandleBillServiceImpl implements AccountReceiveHandle
     }
 
     @Override
-    public AccountHandleBill loadAccountReceiveHandleBill(Integer id) {
+    public AccountReceiveHandleBill loadAccountReceiveHandleBill(Integer id) {
         return accountReceiveHandleBillMapeer.loadAccountReceiveHandleBill(id);
     }
 

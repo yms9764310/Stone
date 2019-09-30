@@ -33,10 +33,10 @@ layui.config({
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
-                , {field: 'creator', title: '创建人', width: '5%',align:'center'}
-                , {field: 'purchaseName', title: '采购人员', width: '15%',align:'center'}
+                , {field: 'creator', title: '创建人', width: '10%',align:'center'}
+                , {field: 'purchaseName', title: '采购人员', width: '10%',align:'center'}
                 , {field: 'createDate', title: '创建时间', width: '10%',align:'center'}
-                , {field: 'modifier', title: '修改人', width: '5%', templet: '#upc',align:'center'}
+                , {field: 'modifier', title: '修改人', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'modifyDate', title: '修改时间', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'putInDate', title: '入库时间', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'emergent', title: '是否紧急', width: '10%', templet: '#upc',align:'center'}
@@ -62,10 +62,12 @@ layui.config({
                 auditOrders(row.id);
             }else if(layEvent==='close'){//是否关闭
                 close(row.id);
+            }else if (layEvent==='lookReason') {//查看关闭原因
+                lookReason(row.id);
             }
         });
     }
-    defineTable();
+defineTable();
 
     //删除
     function delOrders(id) {
@@ -133,17 +135,37 @@ layui.config({
 
     //是否关闭
     function close(id) {
-        layer.open({
-            type:2,
-            title:"请填写关闭订单的备注和理由!",
-            id:"link",
-            skin:'layui-layer-rim',
-            area:['50%','50%'],
-            fixed: false, //不固定
-            maxmin: true,
-            btn:['确定','取消'],
-            content:'closeOrders.html',
-        })
+        layer.prompt({title:"请填写备注和关闭理由!",formType:2},function (value,index) {
+            var reason=value;
+            if (reason==null||reason=="") {
+                layer.msg("请输入关闭原因!",{time:1500,icon:5});
+                return false;
+            }
+            var req={
+                id:id,
+                reason:reason
+            };
+            $api.UpdateCloseBill(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
+                layer.msg("关闭成功!", {time: 1000,icon:6}, function () {
+                    layer.close(index);
+                    tableIns.reload();
+                });
+            });
+        });
+        return false;
     }
-
+    //查看关闭原因
+    function lookReason(id) {
+        var req = {
+            id: id
+        };
+        $api.LookReason(req, function (res) {
+            var data = res.data;
+            alert(JSON.stringify(data.reason));
+            layer.prompt({title: "请填写备注和关闭理由!", formType: 2,value:data.reason}, function (value, index) {
+                layer.close(index);
+                tableIns.reload();
+            });
+        });
+    }
 });

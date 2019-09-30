@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface PurchaseBillService {
     //查询全部采办事项
-    List<PurchaseBill> listPurchaseBill(String page,String limit,Integer creator,String creatorName);
+    List<PurchaseBill> listPurchaseBill(String page,String limit,Integer creator,String name);
     //获取采办菜单大小
     int countGet();
     //查询待审核
@@ -63,4 +63,10 @@ public interface PurchaseBillService {
     List<PurchaseBillDetail> countPurchaseYear();
     //根据商品种类年统计金额、数量
     List<PurchaseBillDetail> countPurchaseProductYear(Integer productId);
+    //手动关闭订单
+    boolean updateCloseBill(PurchaseBill purchaseBill);
+    //根据id查询关闭订单的原因
+    PurchaseBill loadReasonBill(Integer id);
+    //查询采购历史记录
+    List<PurchaseBill> listBillOrdersLike(String purchaseName,String putInDate,String expectDate);
 }

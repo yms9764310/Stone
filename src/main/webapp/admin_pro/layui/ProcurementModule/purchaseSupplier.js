@@ -34,13 +34,13 @@ layui.config({
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
-                , {field: 'creator', title: '创建人', width: '5%',align:'center'}
+                , {field: 'creator', title: '创建人', width: '10%',align:'center'}
                 , {field: 'name', title: '供应商', width: '10%',align:'center'}
                 , {field: 'createDate', title: '创建时间', width: '13%',align:'center'}
-                , {field: 'modifier', title: '修改人', width: '5%', templet: '#upc',align:'center'}
+                , {field: 'modifier', title: '修改人', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'modifyDate', title: '修改时间', width: '13%', templet: '#upc',align:'center'}
                 , {field: 'companyName', title: '公司名', width: '10%', templet: '#upc',align:'center'}
-                , {field: 'contactName', title: '联系人', width: '6%', templet: '#upc',align:'center'}
+                , {field: 'contactName', title: '联系人', width: '7%', templet: '#upc',align:'center'}
                 , {field: 'contactPhone', title: '联系电话', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'address', title: '公司地址', width: '10%', templet: '#upc',align:'center'}
                 , {fixed: 'right', title: '操作', width: 217, align: 'left', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
@@ -232,4 +232,9 @@ layui.config({
         });
     }
 
+    form.on("submit(rest)",function (data) {
+        document.getElementById("SysProductName").value="";
+        document.getElementById("name").value="";
+        location.reload();
+    });
 });

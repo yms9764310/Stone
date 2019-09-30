@@ -227,7 +227,7 @@ layui.config({
             purchaseBillDetailList:purchaseBillDetailList
         };
         console.log(req);
-        alert(JSON.stringify(req))
+        //alert(JSON.stringify(req))
         layer.confirm("确定订单通过审核吗?",function (confirmIndex) {
             layer.close(confirmIndex);//关闭confirm
             $api.AuditBillOrders(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function () {

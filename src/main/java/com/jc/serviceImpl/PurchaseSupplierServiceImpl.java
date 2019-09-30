@@ -44,7 +44,7 @@ public class PurchaseSupplierServiceImpl implements PurchaseSupplierService {
 
     //查询全部供应商以及搜索的功能
     @Override
-    public List<PurchaseSupplier> listSupplier(String page, String limit, String SysProductName,String name,Integer id) {
+    public List<PurchaseSupplier> listSupplier(String page, String limit, String SysProductName, String name, Integer id) {
         SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
         int userId=user.getId();
         List<SysUserRole> userRoleByUID = yzjUserRoleMapper.getUserRoleByUID(userId);

@@ -24,17 +24,21 @@
             </div>
         </div>
         <div class="container">
-            <div class="row clearfix">
-                <div class="col-md-12 column">
-                    <div class="layui-upload">
-                        <button type="button" class="layui-btn" id="test"data-id="demo2">付款凭证上传</button>
-                        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">上传凭证图：<div class="layui-upload-list" id="demo2">
-                        </div>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <#--图片名-->
+            <input id="fileName" type="text" lay-verify="fileName"
+                   autocomplete="off" class="layui-input" disabled>
+            <#--隐藏输入框 用来存放上传后图片路径-->
+            <input id="credential_hide" name="credentialOne" type="hidden" lay-verify="credentialOne"
+                   autocomplete="off" class="layui-input">
+            <#--隐藏按钮 上传-->
+            <button id="upload_img" type="button" hidden></button>
+            <button class="layui-btn" id="preview_img" type="button">
+                上传图片
+            </button>
+            <button class="layui-btn layui-btn-normal btn-submit" id="fake">
+                确定
+            </button>
+
         <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
     <script src="../assets/layui.all.js"></script>
     <script src="../assets/lay/modules/config.js"></script>

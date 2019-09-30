@@ -64,8 +64,8 @@
 
     <!--添加入库单-->
     <insert id="insertStorePutIn" parameterType="StorePutIn" keyProperty="id" useGeneratedKeys="true">
-    insert into t_store_put_in (product_id,creator,create_date,modifier,modify_date,put_in_number,put_in_user_id,source_type,state,put_id_date)
-    values (#{product_id},#{creator},#{create_date},#{modifier},#{modify_date},#{put_in_number},#{put_in_user_id},#{source_type},3,#{put_id_date})
+    insert into t_store_put_in (product_id,creator,create_date,modifier,modify_date,put_in_number,put_in_user_id,source_type,state,put_id_date,source_id)
+    values (#{product_id},#{creator},#{create_date},#{modifier},#{modify_date},#{put_in_number},#{put_in_user_id},#{source_type},3,#{put_id_date},#{source_id})
     </insert>
 
     <!--出库单-->
@@ -142,7 +142,8 @@
 		product.model_type,
         t.state,
 		product.description,
-		t.put_in_number
+		t.put_in_number,
+		t.source_id
         FROM
         t_store_put_in AS t
         LEFT JOIN t_sys_users AS u ON t.put_in_user_id = u.id
@@ -170,7 +171,7 @@
 
     <!--入库审核通过-->
     <update id="updatePutInSuccess" parameterType="StorePutIn">
-        UPDATE t_store_put_in SET state = 5
+        UPDATE t_store_put_in SET state = 6
         WHERE  id=#{id}
     </update>
     <!--入库修改数量-->

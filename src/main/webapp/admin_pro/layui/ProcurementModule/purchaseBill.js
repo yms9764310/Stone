@@ -33,9 +33,9 @@ layui.config({
             , limits: [5, 6, 7, 8, 9, 10]
             , cols: [[ //表头
                 {type: 'numbers', title: '序号', fixed: 'left'}
-                , {field: 'creatorName', title: '创建人', width: '5%',align:'center'}
+                , {field: 'creatorName', title: '创建人', width: '10%',align:'center'}
                 , {field: 'createDate', title: '创建时间', width: '10%',align:'center'}
-                , {field: 'modifier', title: '修改人', width: '5%', templet: '#upc',align:'center'}
+                , {field: 'modifier', title: '修改人', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'modifyDate', title: '修改时间', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'putInDate', title: '入库时间', width: '10%', templet: '#upc',align:'center'}
                 , {field: 'emergent', title: '是否紧急', width: '10%', templet: '#upc',align:'center'}
@@ -79,11 +79,11 @@ layui.config({
 
     //查询事项信息
     form.on("submit(queryUser)",function (data) {
-        var creatorName=data.field.creatorName;
+        var name=data.field.name;
         //表格重新加载
         tableIns.reload({
             where: {
-                creatorName: creatorName
+                name: name
             }
         });
         return false;
@@ -220,5 +220,9 @@ layui.config({
         layui.layer.full(index);
     }
 
+    form.on("submit(rest)",function (data) {
+       document.getElementById("creator").value="";
+       location.reload();
+    });
 
 });

@@ -37,9 +37,10 @@
                         <div class="layui-inline">
                             <div class="layui-form-mid">创建人:</div>
                             <div class="layui-input-inline" style="width: 100px;">
-                                <input type="text" autocomplete="off" name="creatorName" class="layui-input">
+                                <input type="text" autocomplete="off" id="creator" name="name" class="layui-input">
                             </div>
                             <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
+                            <a class="layui-btn layui-btn-primary" lay-submit="" lay-filter="rest">重置</a>
                         </div>
                     </div>
                     <button class="layui-btn layui-btn-blue insert_btn"><i class="layui-icon">&#xe654;</i>创建采办事项</button>
@@ -55,7 +56,7 @@
     {{#  if(d.state=='待审核'){  }}
     <a style="color: #007DDB;cursor: pointer" lay-event="editCheck">编辑</a>&nbsp;
     <a style="color: #007DDB;cursor: pointer;float: right;position: relative;right: 73px" lay-event="audit" class="d1" >待审核</a>&nbsp;
-    {{#  } else{ }}
+    {{#  } else if(d.state=='待完成'){ }}
     <a style="color: #007DDB;cursor: pointer" lay-event="editCompleted">编辑</a>&nbsp;
     <a style="color:#D60711;cursor: pointer" lay-event="completed">待完成</a>&nbsp;
     {{#  } }}

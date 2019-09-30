@@ -52,7 +52,11 @@
     <a style="color: #D60711;cursor: pointer" lay-event="close">是否关闭</a>&nbsp;
     {{#  } else if(d.state=='已完成'){ }}
     <a style="color: #D60711;cursor: pointer" lay-event="#">已完成</a>&nbsp;
+    <a style="color: #007DDB;cursor: pointer" lay-event="delOrders">删除</a>&nbsp;
+    {{#  } else if(d.state=='已关闭'){ }}
     <a style="color: #D60711;cursor: pointer" lay-event="#">已关闭</a>&nbsp;
+    <a style="color: #D60711;cursor: pointer" lay-event="lookReason">查看理由</a>&nbsp;
+    <a style="color: #007DDB;cursor: pointer" lay-event="delOrders">删除</a>&nbsp;
     {{#  } else if(d.state=='未提交'){ }}
     <a style="color: #007DDB;cursor: pointer" lay-event="editOrders">编辑</a>&nbsp;
     <a style="color: #007DDB;cursor: pointer" lay-event="delOrders">删除</a>&nbsp;

@@ -47,6 +47,8 @@
         <a style="color: #007DDB;cursor: pointer" lay-event="edit">审核</a>&nbsp;
         {{# } else if(d.state=="已完成"){ }}
         <a style="color: #007DDB;cursor: pointer" lay-event="">查看</a>&nbsp;
+        {{# } else if(d.state=="已关闭"){ }}
+        <a style="color: #D60711;cursor: pointer" lay-event="">订单已关闭</a>&nbsp;
         {{# } }}
     </script>
     <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
