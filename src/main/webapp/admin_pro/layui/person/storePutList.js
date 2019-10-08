@@ -84,6 +84,15 @@ layui.config({
         return false;
     });
 
+    //重置
+    form.on("submit(rest)",function (data) {
+        document.getElementById("name").value="";
+        document.getElementById("start_time").value="";
+        document.getElementById("end_time").value="";
+        document.getElementById("typename").value="";
+        location.reload();
+    });
+
     //入库审核
     function ReviewIn(id) {
         var index = layui.layer.open({

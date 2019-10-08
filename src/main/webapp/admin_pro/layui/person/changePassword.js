@@ -21,21 +21,35 @@ layui.config({
      * 页面初始化
      * */
     function init() {
+        initMenuInfo();
+    }
+    init();
 
+    function initMenuInfo() {
+        var queryArgs = $tool.getQueryParam();//获取查询参数
+        var id = queryArgs['id'];
+        var url = $tool.getContext() + 'SysLoginUser/find.do';
+        var req = {
+            id: id
+        };
+        $api.GetSysUsers(req, function (res) {
+            var data = res.data;
+            $("[name='id']").val(data.id);
+        });
     }
 
-    init();
 
     /**
      * 确定修改
      * */
     form.on("submit(sureUpdate)", function (data) {
-        var id = 1;
+        var id = data.field.id;
         var oldPwd = data.field.psd1;
         var newPwd = data.field.psd3;
         //请求
         var url = $tool.getContext()+'SysLoginUser/changePassword.do';
-        var req = {id: id,
+        var req = {
+            id: id,
             oldPwd: oldPwd,
             psd: newPwd
         };
@@ -57,27 +71,5 @@ layui.config({
         });
         return false;
     })
-
-
-    //添加学生
-    $(".add_btn").click(function () {
-        var index = layui.layer.open({
-            title: "添加学生",
-            type: 2,
-            content: "addStudent.html",
-            success: function (layero, index) {
-                setTimeout(function () {
-                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                }, 500)
-            }
-        });
-        //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-        $(window).resize(function () {
-            layui.layer.full(index);
-        });
-        layui.layer.full(index);
-    });
 
 });

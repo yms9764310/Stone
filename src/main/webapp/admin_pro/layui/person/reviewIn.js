@@ -37,6 +37,7 @@ layui.config({
         $api.GetPutIn(req,function (res) {
             var data = res.data;
             $("[name='product_id']").val(data.product_id);
+            $("[name='put_in_user_id']").val(data.put_in_user_id);
             $("[name='product_name']").val(data.product_name);
             $("[name='put_in_number']").val(data.put_in_number);
             $("[name='standard']").val(data.standard);
@@ -55,17 +56,19 @@ layui.config({
         // console.log(data)
         var queryArgs = $tool.getQueryParam();//获取查询参数
         var product_id = data.field.product_id;
+        var put_in_user_id = data.field.put_in_user_id;
         var put_in_number = data.field.put_in_number;
         var standard = data.field.standard;
         var kind = data.field.kind;
         var model_type = data.field.model_type;
         var description = data.field.description;
         var source_id = $("input[name='source_id']").val();
-        alert(source_id)
+
         var req = {
             id:queryArgs['id'],
             product_id:product_id,
             source_id:source_id,
+            put_in_user_id:put_in_user_id,
             put_in_number: put_in_number,
             standard: standard,
             kind: kind,
@@ -95,6 +98,7 @@ layui.config({
         // console.log(data)
         var queryArgs = $tool.getQueryParam();//获取查询参数
         var product_id = data.field.product_id;
+        var put_in_user_id = data.field.put_in_user_id;
         var put_in_number = data.field.put_in_number;
         var standard = data.field.standard;
         var kind = data.field.kind;
@@ -105,6 +109,7 @@ layui.config({
         var req = {
             id:queryArgs['id'],
             product_id:product_id,
+            put_in_user_id:put_in_user_id,
             put_in_number: put_in_number,
             standard: standard,
             kind: kind,

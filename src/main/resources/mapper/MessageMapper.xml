@@ -46,7 +46,188 @@
         <if test="message_type != null and message_type !=''">
             AND message_type = #{message_type}
         </if>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
     </select>
 
+    <select id="countGetAll" parameterType="map" resultType="Integer">
+        select count(1) from t_user_message
+    </select>
+<!--审核消息列表-->
+    <select id="auditList" resultType="Message">
+        SELECT
+        t.id,
+        t.to_user_ids,
+        t.message_type,
+        t.from_user_id,
+        r.display_name state,
+        users.name as from_user_name,
+        t.message_content
+        FROM
+        t_user_message as t
+        LEFT JOIN
+        t_sys_users as users
+        ON users.id=t.from_user_id
+        LEFT JOIN
+        t_sys_resource as r
+        ON
+        r.id = t.state
+        where
+        t.to_user_ids like concat('%',#{id},'%')
+        and t.message_type like concat('%','审核','%')
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="message_type != null and message_type !=''">
+            AND message_type = #{message_type}
+        </if>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+    <!--完结消息列表-->
+    <select id="endList" resultType="Message">
+        SELECT
+        t.id,
+        t.to_user_ids,
+        t.message_type,
+        t.from_user_id,
+        r.display_name state,
+        users.name as from_user_name,
+        t.message_content
+        FROM
+        t_user_message as t
+        LEFT JOIN
+        t_sys_users as users
+        ON users.id=t.from_user_id
+        LEFT JOIN
+        t_sys_resource as r
+        ON
+        r.id = t.state
+        where
+        t.to_user_ids like concat('%',#{id},'%')
+        and t.message_type like concat('%','完结','%')
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="message_type != null and message_type !=''">
+            AND message_type = #{message_type}
+        </if>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <!--部门待办列表-->
+    <select id="toDoList" resultType="Message">
+        SELECT
+        t.id,
+        t.to_user_ids,
+        t.message_type,
+        t.from_user_id,
+        r.display_name state,
+        users.name as from_user_name,
+        t.message_content
+        FROM
+        t_user_message as t
+        LEFT JOIN
+        t_sys_users as users
+        ON users.id=t.from_user_id
+        LEFT JOIN
+        t_sys_resource as r
+        ON
+        r.id = t.state
+        where
+        t.to_user_ids like concat('%',#{id},'%')
+        and t.message_type like concat('%','部门待办','%')
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="message_type != null and message_type !=''">
+            AND message_type = #{message_type}
+        </if>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <!--未读消息列表-->
+    <select id="noReadList" resultType="Message">
+        SELECT
+        t.id,
+        t.to_user_ids,
+        t.message_type,
+        t.from_user_id,
+        r.display_name state,
+        users.name as from_user_name,
+        t.message_content
+        FROM
+        t_user_message as t
+        LEFT JOIN
+        t_sys_users as users
+        ON users.id=t.from_user_id
+        LEFT JOIN
+        t_sys_resource as r
+        ON
+        r.id = t.state
+        where
+        t.to_user_ids like concat('%',#{id},'%')
+				and t.state = 27
+    </select>
+
+    <!--工作分配列表-->
+    <select id="jobList" resultType="Message">
+        SELECT
+        t.id,
+        t.to_user_ids,
+        t.message_type,
+        t.from_user_id,
+        r.display_name state,
+        users.name as from_user_name,
+        t.message_content
+        FROM
+        t_user_message as t
+        LEFT JOIN
+        t_sys_users as users
+        ON users.id=t.from_user_id
+        LEFT JOIN
+        t_sys_resource as r
+        ON
+        r.id = t.state
+        where
+        t.to_user_ids like concat('%',#{id},'%')
+        and t.message_type like concat('%','工作分配','%')
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="message_type != null and message_type !=''">
+            AND message_type = #{message_type}
+        </if>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <!--反馈/抄送消息列表-->
+    <select id="FeedBackList" resultType="Message">
+        SELECT
+        t.id,
+        t.to_user_ids,
+        t.message_type,
+        t.from_user_id,
+        r.display_name state,
+        users.name as from_user_name,
+        t.message_content
+        FROM
+        t_user_message as t
+        LEFT JOIN
+        t_sys_users as users
+        ON users.id=t.from_user_id
+        LEFT JOIN
+        t_sys_resource as r
+        ON
+        r.id = t.state
+        where
+        t.to_user_ids like concat('%',#{id},'%')
+        and t.message_type like concat('%','反馈','%')
+        <if test="name !=null and name !=''">
+            and users.name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="message_type != null and message_type !=''">
+            AND message_type = #{message_type}
+        </if>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
 
 </mapper>

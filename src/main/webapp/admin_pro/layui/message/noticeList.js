@@ -100,6 +100,13 @@ layui.config({
         return false;
     });
 
+    //重置
+    form.on("submit(rest)",function (data) {
+        document.getElementById("message_type").value="";
+        document.getElementById("name").value="";
+        location.reload();
+    });
+
     //编辑
     function reviewUser(id) {
         layer.confirm('确定审核吗？', function (confirmIndex) {

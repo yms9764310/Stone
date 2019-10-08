@@ -87,7 +87,12 @@ layui.config({
         });
         return false;
     });
-
+    //重置
+    form.on("submit(rest)",function (data) {
+        document.getElementById("start_time").value="";
+        document.getElementById("end_time").value="";
+        location.reload();
+    });
     //创建盘点任务
     $(".add_btn").click(function () {
         var index = layui.layer.open({

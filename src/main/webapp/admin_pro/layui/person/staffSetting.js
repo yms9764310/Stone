@@ -123,7 +123,11 @@ layui.config({
         });
         return false;
     });
-
+    //重置
+    form.on("submit(rest)",function (data) {
+        document.getElementById("name").value="";
+        location.reload();
+    });
     //编辑
     function editUsers(id) {
         var index = layui.layer.open({

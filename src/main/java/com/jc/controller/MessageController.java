@@ -3,6 +3,7 @@ package com.jc.controller;
 import com.jc.beans.response.IResult;
 import com.jc.beans.response.PageResultBean;
 import com.jc.model.Message;
+import com.jc.model.UserHistory;
 import com.jc.service.MessageService;
 import com.jc.socket.SocketHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -73,13 +74,73 @@ public class MessageController {
     }
 
     /**
-     * 查询待审核事项
+     * 通知列表
      * */
     @RequestMapping("/findMessageList")
     @ResponseBody
     public IResult listMessage(String page, String limit,String name,String message_type){
         //返回json至前端的均返回ResultBean或者PageResultBean
         List<Message> resultData = messageServiceImpl.listMessage(page,limit,name,message_type);
+        //int count = messageServiceImpl.countGetAll();
+        return new PageResultBean<Collection<Message>>(resultData,resultData.size());
+    }
+
+    /**
+     * 未读消息通知列表
+     * */
+    @RequestMapping("/findNoReadList")
+    @ResponseBody
+    public IResult noReadList(Integer id){
+        //返回json至前端的均返回ResultBean或者PageResultBean
+        List<Message> resultData = messageServiceImpl.noReadList(id);
+        //int count = messageServiceImpl.countGetAll();
+        return new PageResultBean<Collection<Message>>(resultData,resultData.size());
+    }
+
+    /**
+     * 审核通知列表
+     * */
+    @RequestMapping("/findAuditList")
+    @ResponseBody
+    public IResult auditList(String page, String limit,String name,String message_type){
+        //返回json至前端的均返回ResultBean或者PageResultBean
+        List<Message> resultData = messageServiceImpl.auditList(page,limit,name,message_type);
+        //int count = messageServiceImpl.countGetAll();
+        return new PageResultBean<Collection<Message>>(resultData,resultData.size());
+    }
+    /**
+     * 完结通知列表
+     * */
+    @RequestMapping("/findEndList")
+    @ResponseBody
+    public IResult endList(String page, String limit,String name,String message_type){
+        //返回json至前端的均返回ResultBean或者PageResultBean
+        List<Message> resultData = messageServiceImpl.endList(page,limit,name,message_type);
+        //int count = messageServiceImpl.countGetAll();
+        return new PageResultBean<Collection<Message>>(resultData,resultData.size());
+    }
+
+    /**
+     * 部门待办通知列表
+     * */
+    @RequestMapping("/findToDoList")
+    @ResponseBody
+    public IResult toDoList(String page, String limit,String name,String message_type){
+        //返回json至前端的均返回ResultBean或者PageResultBean
+        List<Message> resultData = messageServiceImpl.toDoList(page,limit,name,message_type);
+        //int count = messageServiceImpl.countGetAll();
+        return new PageResultBean<Collection<Message>>(resultData,resultData.size());
+    }
+
+    /**
+     * 部门待办通知列表
+     * */
+    @RequestMapping("/findJobList")
+    @ResponseBody
+    public IResult jobList(String page, String limit,String name,String message_type){
+        //返回json至前端的均返回ResultBean或者PageResultBean
+        List<Message> resultData = messageServiceImpl.jobList(page,limit,name,message_type);
+        //int count = messageServiceImpl.countGetAll();
         return new PageResultBean<Collection<Message>>(resultData,resultData.size());
     }
 

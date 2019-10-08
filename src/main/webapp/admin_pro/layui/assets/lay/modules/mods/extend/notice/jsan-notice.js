@@ -67,7 +67,7 @@
          */
         that.hideBox = function() {
             if(this.properties.isOpen) {
-                this.properties.markerBox.hide();
+                // this.properties.markerBox.hide();
                 this.properties.markerBoxBtnIcon.removeClass(MARKER_BOX_HIDE_BTN_ICON);
                 this.properties.markerBoxBtnIcon.addClass(MARKER_BOX_SHOW_BTN_ICON);
                 this.properties.isOpen = false;

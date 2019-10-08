@@ -38,6 +38,7 @@ layui.config({
         $api.GetSysUsers(req, function (res) {
             var data = res.data;
             $("[name='name']").val(data.name);
+            $("[name='id']").val(data.id);
             $("input:radio[value='" + data.sex + "']").attr('checked', 'true');
             $("[name='age']").val(data.age);
             $("[name='phone']").val(data.phone);
@@ -53,7 +54,7 @@ layui.config({
      * 确定修改
      * */
     form.on("submit(sureUpdate)", function (data) {
-        var id = 1;
+        var id = id;
         var name = data.field.name;
         var sex = data.field.sex1;
         var age = data.field.age;

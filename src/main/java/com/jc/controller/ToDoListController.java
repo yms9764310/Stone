@@ -37,7 +37,7 @@ public class ToDoListController {
      * */
     @RequestMapping("/reviewSuccess")
     @ResponseBody
-    public IResult updateMessage(@RequestBody ToDoList toDoList){
+    public IResult reviewMessage(@RequestBody ToDoList toDoList){
         return new ResultBean<String>(toDoListServiceImpl.updateMessage(toDoList));
     }
     /**

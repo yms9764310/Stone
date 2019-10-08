@@ -54,7 +54,7 @@ layui.config({
         tableIns = table.render({
             elem: '#demo'
             , height: 415
-            , url: $tool.getContext() + 'Message/findMessageList.do' //数据接口
+            , url: $tool.getContext() + 'Message/findJobList.do' //数据接口
             , method: 'post'
             , page: true //开启分页
             , limit: 5
@@ -98,6 +98,13 @@ layui.config({
 
         });
         return false;
+    });
+
+    //重置
+    form.on("submit(rest)",function (data) {
+        document.getElementById("message_type").value="";
+        document.getElementById("name").value="";
+        location.reload();
     });
 
     //编辑
