@@ -3,9 +3,11 @@ package com.jc.controller;
 import com.jc.beans.response.IResult;
 import com.jc.beans.response.PageResultBean;
 import com.jc.beans.response.ResultBean;
+import com.jc.model.SysLoginUser;
 import com.jc.model.SysUsers;
 import com.jc.service.SysUsersService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,8 +59,9 @@ public class YzjSysUsersController {
     @ResponseBody
     public IResult loadfindById(Integer id){
         //返回json至前端的均返回ResultBean或者PageResultBean
-        id = 1;
-        return new ResultBean<SysUsers>(sysUsersServiceImpl.loadById(id));
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int user_id = user.getId();
+        return new ResultBean<SysUsers>(sysUsersServiceImpl.loadById(user_id));
     }
     /**
      * 添加人员

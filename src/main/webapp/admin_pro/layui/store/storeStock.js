@@ -78,6 +78,12 @@ layui.config({
         return false;
     });
 
+    //重置
+    form.on("submit(rest)",function (data) {
+        document.getElementById("name").value="";
+        location.reload();
+    });
+
     //入库审核
     function StaffWarn(product_id) {
         var index = layui.layer.open({

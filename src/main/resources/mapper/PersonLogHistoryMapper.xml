@@ -40,7 +40,7 @@
     </select>
 <!--统计日志条数-->
     <select id="countGetAll" parameterType="map" resultType="Integer">
-         select count(1) from t_sys_users
+         select count(1) from t_user_history
     </select>
 <!--删除日志记录-->
     <delete id="deleteLogHistory" parameterType="Integer">

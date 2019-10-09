@@ -37,22 +37,23 @@
                             <div class="layui-inline">
                                 <div class="layui-form-mid">发送人:</div>
                                 <div class="layui-input-inline" style="width: 100px;">
-                                  <input type="text" autocomplete="off" name="name" class="layui-input">
+                                  <input type="text" autocomplete="off" name="name" class="layui-input" id="name">
                                 </div>
 
                                 <div class="layui-inline">
                                     <label class="layui-form-label">类别</label>
                                     <div class="layui-input-block">
-                                        <select name="message_type">
+                                        <select name="message_type" id="message_type">
                                             <option value="">--请选择--</option>
-                                            <option value="工作分配通知">工作分配通知</option>
-                                            <option value="审核通知">审核通知</option>
+                                            <option value="待审核通知">待审核通知</option>
+                                            <option value="审核结果通知">审核结果通知</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
-                                <button class="layui-btn layui-btn-primary">重置</button>
+                                <a class="layui-btn layui-btn-primary" lay-submit="" lay-filter="rest">重置</a>
+
 <!--                                <ul class="layui-tab-title daoHang" >-->
 <!--                                    <li class="layui-nav-item"><a href="toDoList.html"><font style="color:#29adeb;">审核</font> </a></li>-->
 <!--                                    <li class="layui-nav-item"><a href="upComing.html">待办</a></li>-->

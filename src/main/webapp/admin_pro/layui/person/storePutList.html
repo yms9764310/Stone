@@ -37,7 +37,7 @@
                             <div class="layui-form-mid">申请人</div>
                             <div class="layui-input-inline" style="width: 100px;">
                                 <input type="text" autocomplete="off" name="name" class="layui-input"
-                                       placeholder="请输入申请人">
+                                       placeholder="请输入申请人"id="name">
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">出/入库时间</label>
@@ -57,7 +57,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">类别</label>
                                 <div class="layui-input-block">
-                                    <select name="typename">
+                                    <select name="typename" id="typename">
                                         <option value="">--请选择--</option>
                                         <option value="入库单">入库单</option>
                                         <option value="出库单">出库单</option>
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                             <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
-                            <button class="layui-btn layui-btn-primary">重置</button>
+                            <a class="layui-btn layui-btn-primary" lay-submit="" lay-filter="rest">重置</a>
                         </div>
                     </div>
                     <!--                        <button class="layui-btn layui-btn-blue add_btn"><i class="layui-icon">&#xe654;</i>新增</button>-->

@@ -73,7 +73,7 @@ public class StorePutInController {
      */
     @RequestMapping("/updatePutInSuccess")
     @ResponseBody
-    public IResult updatePutInSuccess(@RequestBody StorePutIn storePutIn) throws SQLException {
+    public IResult reviewPutInSuccess(@RequestBody StorePutIn storePutIn) throws SQLException {
         return new ResultBean<String>(storePutInServiceImpl.updatePutInSuccess(storePutIn));
     }
 
@@ -91,7 +91,7 @@ public class StorePutInController {
      */
     @RequestMapping("/updateCheckOutSuccess")
     @ResponseBody
-    public IResult updateCheckOutSuccess(@RequestBody StoreCheckOut storeCheckOut){
+    public IResult reviewCheckOutSuccess(@RequestBody StoreCheckOut storeCheckOut){
         Consants.PRODUCTID=storeCheckOut.getProduct_id();
         return new ResultBean<String>(storePutInServiceImpl.updateCheckOutSuccess(storeCheckOut));
     }

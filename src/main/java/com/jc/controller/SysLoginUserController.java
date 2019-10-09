@@ -3,6 +3,7 @@ package com.jc.controller;
 import com.jc.beans.response.IResult;
 import com.jc.beans.response.ResultBean;
 import com.jc.model.SysLoginUser;
+import com.jc.model.SysUsers;
 import com.jc.service.SysLoginUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -52,6 +53,18 @@ public class SysLoginUserController {
             return new ResultBean<Integer>(code);
         }
 
+    }
+
+    /**
+     * 查询
+     * */
+    @RequestMapping("/find")
+    @ResponseBody
+    public IResult loadfindById(Integer id){
+        //返回json至前端的均返回ResultBean或者PageResultBean
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        int user_id = user.getId();
+        return new ResultBean<SysLoginUser>(sysLoginUserServiceImpl.loadById(user_id));
     }
 
 }

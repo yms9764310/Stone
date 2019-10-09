@@ -16,7 +16,22 @@
         <result column="account_name" property="account_name" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="loadById" parameterType="java.lang.Integer" resultType="SysLoginUser">
-        SELECT * FROM  t_sys_login_user WHERE id=#{id,jdbcType=VARCHAR}
+    <update id="updatePassword" parameterType="SysLoginUser">
+        UPDATE t_sys_login_user SET psd=#{psd}
+        WHERE  id=#{id}
+    </update>
+
+    <select id="loadLoginByName" parameterType="java.lang.String" resultType="SysLoginUser">
+        SELECT id,psd,creator,modifier,account_name,user_id FROM  t_sys_login_user WHERE account_name=#{account_name,jdbcType=VARCHAR}
     </select>
+    <select id="getUserByName" parameterType="java.lang.String" resultType="SysLoginUser">
+        SELECT id,psd,creator,modifier,account_name,user_id FROM  t_sys_login_user WHERE account_name=#{account_name,jdbcType=VARCHAR}
+    </select>
+
+    <select id="loadById" parameterType="java.lang.Integer" resultType="SysLoginUser">
+        SELECT * from t_sys_login_user WHERE id=#{id}
+    </select>
+
+
+
 </mapper>

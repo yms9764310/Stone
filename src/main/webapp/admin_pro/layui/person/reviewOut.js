@@ -37,6 +37,7 @@ layui.config({
         $api.GetCheckOut(req,function (res) {
             var data = res.data;
             $("[name='product_id']").val(data.product_id);
+            $("[name='checkout_user_id']").val(data.checkout_user_id);
             $("[name='product_name']").val(data.product_name);
             $("[name='number']").val(data.number);
             form.render();//重新绘制表单，让修改生效
@@ -50,15 +51,16 @@ layui.config({
         // console.log(data)
         var queryArgs = $tool.getQueryParam();//获取查询参数
         var product_id = data.field.product_id;
+        var checkout_user_id = data.field.checkout_user_id;
         var number = data.field.number;
         //请求
         var url = $tool.getContext()+'StorePutIn/updateCheckOut.do';
         var req = {
             id:queryArgs['id'],
             product_id:product_id,
+            checkout_user_id:checkout_user_id,
             number: number
         };
-        alert(JSON.stringify(req));
         $api.updateCheckOutSuccess(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {
             if(data.data=="success"){
                 layer.msg("审核通过！", {time: 1000}, function () {
@@ -94,12 +96,14 @@ layui.config({
         // console.log(data)
         var queryArgs = $tool.getQueryParam();//获取查询参数
         var product_id = data.field.product_id;
+        var checkout_user_id = data.field.checkout_user_id;
         var number = data.field.number;
         //请求
         var url = $tool.getContext()+'StorePutIn/updateCheckOut.do';
         var req = {
             id:queryArgs['id'],
             product_id:product_id,
+            checkout_user_id:checkout_user_id,
             number: number
         };
         $api.updateCheckOutReject(JSON.stringify(req),{contentType:'application/json;charset=utf-8'},function (data) {

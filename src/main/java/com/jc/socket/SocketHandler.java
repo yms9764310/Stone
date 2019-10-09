@@ -52,6 +52,7 @@ public class SocketHandler implements WebSocketHandler {
         // 给在线用户发送信息(也可以把给在线用户发送信息这件事情封装成一个方法)
         for (WebSocketSession user : users) {
             user.sendMessage(new TextMessage("成功建立连接"));
+
         }
     }
 
@@ -130,6 +131,8 @@ public class SocketHandler implements WebSocketHandler {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }else if(name!=null&&name!=""){
+                socketHandlerMapper.insertMessage(loadmessage);
             }
         }
     }

@@ -86,6 +86,14 @@ layui.config({
         });
         return false;
     });
+    //重置
+    form.on("submit(rest)",function (data) {
+        document.getElementById("name").value="";
+        document.getElementById("start_time").value="";
+        document.getElementById("end_time").value="";
+        document.getElementById("source_kind").value="";
+        location.reload();
+    });
 
     //删除
     function reviewUser(id) {

@@ -79,7 +79,11 @@ layui.config({
         });
         return false;
     });
-
+        //重置
+    form.on("submit(rest)",function (data) {
+        document.getElementById("name").value="";
+        location.reload();
+    });
     //查看详情
     function editThreshold(id) {
         layer.confirm('确定审核吗？', function (confirmIndex) {

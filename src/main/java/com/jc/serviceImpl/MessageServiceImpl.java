@@ -33,27 +33,63 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
+    //查看消息通知列表
     public List<Message> listMessage(String page, String limit, String name, String message_type) {
         PageRange pageRange = new PageRange(page, limit);
         SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
         String id = String.valueOf(user.getId());
         List<Message> messageList = messageMapper.listMessageAll(pageRange.getStart(), pageRange.getEnd(),id, name,message_type);
-        //查询所有消息列表，把包含自己ID的那些数据抓取出来。
-//        for (Message message : messageList) {
-//            String to_user_ids = message.getTo_user_ids();
-//            String[] split = to_user_ids.split(",");
-//            boolean flag = Arrays.asList(split).contains(""+id);
-//            if(flag){
-//
-//            }
-//        }
+        return messageList;
+    }
 
+
+    //查看未读消息通知列表
+    public List<Message> noReadList(Integer user_id) {
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        String id = String.valueOf(user.getId());
+        List<Message> messageList = messageMapper.noReadList(id);
+        return messageList;
+    }
+
+    //查看审核通知列表
+    public List<Message> auditList(String page, String limit, String name, String message_type) {
+        PageRange pageRange = new PageRange(page, limit);
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        String id = String.valueOf(user.getId());
+        List<Message> messageList = messageMapper.auditList(pageRange.getStart(), pageRange.getEnd(),id, name,message_type);
+        return messageList;
+    }
+
+    //查看完结通知列表
+    public List<Message> endList(String page, String limit, String name, String message_type) {
+        PageRange pageRange = new PageRange(page, limit);
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        String id = String.valueOf(user.getId());
+        List<Message> messageList = messageMapper.endList(pageRange.getStart(), pageRange.getEnd(),id, name,message_type);
+        return messageList;
+    }
+
+    //查看部门待办通知列表
+    public List<Message> toDoList(String page, String limit, String name, String message_type) {
+        PageRange pageRange = new PageRange(page, limit);
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        String id = String.valueOf(user.getId());
+        List<Message> messageList = messageMapper.toDoList(pageRange.getStart(), pageRange.getEnd(),id, name,message_type);
+        return messageList;
+    }
+    //查看工作分配通知列表
+    public List<Message> jobList(String page, String limit, String name, String message_type) {
+        PageRange pageRange = new PageRange(page, limit);
+        SysLoginUser user = (SysLoginUser) SecurityUtils.getSubject().getPrincipal();
+        String id = String.valueOf(user.getId());
+        List<Message> messageList = messageMapper.jobList(pageRange.getStart(), pageRange.getEnd(),id, name,message_type);
         return messageList;
     }
 
     @Override
     public int countGetAll() {
-        return messageMapper.countGetAll();
+        int i = messageMapper.countGetAll();
+        return i;
     }
 
     public List<ToDoList> listLimitData(String page, String limit, List<ToDoList> limitData) {
