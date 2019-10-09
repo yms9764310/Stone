@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.sale.SaleBillDetailMapper">
+
+    <select id="loadById" parameterType="java.lang.Integer" resultType="com.jc.model.sale.SaleBillDetail">
+         select
+         salebilldetail.id,
+         salebilldetail.sale_bill_id,
+         salebilldetail.product_id,
+         price,
+         number,
+         sum_money,
+         unit,
+         product.name
+         FROM
+         t_sale_bill_detail AS salebilldetail
+         LEFT JOIN
+         t_sale_bill AS salebill
+         ON salebill.id=salebilldetail.sale_bill_id
+         LEFT JOIN
+         t_sys_purchase_product AS product
+         ON product.id=salebilldetail.product_id
+         where salebilldetail.sale_bill_id=#{salebilldetail.sale_bill_id} and salebill.state=3
+    </select>
+
+     <select id="loadById1" parameterType="java.lang.Integer" resultType="com.jc.model.sale.SaleBillDetail">
+        select
+         salebilldetail.id,
+         salebilldetail.sale_bill_id,
+         salebilldetail.product_id,
+         price,
+         number,
+         sum_money,
+         unit,
+         product.name
+         FROM
+         t_sale_bill_detail AS salebilldetail
+         LEFT JOIN
+         t_sale_bill AS salebill
+         ON salebill.id=salebilldetail.sale_bill_id
+         LEFT JOIN
+         t_sys_purchase_product AS product
+         ON product.id=salebilldetail.product_id
+         where salebilldetail.sale_bill_id=#{salebilldetail.sale_bill_id} and salebill.state=19
+     </select>
+
+    <select id="loadById2" parameterType="java.lang.Integer" resultType="com.jc.model.sale.SaleBillDetail">
+         select
+         salebilldetail.id,
+         salebilldetail.sale_bill_id,
+         salebilldetail.product_id,
+         price,
+         number,
+         sum_money,
+         unit,
+         product.name
+         FROM
+         t_sale_bill_detail AS salebilldetail
+         LEFT JOIN
+         t_sale_bill AS salebill
+         ON salebill.id=salebilldetail.sale_bill_id
+         LEFT JOIN
+         t_sys_purchase_product AS product
+         ON product.id=salebilldetail.product_id
+         where salebilldetail.sale_bill_id=#{salebilldetail.sale_bill_id} and salebill.state=19
+     </select>
+
+     <delete id="deleteSaleBillDetail" parameterType="java.lang.Integer">
+          delete from t_sale_bill_detail where sale_bill_id=#{id,jdbcType=INTEGER}
+     </delete>
+</mapper>

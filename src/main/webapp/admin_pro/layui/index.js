@@ -3,8 +3,12 @@
  *  使用说明：将此文件引入到页面中，可在script标签上定义一个data-main=""属性，
  *  此属性指定页面入口文件。
  *
-**/
+ **/
+
+//退出
+
 (function () {
+
 
     var entry,
         // 配置所有应用的入口文件，程序将会按照data-main属性中设置的值进行索引查找
@@ -31,5 +35,4 @@
     layui.config({
         base: 'assets/lay/modules/'
     }).extend(app).use(entry || 'home');
-
 })();

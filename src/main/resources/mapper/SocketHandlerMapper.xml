@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.SocketHandlerMapper">
+    <resultMap id="SysUsers" type="com.jc.model.SysLoginUser">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="creator" property="creator_id" jdbcType="INTEGER"/>
+        <result column="create_date" property="create_date" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier_id" jdbcType="INTEGER"/>
+        <result column="modify_date" property="modify_date" jdbcType="TIMESTAMP"/>
+        <result column="psd" property="psd" jdbcType="VARCHAR"/>
+        <result column="user_id" property="user_id" jdbcType="INTEGER"/>
+        <result column="account_name" property="account_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="loadUser" parameterType="java.lang.String" resultType="SysLoginUser">
+        SELECT
+        users.id,
+        users.creator,
+        users.create_date,
+        users.modifier,
+        users.modify_date,
+        users.state,
+        users.account_name
+        FROM
+        t_sys_login_user AS users
+        where user_id = #{user_id}
+    </select>
+    <insert id="insertMessage" parameterType="Message">
+        insert into t_user_message (modify_date,state,message_type,message_content,from_user_id,to_user_ids) values (#{modify_date},#{state},#{message_type},#{message_content},#{from_user_id},#{to_user_ids});
+    </insert>
+</mapper>

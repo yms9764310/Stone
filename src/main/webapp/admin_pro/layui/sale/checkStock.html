@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>管理后台</title>
+    <style type="text/css">
+        #Text{
+            width: 15px;
+            position: relative;
+            top: 7px;
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<div class="layui-content">
+    <div class="layui-page-header">
+        <div class="pagewrap">
+                <span class="layui-breadcrumb">
+                  <a href="">首页</a>
+                  <a href="">用户</a>
+                  <a><cite>人员设置</cite></a>
+                </span>
+            <h2 class="title">仓库盘点</h2>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="form-box">
+                    <div class="layui-form layui-form-item">
+                        <div class="layui-inline">
+                            <div class="layui-form-mid">商品名称</div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" autocomplete="off" name="name" class="layui-input"
+                                       placeholder="请输入商品名称">
+                            </div>
+
+                            <a class="layui-btn search_btn" lay-submit="" lay-filter="queryUser">查询</a>
+                            <button class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                    <table id="demo" lay-filter="userFilter" class="layui-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    {{# if(d.number > d.warn_number){ }}
+    <a style="color: #007DDB;cursor: pointer" lay-event="staffWarn">设置预警</a>&nbsp;
+    {{# } else { }}
+    <a style="color: #007DDB;cursor: pointer" lay-event="Acquisition">创建采办事项</a>&nbsp;
+    {{# } }}
+</script>
+<script type="text/html" id="upc">
+    {{# if(d.number < d.warn_number || d.number == d.warn_number ){ }}
+    <p style="color: red;">{{d.number}}  (库存不足)</p>
+    {{# } else { }}
+    <p>{{d.number}}</p>
+    {{# } }}
+</script>
+<script src="../assets/lay/modules/config.js"></script>
+<script src="../assets/layui.js"></script>
+<script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
+<script type="text/javascript" src="checkStock.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.sale.SaleBillMapper">
+
+    <resultMap id="SaleBill" type="com.jc.model.sale.SaleBill">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="creator" property="creator" jdbcType="INTEGER"/>
+        <result column="create_date" property="create_date" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="INTEGER"/>
+        <result column="modify_date" property="modify_date" jdbcType="TIMESTAMP"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="bill_no" property="bill_no" jdbcType="VARCHAR"/>
+        <result column="sale_id" property="sale_id" jdbcType="INTEGER"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="sale_money" property="sale_money" jdbcType="DOUBLE"/>
+        <result column="deliver_date" property="sale_money" jdbcType="TIMESTAMP"/>
+        <result column="settle_type" property="sale_money" jdbcType="VARCHAR"/>
+        <result column="customer_id" property="customer_id" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--查询全部-->
+    <select id="listSaleBill" resultType="SaleBill">
+        SELECT
+        salebill.id,
+        login.account_name creator,
+        salebill.create_date,
+        login.account_name modifier,
+        salebill.modify_date,
+        salebill.state,
+        salebill.bill_no,
+        salebill.sale_id,
+        salebill.address,
+        salebill.sale_money,
+        salebill.deliver_date,
+        salebill.settle_type,
+        salecustomer.name customer_id,
+        res.display_name
+        FROM
+        t_sale_bill AS salebill
+        LEFT JOIN
+        t_sale_custome AS salecustomer
+        on
+        salebill.customer_id = salecustomer.id
+        LEFT JOIN
+        t_sys_login_user AS login
+        ON
+        login.user_id=salecustomer.creator
+        LEFT JOIN
+        t_sys_resource as res
+        ON
+        salecustomer.state=res.id
+        <where>
+            <if test="creator !=null and creator !=''">
+                and creator = #{creator,jdbcType=INTEGER}
+            </if>
+            <if test="bill_no !=null and bill_no !=''">
+                and bill_no = #{bill_no,jdbcType=VARCHAR}
+            </if>
+        </where>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <select id="countGetAll" parameterType="map" resultType="Integer">
+         select count(1) from t_sale_bill
+    </select>
+
+    <update id="updateSaleBill" parameterType="com.jc.model.sale.SaleBill">
+        UPDATE t_sale_bill SET modifier=#{modifier},modify_date=#{modify_date},
+        state=#{state},address=#{address},deliver_date=#{deliver_date}
+        WHERE  id=#{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="loadById" parameterType="java.lang.Integer" resultType="SaleBill">
+         select id,creator,create_date,modifier,modify_date,state,bill_no,sale_id,address,sale_money,deliver_date,settle_type FROM
+         t_sale_bill
+         WHERE
+         customer_id = #{customer_id,jdbcType=INTEGER}
+    </select>
+<!--    添加订单-->
+    <insert id="insertSaleBill" parameterType="SaleBill" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sale_bill (creator,create_date,modifier,modify_date,state,bill_no,sale_id,address,sale_money,deliver_date,settle_type,customer_id)
+        VALUES (#{creator},#{create_date},#{modifier},#{modify_date},#{state},#{bill_no},#{sale_id},#{address},#{sale_money},#{deliver_date},#{settle_type},#{customer_id})
+    </insert>
+<!--订单详情-->
+    <insert id="insertSaleBillDetail" parameterType="com.jc.model.sale.SaleBillDetail" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sale_bill_detail (sale_bill_id,product_id,price,number,sum_money,unit)
+        VALUES (#{sale_bill_id},#{product_id},#{price},#{number},#{sum_money},#{unit})
+    </insert>
+<!--    商品添加-->
+    <insert id="insertProduct" parameterType="com.jc.model.TProductsyspurchaseproduct" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sys_purchase_product (name)
+        VALUES (#{name})
+    </insert>
+<!--    查看客户记录-->
+    <select id="loadByCusId" parameterType="java.lang.Integer" resultType="SaleBill">
+        SELECT
+        salebill.id,
+        salebill.creator,
+        salebill.create_date,
+        salebill.modifier,
+        salebill.modify_date,
+        salebill.state,
+        salebill.bill_no,
+        salebill.sale_id,
+        salebill.address,
+        salebill.sale_money,
+        salebill.deliver_date,
+        salebill.settle_type
+        FROM
+        t_sale_bill AS salebill
+		LEFT JOIN
+        t_sale_custome AS salecustomer
+        on
+        salebill.customer_id = salecustomer.id
+        WHERE salebill.customer_id=#{customer_id,jdbcType=INTEGER}
+    </select>
+
+    <select id="loadById1" parameterType="java.lang.Integer" resultType="com.jc.model.sale.SaleBill">
+        SELECT
+        salebill.id,
+        salebill.creator,
+        salebill.create_date,
+        salebill.modifier,
+        salebill.modify_date,
+        salebill.state,
+        salebill.bill_no,
+        salebill.sale_id,
+        salebill.address,
+        salebill.sale_money,
+        salebill.deliver_date,
+        salebill.settle_type,
+        salebill.customer_id
+        FROM
+        t_sale_bill AS salebill
+		LEFT JOIN
+        t_sale_custome AS salecustomer
+        on
+        salebill.customer_id = salecustomer.id
+        WHERE salebill.id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="loadById2" parameterType="java.lang.Integer" resultType="com.jc.model.sale.SaleBill">
+        SELECT
+        salebill.id,
+        salebill.creator,
+        salebill.create_date,
+        salebill.modifier,
+        salebill.modify_date,
+        salebill.state,
+        salebill.bill_no,
+        salebill.sale_id,
+        salebill.address,
+        salebill.sale_money,
+        salebill.deliver_date,
+        salebill.settle_type,
+        salebill.customer_id
+        FROM
+        t_sale_bill AS salebill
+		LEFT JOIN
+        t_sale_custome AS salecustomer
+        on
+        salebill.customer_id = salecustomer.id
+        WHERE salebill.id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteSaleBill" parameterType="java.lang.Integer">
+        delete from t_sale_bill where customer_id=#{customer_id,jdbcType=INTEGER}
+    </delete>
+    <!--审核订单-->
+    <update id="updateStateYes" parameterType="com.jc.model.sale.SaleBill">
+        UPDATE t_sale_bill SET state=19
+        WHERE  id=#{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateStateCancel" parameterType="com.jc.model.sale.SaleBill">
+        UPDATE t_sale_bill SET state=7
+        WHERE  id=#{id,jdbcType=INTEGER}
+    </update>
+<!--选择商品-->
+    <select id="loadByType" parameterType="java.lang.String" resultType="com.jc.model.TProductsyspurchaseproduct">
+        SELECT id,name FROM
+        t_sys_purchase_product
+        WHERE model_type!='原料'
+    </select>
+</mapper>

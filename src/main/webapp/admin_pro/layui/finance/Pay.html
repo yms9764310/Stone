@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../assets/css/layui.css">
+    <link rel="stylesheet" href="../assets/css/view.css"/>
+    <link rel="icon" href="/favicon.ico">
+    <title>编辑部门</title>
+    <style type="text/css">
+        .layui-upload .layui-btn{
+            border: 1px solid #C9C9C9;
+            background-color: #fff;
+            color: #555;
+        }
+    </style>
+</head>
+<body class="childrenBody">
+        <div class="layui-page-header">
+            <div class="pagewrap">
+
+                <h2 class="title" style="padding-left: 50px">编辑部门</h2>
+            </div>
+        </div>
+        <div class="container">
+            <#--图片名-->
+            <input id="fileName" type="text" lay-verify="fileName"
+                   autocomplete="off" class="layui-input" disabled>
+            <#--隐藏输入框 用来存放上传后图片路径-->
+            <input id="credential_hide" name="credentialOne" type="hidden" lay-verify="credentialOne"
+                   autocomplete="off" class="layui-input">
+            <#--隐藏按钮 上传-->
+            <button id="upload_img" type="button" hidden></button>
+            <button class="layui-btn" id="preview_img" type="button">
+                上传图片
+            </button>
+            <button class="layui-btn layui-btn-normal btn-submit" id="fake">
+                确定
+            </button>
+
+        <script type="text/javascript" src="../assets/lay/modules/jquery.js"></script>
+    <script src="../assets/layui.all.js"></script>
+    <script src="../assets/lay/modules/config.js"></script>
+        <script type="text/javascript" src="Pay.js"></script>
+
+        <script type="text/javascript">
+            // var imgUrl = [];
+            //
+            //
+            // function uploadRender(target) {
+            //     layui.use(['upload', '$tool'], function () {
+            //         var $ = layui.jquery
+            //             , upload = layui.upload
+            //             , $tool = layui.$tool;
+            //
+            //         //多图片上传
+            //         var uploadInst = upload.render({
+            //             elem: target
+            //             , url: $tool.getContext()+'PayBill/upload.do'
+            //             , multiple: true
+            //             // ,bindAction: '#addVote' //指向一个按钮触发上传
+            //             , auto: true
+            //             ,accept:'images'
+            //             ,data:{type:'finance'}//上传业务类型，后台会根据这个值将文件放入相应文件夹下
+            //             , choose: function (obj) {
+            //                 //预读本地文件示例，不支持ie8
+            //                 obj.preview(function (index, file, result) {
+            //                     //$('#' + $(target).attr('data-id')).append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
+            //                 });
+            //             }
+            //             ,before : function () {
+            //                 console.log("123");
+            //                 $('#' + $(target).attr('data-id')).empty();
+            //             }
+            //             , done: function (res) {
+            //                 //上传完毕
+            //                 imgUrl.push(res.data);
+            //
+            //             }
+            //             ,allDone: function(obj){ //当文件全部被提交后，才触发
+            //                 console.log(imgUrl);
+            //                 for (var a=0; a<imgUrl.length;a++){
+            //                     $('#' + $(target).attr('data-id')).append('<img width="200px" height="200px" src="' + imgUrl[a] + '" class="layui-upload-img">')
+            //                 }
+            //                 imgUrl = [];
+            //             }
+            //
+            //
+            //             // , success: function (data) {
+            //             //     console.log(data)
+            //             // }
+            //         });
+            //
+            //
+            //     });
+            // }
+            // uploadRender('#test');
+        </script>
+
+</body>
+</html>
