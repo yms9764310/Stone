@@ -4,13 +4,7 @@
  *  此属性指定页面入口文件。
  *
 **/
-
-
-
-//退出
-
-$(function () {
-
+(function () {
 
     var entry,
         // 配置所有应用的入口文件，程序将会按照data-main属性中设置的值进行索引查找
@@ -37,4 +31,5 @@ $(function () {
     layui.config({
         base: 'assets/lay/modules/'
     }).extend(app).use(entry || 'home');
-});
+
+})();

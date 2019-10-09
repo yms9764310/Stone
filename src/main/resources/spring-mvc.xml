@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:p="http://www.springframework.org/schema/p"
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:mvc="http://www.springframework.org/schema/mvc"
-	   xmlns:tx="http://www.springframework.org/schema/tx"
-	   xmlns:aop="http://www.springframework.org/schema/aop"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-                        http://www.springframework.org/schema/context
-                        http://www.springframework.org/schema/context/spring-context-4.3.xsd
-                        http://www.springframework.org/schema/mvc
-                        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-                        http://www.springframework.org/schema/tx
-                          http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-                          http://www.springframework.org/schema/aop
-                          http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<!-- 扫描注解，这样com.jc包下的文件都能被扫描 -->
 	<context:component-scan base-package="com.jc"/>
-<!--	&lt;!&ndash;开启AOP注解&ndash;&gt;-->
-	<aop:aspectj-autoproxy expose-proxy="true"></aop:aspectj-autoproxy>
+
 	<!-- 开启SpringMVC注解模式 -->
 	<mvc:annotation-driven/>
 
@@ -31,32 +23,7 @@
 	<!-- 配置返回视图的路径，以及识别后缀是jsp文件 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-		<property name="prefix" value="/admin_pro/layui/"/>
-		<property name="suffix" value=".html"/>
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
 	</bean>
-
-    <!-- 启用 shiro 注解 -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-          depends-on="lifecycleBeanPostProcessor">
-        <property name="proxyTargetClass" value="true"/>
-    </bean>
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
-
-    <!-- 控制器异常处理 -->
-<!--    <bean id="defaultExceptionHandler" class="com.jc.exception.DefaultExceptionHandler"/>-->
-
-<!--      <bean id="exceptionHandlerExceptionResolver"-->
-<!--          class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">-->
-<!--    </bean>-->
-	<bean id="multipartResolver"
-		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- 设定默认编码 -->
-		<property name="defaultEncoding" value="UTF-8"></property>
-		<!-- 设定文件上传的最大值5MB，5*1024*1024 -->
-		<property name="maxUploadSize" value="5242880"></property>
-	</bean>
-
-    <import resource="classpath:applicationContext.shiro.xml"/>
 </beans>

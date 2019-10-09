@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空：namespace的名称必须指向刚刚接口类 -->
+<mapper namespace="com.jc.mapper.StudentMapper">
+    <resultMap id="Student" type="com.jc.model.Student">
+        <id column="sid" property="sid" jdbcType="INTEGER"/>
+        <result column="sname" property="sname" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="clazz" property="clazz" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--查询全部-->
+    <select id="findAll" resultType="Student">
+        SELECT sid,sname,sex,clazz,password FROM student
+        <where>
+            <if test="sname !=null and sname !=''">
+                and sname = #{sname,jdbcType=VARCHAR}
+            </if>
+        </where>
+        limit #{start,jdbcType=DECIMAL},#{end,jdbcType=DECIMAL}
+    </select>
+
+    <select id="countGetAll" parameterType="map" resultType="Integer">
+         select count(1) from student
+    </select>
+
+    <insert id="addStudent" parameterType="Student">
+        INSERT INTO student(sname,sex,clazz,password)
+        VALUES (#{sname},#{sex},#{clazz},#{password})
+    </insert>
+
+    <delete id="delStudent" parameterType="int">
+        DELETE  FROM  student WHERE sid=#{0}
+    </delete>
+
+    <update id="updateStudent" parameterType="student">
+        UPDATE student SET sname=#{sname},sex=#{sex},clazz=#{clazz},password=#{password}
+        WHERE  sid=#{sid}
+    </update>
+
+    <select id="findById" parameterType="java.lang.Integer" resultType="Student">
+        SELECT * FROM  student WHERE sid=#{0}
+    </select>
+
+</mapper>
