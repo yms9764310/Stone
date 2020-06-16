@@ -10,7 +10,7 @@
 
   <properties>
     <jackson-version>2.7.5</jackson-version>
-    <spring-version>4.2.3.RELEASE</spring-version>
+    <spring-version>5.2.7.RELEASE</spring-version>
     <logback-version>1.0.13</logback-version>
     <jackson.version>2.5.4</jackson.version>
     <!--    <poi.version>3.14</poi.version>-->
@@ -298,7 +298,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
-      <version>4.2.3.RELEASE</version>
+      <version>5.2.7.RELEASE</version>
     </dependency>
     <!-- end websocket -->
     <!--支持文件上传-->
